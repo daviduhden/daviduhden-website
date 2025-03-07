@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>David Uhden Collado's Blog</title>
+        <link>./../blog.html</link>
+        <description>Latest articles and updates from David Uhden Collado's blog.</description>
+        <language>en-us</language>
+        <pubDate>Fri, 07 Mar 2025 10:00:00 GMT</pubDate>
+        <lastBuildDate>Fri, 07 Mar 2025 10:00:00 GMT</lastBuildDate>
+
+        <item>
+            <title>OpenBSD: A Robust and Secure Operating System for the Future</title>
+            <link>./../articles/openbsd.html</link>
+            <description>Since its inception, OpenBSD has stood out as a UNIX-like operating system
+                based on 4.4BSD, known for its security as well as its minimalist design. This
+                article explores its philosophy of security and simplicity, key security
+                innovations, and the dedicated community behind it.</description>
+            <pubDate>Thu, 06 Mar 2025 10:00:00 GMT</pubDate>
+            <guid>/articles/openbsd.html</guid>
+        </item>
+
+        <item>
+            <title>Rethinking the UNIX Philosophy: Beyond the Simplicity of Small Programs</title>
+            <link>./../articles/unix.html</link>
+            <description>The UNIX philosophy promotes building systems from small, specialized
+                tools. This article delves into the essence of the UNIX philosophy, common
+                misunderstandings in the age of microservices, and how its principles can be applied
+                beyond the operating system.</description>
+            <pubDate>Wed, 05 Mar 2025 10:00:00 GMT</pubDate>
+            <guid>/articles/unix.html</guid>
+        </item>
+
+        <item>
+            <title>Reinventing Operating Systems: Lessons from OpenBSD and Beyond</title>
+            <link>./../articles/systems.html</link>
+            <description>This article examines the evolution of operating systems, contrasting the
+                enterprise paradigm with the philosophies of OpenBSD and Apple. It discusses the
+                impact of backward compatibility on innovation and security, and explores the
+                potential for a more flexible balance in the future of computing.</description>
+            <pubDate>Tue, 04 Mar 2025 10:00:00 GMT</pubDate>
+            <guid>/articles/systems.html</guid>
+        </item>
+
+    </channel>
+</rss>
