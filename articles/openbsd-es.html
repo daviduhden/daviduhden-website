@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenBSD - D.U.C</title>
+    <link rel="icon" href="./../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./../styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>David Uhden Collado</h1>
+        <nav>
+            <a href="./../index-es.html" target="_blank" rel="noopener noreferrer">Inicio</a>
+            <a href="./../blog-es.html" target="_blank" rel="noopener noreferrer">Blog</a>
+        </nav>
+    </header>
+    <main>
+        <h1>OpenBSD: Un sistema operativo robusto y seguro para el futuro</h1>
+        <p><em>6 de marzo de 2025</em></p>
+        <p>Desde sus inicios, OpenBSD se ha destacado como un sistema operativo UNIX-like basado en 4.4BSD, conocido
+            tanto por su seguridad como por su diseño minimalista. A lo largo de los años, ha demostrado ser
+            una opción ideal tanto para entornos profesionales como para el uso personal, ofreciendo una plataforma en
+            la que cada línea de código y cada configuración se desarrollan con una meticulosa atención al detalle.</p>
+
+        <h2>Una filosofía de seguridad y simplicidad</h2>
+        <p>OpenBSD sigue a rajatabla la filosofía de Unix, lo que se traduce en un sistema sencillo de instalar y
+            configurar, pero sin perder de vista la importancia de la seguridad. El sistema incluye una gran cantidad de
+            aplicaciones integradas en el paquete base, todas ellas diseñadas para ser utilizadas tal cual, sin
+            configuraciones predeterminadas que puedan comprometer la seguridad. Este enfoque “menos es más” obliga al
+            usuario a habilitar solo los servicios que realmente necesita, minimizando así los riesgos de
+            configuraciones erróneas o vulnerabilidades.</p>
+        <p>Cada archivo de configuración en OpenBSD utiliza una sintaxis clara y legible, lo que facilita su comprensión
+            y modificación. Además, la documentación es una prioridad absoluta: cada opción viene explicada en detalle
+            en las páginas de manual. La premisa es simple, pero poderosa: la falta de documentación o documentación
+            incorrecta se considera un fallo, puesto que la correcta configuración es esencial para mantener la
+            seguridad del sistema.</p>
+
+        <h2>Innovaciones en seguridad que marcan la diferencia</h2>
+        <p>Lo que realmente distingue a OpenBSD es su enfoque en la seguridad desde el núcleo del sistema. Cada
+            componente, desde el kernel hasta las aplicaciones en el entorno de usuario, es sometido a auditorías
+            rigurosas para identificar y eliminar posibles fallos de seguridad. Algunas de las innovaciones destacadas
+            son:</p>
+        <ul>
+            <li><strong>Política W^X:</strong> La aplicación obligatoria de W^X tanto en el kernel como en el espacio de
+                usuario, que asegura que la memoria utilizada para ejecutar código no pueda ser modificada, y viceversa.
+            </li>
+            <li><strong>Protecciones de pila y mitigaciones contra SROP:</strong> Técnicas avanzadas que limitan las
+                posibilidades de explotación de vulnerabilidades, dificultando la ejecución de código malicioso.</li>
+            <li><strong>Uso de bcrypt para contraseñas:</strong> Una política de hashing de contraseñas que ajusta
+                automáticamente la cantidad de rondas en función del rendimiento del sistema, ofreciendo una capa
+                adicional de seguridad.</li>
+            <li><strong>Aislamiento a nivel del sistema:</strong> Con <code>pledge(2)</code> y <code>unveil(2)</code>,
+                OpenBSD restringe las capacidades de los procesos, reduciendo significativamente la superficie de ataque
+                en caso de comprometer un servicio.
+            </li>
+        </ul>
+        <p>Estas características han inspirado a otros sistemas operativos a adoptar medidas similares, consolidando a
+            OpenBSD como un referente en cuanto a seguridad y estabilidad.</p>
+
+        <h2>Más que un sistema operativo: una comunidad comprometida</h2>
+        <p>Además de su robusta arquitectura, OpenBSD es el hogar de una comunidad activa y comprometida que trabaja
+            incansablemente en la mejora continua del sistema. Proyectos complementarios como LibreSSL, OpenBGPD,
+            OpenNTPD, OpenSMTPD, y OpenSSH, entre otros, forman parte integral del ecosistema, ofreciendo herramientas
+            seguras y de alta calidad que se integran de manera natural en la distribución base.</p>
+        <p>Esta estrecha integración entre los componentes del sistema y el compromiso de sus desarrolladores con la
+            seguridad permiten a los usuarios disponer de una plataforma confiable, capaz de soportar desde servidores
+            críticos hasta estaciones de trabajo para el desarrollo web.</p>
+
+        <h2>Conclusiones</h2>
+        <p>Si buscas un sistema operativo que combine simplicidad, seguridad y un diseño coherente, OpenBSD es una
+            opción que merece la pena explorar. Su enfoque en la seguridad desde el diseño, la calidad de su
+            documentación y la constante innovación en técnicas de mitigación de ataques hacen de él una herramienta
+            indispensable para quienes valoran la estabilidad y la integridad en sus sistemas.</p>
+    </main>
+    <footer>
+        <h3>Enlaces de interés</h3>
+        <ul>
+            <li><a href="https://www.openbsd.org" target="_blank" rel="noopener noreferrer">OpenBSD</a></li>
+            <li><a href="https://www.openbsd.org/innovations.html" target="_blank"
+                    rel="noopener noreferrer">Innovaciones de OpenBSD</a></li>
+            <li><a href="https://man.openbsd.org" target="_blank" rel="noopener noreferrer">Documentación de OpenBSD</a>
+            </li>
+        </ul>
+    </footer>
+    <footer>
+        <p>&copy; 2024-2025 David Uhden Collado</p>
+        <p><em>La reproducción no autorizada del contenido de esta página web está estrictamente prohibida sin permiso
+                escrito explícito. Esta prohibición excluye los siguientes archivos, que están sujetos a diferentes
+                términos de uso: <a href="./../redirect.js" target="_blank" rel="noopener noreferrer">redirect.js</a> y
+                <a href="./../styles.css" target="_blank" rel="noopener noreferrer">styles.css</a>.</em></p>
+    </footer>
+</body>
+
+</html>
