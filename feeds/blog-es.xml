@@ -9,6 +9,16 @@
         <lastBuildDate>Fri, 07 Mar 2025 10:00:00 GMT</lastBuildDate>
 
         <item>
+            <title>La GPL: Una Herramienta con Paradojas en el Mundo del Software Libre</title>
+            <link>./../articles/gpl-es.html</link>
+            <description>Este artículo analiza las contradicciones y efectos colaterales de la GPL,
+                explorando cómo sus restricciones pueden limitar la cooperación y la libertad en la
+                comunidad del software libre.</description>
+            <pubDate>Sat, 08 Mar 2025 10:00:00 GMT</pubDate>
+            <guid>./../articles/gpl-es.html</guid>
+        </item>
+
+        <item>
             <title>OpenBSD: Un sistema operativo robusto y seguro para el futuro</title>
             <link>./../articles/openbsd-es.html</link>
             <description>Desde sus inicios, OpenBSD se ha destacado como un sistema operativo tipo
@@ -16,7 +26,7 @@
                 minimalista. Este artículo explora su filosofía de seguridad y simplicidad,
                 innovaciones clave en seguridad y la comunidad comprometida detrás de él.</description>
             <pubDate>Thu, 06 Mar 2025 10:00:00 GMT</pubDate>
-            <guid>/articles/openbsd-es.html</guid>
+            <guid>./../articles/openbsd-es.html</guid>
         </item>
 
         <item>
@@ -28,7 +38,7 @@
                 UNIX, los malentendidos comunes en la era de los microservicios y cómo sus
                 principios pueden aplicarse más allá del sistema operativo.</description>
             <pubDate>Wed, 05 Mar 2025 10:00:00 GMT</pubDate>
-            <guid>/articles/unix-es.html</guid>
+            <guid>./../articles/unix-es.html</guid>
         </item>
 
         <item>
