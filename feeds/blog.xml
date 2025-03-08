@@ -9,6 +9,16 @@
         <lastBuildDate>Fri, 07 Mar 2025 10:00:00 GMT</lastBuildDate>
 
         <item>
+            <title>The GPL: A Tool with Paradoxes in the World of Free Software</title>
+            <link>./../articles/gpl.html</link>
+            <description>This article analyzes the contradictions and side effects of the GPL,
+                exploring how its restrictions can limit cooperation and freedom in the free
+                software community.</description>
+            <pubDate>Sat, 08 Mar 2025 10:00:00 GMT</pubDate>
+            <guid>./../articles/gpl.html</guid>
+        </item>
+
+        <item>
             <title>OpenBSD: A Robust and Secure Operating System for the Future</title>
             <link>./../articles/openbsd.html</link>
             <description>Since its inception, OpenBSD has stood out as a UNIX-like operating system
