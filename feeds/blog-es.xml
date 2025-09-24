@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
-    <channel>
-        <title>Blog de David Uhden Collado</title>
-        <link>./../blog-es.html</link>
-        <description>Últimos artículos y actualizaciones del blog de David Uhden Collado.</description>
-        <language>es-es</language>
-        <pubDate>Fri, 07 Mar 2025 10:00:00 GMT</pubDate>
-        <lastBuildDate>Fri, 07 Mar 2025 10:00:00 GMT</lastBuildDate>
+		<channel>
+				<title>Blog de David Uhden Collado</title>
+				<link>./../blog-es.html</link>
+				<description>Últimos artículos y actualizaciones del blog de David Uhden Collado.</description>
+				<language>es-es</language>
+				<pubDate>Fri, 07 Mar 2025 10:00:00 GMT</pubDate>
+				<lastBuildDate>Fri, 07 Mar 2025 10:00:00 GMT</lastBuildDate>
 
-        <item>
-            <title>La GPL: Una Herramienta con Paradojas en el Mundo del Software Libre</title>
-            <link>./../articles/gpl-es.html</link>
-            <description>Este artículo analiza las contradicciones y efectos colaterales de la GPL,
-                explorando cómo sus restricciones pueden limitar la cooperación y la libertad en la
-                comunidad del software libre.</description>
-            <pubDate>Sat, 08 Mar 2025 10:00:00 GMT</pubDate>
-            <guid>./../articles/gpl-es.html</guid>
-        </item>
+				<item>
+						<title>La GPL: Una Herramienta con Paradojas en el Mundo del Software Libre</title>
+						<link>./../articles/gpl-es.html</link>
+						<description>Este artículo analiza las contradicciones y efectos colaterales de la GPL,
+								explorando cómo sus restricciones pueden limitar la cooperación y la libertad en la
+								comunidad del software libre.</description>
+						<pubDate>Sat, 08 Mar 2025 10:00:00 GMT</pubDate>
+						<guid>./../articles/gpl-es.html</guid>
+				</item>
 
-        <item>
-            <title>OpenBSD: Un sistema operativo robusto y seguro para el futuro</title>
-            <link>./../articles/openbsd-es.html</link>
-            <description>Desde sus inicios, OpenBSD se ha destacado como un sistema operativo tipo
-                UNIX basado en 4.4BSD, conocido tanto por su seguridad como por su diseño
-                minimalista. Este artículo explora su filosofía de seguridad y simplicidad,
-                innovaciones clave en seguridad y la comunidad comprometida detrás de él.</description>
-            <pubDate>Thu, 06 Mar 2025 10:00:00 GMT</pubDate>
-            <guid>./../articles/openbsd-es.html</guid>
-        </item>
+				<item>
+						<title>OpenBSD: Un sistema operativo robusto y seguro para el futuro</title>
+						<link>./../articles/openbsd-es.html</link>
+						<description>Desde sus inicios, OpenBSD se ha destacado como un sistema operativo tipo
+								UNIX basado en 4.4BSD, conocido tanto por su seguridad como por su diseño
+								minimalista. Este artículo explora su filosofía de seguridad y simplicidad,
+								innovaciones clave en seguridad y la comunidad comprometida detrás de él.</description>
+						<pubDate>Thu, 06 Mar 2025 10:00:00 GMT</pubDate>
+						<guid>./../articles/openbsd-es.html</guid>
+				</item>
 
-        <item>
-            <title>Repensando la Filosofía UNIX: Más Allá de la Simplicidad de los Pequeños
-                Programas</title>
-            <link>./../articles/unix-es.html</link>
-            <description>La filosofía UNIX promueve la construcción de sistemas a partir de pequeñas
-                herramientas especializadas. Este artículo profundiza en la esencia de la filosofía
-                UNIX, los malentendidos comunes en la era de los microservicios y cómo sus
-                principios pueden aplicarse más allá del sistema operativo.</description>
-            <pubDate>Wed, 05 Mar 2025 10:00:00 GMT</pubDate>
-            <guid>./../articles/unix-es.html</guid>
-        </item>
+				<item>
+						<title>Repensando la Filosofía UNIX: Más Allá de la Simplicidad de los Pequeños
+								Programas</title>
+						<link>./../articles/unix-es.html</link>
+						<description>La filosofía UNIX promueve la construcción de sistemas a partir de pequeñas
+								herramientas especializadas. Este artículo profundiza en la esencia de la filosofía
+								UNIX, los malentendidos comunes en la era de los microservicios y cómo sus
+								principios pueden aplicarse más allá del sistema operativo.</description>
+						<pubDate>Wed, 05 Mar 2025 10:00:00 GMT</pubDate>
+						<guid>./../articles/unix-es.html</guid>
+				</item>
 
-        <item>
-            <title>Reinventando los Sistemas Operativos: Lecciones de OpenBSD y Más Allá</title>
-            <link>./../articles/sistemas.html</link>
-            <description>Este artículo examina la evolución de los sistemas operativos, contrastando
-                el paradigma empresarial con las filosofías de OpenBSD y Apple. Discute el impacto
-                de la compatibilidad retroactiva en la innovación y la seguridad, y explora el
-                potencial de un equilibrio más flexible en el futuro de la computación.</description>
-            <pubDate>Tue, 04 Mar 2025 10:00:00 GMT</pubDate>
-            <guid>/articles/sistemas.html</guid>
-        </item>
+				<item>
+						<title>Reinventando los Sistemas Operativos: Lecciones de OpenBSD y Más Allá</title>
+						<link>./../articles/sistemas.html</link>
+						<description>Este artículo examina la evolución de los sistemas operativos, contrastando
+								el paradigma empresarial con las filosofías de OpenBSD y Apple. Discute el impacto
+								de la compatibilidad retroactiva en la innovación y la seguridad, y explora el
+								potencial de un equilibrio más flexible en el futuro de la computación.</description>
+						<pubDate>Tue, 04 Mar 2025 10:00:00 GMT</pubDate>
+						<guid>/articles/sistemas.html</guid>
+				</item>
 
-    </channel>
+		</channel>
 </rss>
