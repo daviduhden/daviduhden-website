@@ -2,88 +2,88 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rethinking the UNIX Philosophy - D.U.C.</title>
-    <link rel="icon" href="./../favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./../styles.css">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Rethinking the UNIX Philosophy - D.U.C.</title>
+		<link rel="icon" href="./../favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="./../styles.css">
 </head>
 
 <body>
-    <header>
-        <h1>David Uhden Collado</h1>
-        <nav>
-            <a href="./../index.html" target="_blank" rel="noopener noreferrer">Home</a>
-            <a href="./../blog.html" target="_blank" rel="noopener noreferrer">Blog</a>
-        </nav>
-    </header>
-    <main>
-        <h1>Rethinking the UNIX Philosophy: Beyond the Simplicity of Small Programs</h1>
-        <p><em>March 5, 2025</em></p>
-        <p>The UNIX philosophy has long been championed as a paradigm that promotes building systems from small,
-            specialized tools. However, over time, there has been a tendency to oversimplify and misinterpret its
-            foundations, reducing it to the notion that all you need is to assemble small programs that communicate via
-            pipes<sup>[1]</sup> or even erroneously equating it with modern concepts like microservices.</p>
+		<header>
+				<h1>David Uhden Collado</h1>
+				<nav>
+						<a href="./../index.html" target="_blank" rel="noopener noreferrer">Home</a>
+						<a href="./../blog.html" target="_blank" rel="noopener noreferrer">Blog</a>
+				</nav>
+		</header>
+		<main>
+				<h1>Rethinking the UNIX Philosophy: Beyond the Simplicity of Small Programs</h1>
+				<p><em>March 5, 2025</em></p>
+				<p>The UNIX philosophy has long been championed as a paradigm that promotes building systems from small,
+						specialized tools. However, over time, there has been a tendency to oversimplify and misinterpret its
+						foundations, reducing it to the notion that all you need is to assemble small programs that communicate via
+						pipes<sup>[1]</sup> or even erroneously equating it with modern concepts like microservices.</p>
 
-        <h2>The Essence of the UNIX Philosophy</h2>
-        <p>At its core, UNIX was not conceived merely as a collection of small programs but as an environment where
-            <strong>composability</strong> is key. This ability to combine simple tools to achieve complex functionality
-            stands out as one of the system's distinctive traits. The pioneers of UNIX, such as Ken Thompson, Dennis
-            Ritchie, and Doug McIlroy, emphasized the importance of designing programs that integrate harmoniously,
-            allowing the system's power to emerge from the relationships among its components rather than from their
-            individual functions.
-        </p>
-        <p>The idea of "doing one thing well" is just one part of a broader vision: it is an approach that values
-            adaptability, interaction, and constant evolution. In the UNIX environment, each tool is conceived not in
-            isolation but as part of a collaborative ecosystem, where the output of one program becomes the input for
-            another, opening the door to creative and efficient solutions.</p>
+				<h2>The Essence of the UNIX Philosophy</h2>
+				<p>At its core, UNIX was not conceived merely as a collection of small programs but as an environment where
+						<strong>composability</strong> is key. This ability to combine simple tools to achieve complex functionality
+						stands out as one of the system's distinctive traits. The pioneers of UNIX, such as Ken Thompson, Dennis
+						Ritchie, and Doug McIlroy, emphasized the importance of designing programs that integrate harmoniously,
+						allowing the system's power to emerge from the relationships among its components rather than from their
+						individual functions.
+				</p>
+				<p>The idea of "doing one thing well" is just one part of a broader vision: it is an approach that values
+						adaptability, interaction, and constant evolution. In the UNIX environment, each tool is conceived not in
+						isolation but as part of a collaborative ecosystem, where the output of one program becomes the input for
+						another, opening the door to creative and efficient solutions.</p>
 
-        <h2>Misunderstandings in the Age of Microservices</h2>
-        <p>With the advent of modern architectures like microservices, the erroneous notion has emerged that these
-            systems are a natural extension of the UNIX philosophy. However, this comparison is superficial and leads to
-            significant misunderstandings. While UNIX focuses on the linear and predictable interaction of programs
-            within a controlled environment, microservices operate in a distributed context where communication becomes
-            a complex graph with multiple interconnections and dependencies.</p>
-        <p>This added complexity in microservices creates challenges in managing data and coordinating services, clearly
-            showing that a direct analogy with UNIX does not capture the essence or difficulties of distributed
-            computing. The UNIX philosophy is based on simplicity and loose coupling—characteristics that, if directly
-            transferred to modern architectures, can prove counterproductive.</p>
+				<h2>Misunderstandings in the Age of Microservices</h2>
+				<p>With the advent of modern architectures like microservices, the erroneous notion has emerged that these
+						systems are a natural extension of the UNIX philosophy. However, this comparison is superficial and leads to
+						significant misunderstandings. While UNIX focuses on the linear and predictable interaction of programs
+						within a controlled environment, microservices operate in a distributed context where communication becomes
+						a complex graph with multiple interconnections and dependencies.</p>
+				<p>This added complexity in microservices creates challenges in managing data and coordinating services, clearly
+						showing that a direct analogy with UNIX does not capture the essence or difficulties of distributed
+						computing. The UNIX philosophy is based on simplicity and loose coupling—characteristics that, if directly
+						transferred to modern architectures, can prove counterproductive.</p>
 
-        <h2>Beyond the Operating System</h2>
-        <p>Another crucial aspect in understanding the true UNIX philosophy is distinguishing between the ideas that
-            inspired its development and the specific implementations of the operating system. Design rules such as
-            avoiding overly rigid input formats or promoting iterative development are general principles that can be
-            applied in contexts as diverse as application development, the creation of software libraries, or even user
-            interface design.</p>
-        <p>By abstracting these ideas from the specific operating system environment, we open up the possibility of
-            applying them in any field that requires a modular, flexible, and evolutionary design. Essentially, it is
-            about fostering a mindset in which the whole is greater than the sum of its parts, and where collaboration
-            between components is the source of innovation and robustness.</p>
+				<h2>Beyond the Operating System</h2>
+				<p>Another crucial aspect in understanding the true UNIX philosophy is distinguishing between the ideas that
+						inspired its development and the specific implementations of the operating system. Design rules such as
+						avoiding overly rigid input formats or promoting iterative development are general principles that can be
+						applied in contexts as diverse as application development, the creation of software libraries, or even user
+						interface design.</p>
+				<p>By abstracting these ideas from the specific operating system environment, we open up the possibility of
+						applying them in any field that requires a modular, flexible, and evolutionary design. Essentially, it is
+						about fostering a mindset in which the whole is greater than the sum of its parts, and where collaboration
+						between components is the source of innovation and robustness.</p>
 
-        <h2>Conclusions</h2>
-        <p>The UNIX philosophy, in its purest form, is an invitation to rethink how we design and assemble systems. Far
-            from being limited to a recipe of "small programs communicating via pipes", it is an approach that values
-            adaptability, interaction, and the effective integration of components within a larger ecosystem. By
-            understanding and applying these principles in a contextualized manner, it is possible to develop solutions
-            that are both elegant and efficient, without falling into the trap of oversimplifications that distort its
-            essence.</p>
-        <p>In a world where technology is rapidly advancing and architectures are becoming increasingly complex,
-            revisiting the true essence of the UNIX philosophy can serve as a compass to navigate between the desired
-            simplicity and the inevitable complexity of modern systems.</p>
-    </main>
-    <footer>
-        <p><strong>Notes:</strong></p>
-        <p><sup>[1]</sup> <strong>Pipes:</strong> In UNIX, a pipe is a method of passing information from one process to
-            another. It allows the output of one program to be used as the input for another, enabling the creation of
-            complex workflows from simple, single-purpose programs.</p>
-    </footer>
-    <footer>
-        <p>&copy; 2024-2025 David Uhden Collado</p>
-        <p><em>Unauthorized reproduction of the content on this webpage is strictly prohibited without explicit written
-                permission. This prohibition excludes the following files, which are subject to different terms of use:
-                <a href="./../redirect.js" target="_blank" rel="noopener noreferrer">redirect.js</a> and <a
-                    href="./../styles.css" target="_blank" rel="noopener noreferrer">styles.css</a>.</em></p>
-    </footer>
+				<h2>Conclusions</h2>
+				<p>The UNIX philosophy, in its purest form, is an invitation to rethink how we design and assemble systems. Far
+						from being limited to a recipe of "small programs communicating via pipes", it is an approach that values
+						adaptability, interaction, and the effective integration of components within a larger ecosystem. By
+						understanding and applying these principles in a contextualized manner, it is possible to develop solutions
+						that are both elegant and efficient, without falling into the trap of oversimplifications that distort its
+						essence.</p>
+				<p>In a world where technology is rapidly advancing and architectures are becoming increasingly complex,
+						revisiting the true essence of the UNIX philosophy can serve as a compass to navigate between the desired
+						simplicity and the inevitable complexity of modern systems.</p>
+		</main>
+		<footer>
+				<p><strong>Notes:</strong></p>
+				<p><sup>[1]</sup> <strong>Pipes:</strong> In UNIX, a pipe is a method of passing information from one process to
+						another. It allows the output of one program to be used as the input for another, enabling the creation of
+						complex workflows from simple, single-purpose programs.</p>
+		</footer>
+		<footer>
+				<p>&copy; 2024-2025 David Uhden Collado</p>
+				<p><em>Unauthorized reproduction of the content on this webpage is strictly prohibited without explicit written
+								permission. This prohibition excludes the following files, which are subject to different terms of use:
+								<a href="./../redirect.js" target="_blank" rel="noopener noreferrer">redirect.js</a> and <a
+										href="./../styles.css" target="_blank" rel="noopener noreferrer">styles.css</a>.</em></p>
+		</footer>
 </body>
 
 </html>
