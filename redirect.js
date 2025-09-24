@@ -17,42 +17,42 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Mapping of pages for 'index' and 'blog' by language.
-    // Spanish pages are 'index-es.html' and 'blog-es.html'
-    // English pages are 'index.html' and 'blog.html'
-    const pages = {
-        index: {
-            es: 'index-es.html',
-            en: 'index.html'
-        },
-        blog: {
-            es: 'blog-es.html',
-            en: 'blog.html'
-        }
-    };
+		// Mapping of pages for 'index' and 'blog' by language.
+		// Spanish pages are 'index-es.html' and 'blog-es.html'
+		// English pages are 'index.html' and 'blog.html'
+		const pages = {
+				index: {
+						es: 'index-es.html',
+						en: 'index.html'
+				},
+				blog: {
+						es: 'blog-es.html',
+						en: 'blog.html'
+				}
+		};
 
-    // Get the current page name (if it's empty, assume index.html)
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+		// Get the current page name (if it's empty, assume index.html)
+		const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
-    // Detect the browser's language: if it's Spanish ('es'), use 'es'; otherwise, use 'en'
-    const userLang = navigator.language.substring(0, 2) === 'es' ? 'es' : 'en';
+		// Detect the browser's language: if it's Spanish ('es'), use 'es'; otherwise, use 'en'
+		const userLang = navigator.language.substring(0, 2) === 'es' ? 'es' : 'en';
 
-    // Function to determine if the current page corresponds to the index page
-    function isIndexPage(pageName) {
-        return pageName.toLowerCase().includes('index');
-    }
+		// Function to determine if the current page corresponds to the index page
+		function isIndexPage(pageName) {
+				return pageName.toLowerCase().includes('index');
+		}
 
-    // Function to determine if the current page corresponds to the blog page
-    function isBlogPage(pageName) {
-        return pageName.toLowerCase().includes('blog');
-    }
+		// Function to determine if the current page corresponds to the blog page
+		function isBlogPage(pageName) {
+				return pageName.toLowerCase().includes('blog');
+		}
 
-    // If on an index page and it's not the correct version based on the language, redirect to the correct version
-    if (isIndexPage(currentPage) && currentPage !== pages.index[userLang]) {
-        window.location.href = pages.index[userLang];
-    }
-    // If on a blog page and it's not the correct version based on the language, redirect to the correct version
-    else if (isBlogPage(currentPage) && currentPage !== pages.blog[userLang]) {
-        window.location.href = pages.blog[userLang];
-    }
+		// If on an index page and it's not the correct version based on the language, redirect to the correct version
+		if (isIndexPage(currentPage) && currentPage !== pages.index[userLang]) {
+				window.location.href = pages.index[userLang];
+		}
+		// If on a blog page and it's not the correct version based on the language, redirect to the correct version
+		else if (isBlogPage(currentPage) && currentPage !== pages.blog[userLang]) {
+				window.location.href = pages.blog[userLang];
+		}
 });
