@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail  # exit on error, unset variable, or failing pipeline
+set -euo pipefail
 
 # Script to format HTML files using tidy
 #
