@@ -19,48 +19,67 @@
   </header>
 
   <main>
-    <h1>Reinventing Operating Systems: Lessons from OpenBSD and Beyond</h1>
+    <article>
+      <header>
+        <p class="kicker">Operating Systems</p>
 
-    <p><em>March 4, 2025</em>
-    </p>
+        <h1>Reinventing Operating Systems: Lessons from OpenBSD and Beyond</h1>
 
-    <p>The evolution of operating systems has largely been shaped by the demands of the enterprise market. For decades, manufacturers like Microsoft have prioritized backward compatibility, while projects like OpenBSD and Apple have embraced a more aggressive break with the past to advance security, performance, and architecture. This article explores how these very different approaches shape innovation and the security of our systems.</p>
+        <p class="meta">By David Uhden Collado • Updated March 4, 2025</p>
 
-    <h2>The Enterprise Paradigm and Its Legacy</h2>
+        <p class="lede">Enterprise OSs often cling to compatibility, while OpenBSD and Apple embrace breaking changes for security and simplicity—two paths with very different trade-offs.</p>
+      </header>
 
-    <p>In the corporate world, stability is synonymous with trust. Companies that invest in custom software for their operations—from banks to government agencies—expect their applications to continue functioning for decades. This need has driven giants like Microsoft to design an operating system that preserves nearly immutable compatibility between versions.</p>
+      <section>
+        <p>The evolution of operating systems has largely been shaped by the demands of the enterprise market. For decades, manufacturers like Microsoft have prioritized backward compatibility, while projects like OpenBSD and Apple have embraced a more aggressive break with the past to advance security, performance, and architecture. This article explores how these very different approaches shape innovation and the security of our systems.</p>
+      </section>
 
-    <p>Enterprise development is based on the premise of avoiding disruptive changes in the Application Binary Interface (ABI)<sup>[1]</sup>. The result is a system that accumulates layers of "patch solutions" to maintain the functionality of critical applications. While this strategy minimizes immediate risks for corporate clients, it severely limits the ability to introduce architectural or security improvements, as any drastic modification could destabilize old software.</p>
+      <section>
+        <h2>The Enterprise Paradigm and Its Legacy</h2>
 
-    <h2>The Consequences of Retroactive Compatibility</h2>
+        <p>In the corporate world, stability is synonymous with trust. Companies that invest in custom software for their operations—from banks to government agencies—expect their applications to continue functioning for decades. This need has driven giants like Microsoft to design an operating system that preserves nearly immutable compatibility between versions.</p>
 
-    <p>Insisting on maintaining old APIs<sup>[2]</sup> and ABIs comes at a considerable cost. On one hand, it generates an accumulation of obsolete or redundant code in the most critical parts of the system, increasing the attack surface and the likelihood of bugs or vulnerabilities. On the other hand, innovation is stifled: instead of reinventing the wheel, compatibility layers are added that, over time, become a burden.</p>
+        <p>Enterprise development is based on the premise of avoiding disruptive changes in the Application Binary Interface (ABI)<sup>[1]</sup>. The result is a system that accumulates layers of "patch solutions" to maintain the functionality of critical applications. While this strategy minimizes immediate risks for corporate clients, it severely limits the ability to introduce architectural or security improvements, as any drastic modification could destabilize old software.</p>
+      </section>
 
-    <p>Notable examples include Microsoft's extensive efforts to adapt applications that depended on specific behaviors of earlier system versions, or manufacturers' reliance on operating systems with decades of immutability. This approach, although convenient in the short term, tends to sacrifice long-term technological evolution and efficiency.</p>
+      <section>
+        <h2>The Consequences of Retroactive Compatibility</h2>
 
-    <h2>A Renewed Approach: The Philosophy of OpenBSD and Apple</h2>
+        <p>Insisting on maintaining old APIs<sup>[2]</sup> and ABIs comes at a considerable cost. On one hand, it generates an accumulation of obsolete or redundant code in the most critical parts of the system, increasing the attack surface and the likelihood of bugs or vulnerabilities. On the other hand, innovation is stifled: instead of reinventing the wheel, compatibility layers are added that, over time, become a burden.</p>
 
-    <p>Contrary to the enterprise model, projects like OpenBSD and Apple's operating systems adopt a radically different approach: modernization at any cost. Instead of fearing to break backward compatibility, these developers are willing to redesign the system's architecture to eliminate legacy code, optimize performance, and enhance security.</p>
+        <p>Notable examples include Microsoft's extensive efforts to adapt applications that depended on specific behaviors of earlier system versions, or manufacturers' reliance on operating systems with decades of immutability. This approach, although convenient in the short term, tends to sacrifice long-term technological evolution and efficiency.</p>
+      </section>
 
-    <h3>OpenBSD: Simplicity and Security Above All</h3>
+      <section>
+        <h2>A Renewed Approach: The Philosophy of OpenBSD and Apple</h2>
 
-    <p>OpenBSD is known for its rigorous code auditing process and its intolerance for the accumulation of "cruft" (obsolete or poorly documented code). Every line of code that enters the system is evaluated not only in terms of functionality but also for its security and maintainability. This approach allows for significant changes in the system architecture, eliminating vulnerabilities before they become a problem.</p>
+        <p>Contrary to the enterprise model, projects like OpenBSD and Apple's operating systems adopt a radically different approach: modernization at any cost. Instead of fearing to break backward compatibility, these developers are willing to redesign the system's architecture to eliminate legacy code, optimize performance, and enhance security.</p>
 
-    <h3>Apple: Innovation Without Constraints</h3>
+        <h3>OpenBSD: Simplicity and Security Above All</h3>
 
-    <p>Apple, for its part, has demonstrated that a controlled break with the past can be the key to disruptive advances. With its Darwin/XNU system, the company is not afraid to deprecate old APIs and force developers to modernize their applications. This dynamism translates into operating systems that, although sometimes challenging for very old applications to adapt, offer a modern user experience and a more secure and efficient platform.</p>
+        <p>OpenBSD is known for its rigorous code auditing process and its intolerance for the accumulation of "cruft" (obsolete or poorly documented code). Every line of code that enters the system is evaluated not only in terms of functionality but also for its security and maintainability. This approach allows for significant changes in the system architecture, eliminating vulnerabilities before they become a problem.</p>
 
-    <h2>Impact on Innovation and the Future of Computing</h2>
+        <h3>Apple: Innovation Without Constraints</h3>
 
-    <p>The tension between maintaining compatibility and driving innovation is the central dilemma in operating system development. While the enterprise model ensures short-term stability, it hinders the adoption of new technologies and architectural paradigms. Conversely, deliberately breaking with the past allows for a leap in performance, security, and functionality, though it comes at the cost of requiring additional adaptation efforts from developers and users.</p>
+        <p>Apple, for its part, has demonstrated that a controlled break with the past can be the key to disruptive advances. With its Darwin/XNU system, the company is not afraid to deprecate old APIs and force developers to modernize their applications. This dynamism translates into operating systems that, although sometimes challenging for very old applications to adapt, offer a modern user experience and a more secure and efficient platform.</p>
+      </section>
 
-    <p>The future of computing may depend on finding a more flexible balance. Emerging technologies such as virtualization, containers, and new software update strategies could offer hybrid solutions. These approaches would allow companies to run old applications in modern environments without sacrificing the innovation of the host operating system.</p>
+      <section>
+        <h2>Impact on Innovation and the Future of Computing</h2>
 
-    <h2>Conclusions</h2>
+        <p>The tension between maintaining compatibility and driving innovation is the central dilemma in operating system development. While the enterprise model ensures short-term stability, it hinders the adoption of new technologies and architectural paradigms. Conversely, deliberately breaking with the past allows for a leap in performance, security, and functionality, though it comes at the cost of requiring additional adaptation efforts from developers and users.</p>
 
-    <p>The debate over compatibility versus innovation is not new, but it is becoming increasingly relevant in a world where security and efficiency are critical priorities. While the enterprise approach of preserving the past has ensured the stability of many systems, the push for modernization—as exemplified by OpenBSD and Apple—opens the door to a future where operating systems are more secure, agile, and adaptable.</p>
+        <p>The future of computing may depend on finding a more flexible balance. Emerging technologies such as virtualization, containers, and new software update strategies could offer hybrid solutions. These approaches would allow companies to run old applications in modern environments without sacrificing the innovation of the host operating system.</p>
+      </section>
 
-    <p>Ultimately, the evolution of operating systems reflects the priorities of the market. To move toward a more robust and secure technological future, it might be necessary to rethink the rigidity of compatibility in favor of an architecture that is continuously renewed and embraces change as an opportunity rather than a threat.</p>
+      <section>
+        <h2>Conclusions</h2>
+
+        <p>The debate over compatibility versus innovation is not new, but it is becoming increasingly relevant in a world where security and efficiency are critical priorities. While the enterprise approach of preserving the past has ensured the stability of many systems, the push for modernization—as exemplified by OpenBSD and Apple—opens the door to a future where operating systems are more secure, agile, and adaptable.</p>
+
+        <p>Ultimately, the evolution of operating systems reflects the priorities of the market. To move toward a more robust and secure technological future, it might be necessary to rethink the rigidity of compatibility in favor of an architecture that is continuously renewed and embraces change as an opportunity rather than a threat.</p>
+      </section>
+    </article>
   </main>
 
   <footer>
