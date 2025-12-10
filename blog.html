@@ -1,62 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Blog - D.U.C.</title>
-		<link rel="icon" href="./favicon.ico" type="image/x-icon">
-		<link rel="stylesheet" href="./styles.css">
-		<script src="./redirect.js"></script>
-		<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="./feeds/blog.xml">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - D.U.C.</title>
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./redirect.js"></script>
+  <script src="./popup-fallback.js"></script>
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="./feeds/blog.xml">
 </head>
-
 <body>
-		<header>
-				<h1>David Uhden Collado</h1>
-				<nav>
-						<a href="./index.html" target="_blank" rel="noopener noreferrer">Home</a>
-						<a href="./blog.html" target="_blank" rel="noopener noreferrer">Blog</a>
-				</nav>
-		</header>
-		<main>
-				<section id="4">
-						<h2><a href="./articles/gpl.html" target="_blank" rel="noopener noreferrer">The GPL: A Tool with Paradoxes
-										in the World of Free Software</a></h2>
-						<p>March 8, 2025</p>
-				</section>
-				<section id="3">
-						<h2><a href="./articles/openbsd.html" target="_blank" rel="noopener noreferrer">OpenBSD: A Robust and Secure
-										Operating System for the Future</a></h2>
-						<p>March 6, 2025</p>
-				</section>
-				<section id="2">
-						<h2><a href="./articles/unix.html" target="_blank" rel="noopener noreferrer">Rethinking the UNIX Philosophy:
-										Beyond the Simplicity of Small Programs</a></h2>
-						<p>March 5, 2025</p>
-				</section>
-				<section id="1">
-						<h2><a href="./articles/systems.html" target="_blank" rel="noopener noreferrer">Reinventing Operating
-										Systems: Lessons from OpenBSD and Beyond</a></h2>
-						<p>March 4, 2025</p>
-				</section>
-		</main>
-		<footer>
-				<p>
-						<a href="./feeds/blog.xml" target="_blank" rel="noopener noreferrer">
-								<img src="./images/feed.svg" alt="RSS Icon" style="width: 16px; height: 16px; vertical-align: middle;">
-								Blog RSS
-						</a>
-				</p>
-		</footer>
-		<footer>
-				<p>&copy; 2024-2025 David Uhden Collado</p>
-				<p><em>Unauthorized reproduction of the content on this webpage is strictly prohibited without explicit written
-								permission. This prohibition excludes the following files, which are subject to different terms of use:
-								<a href="./redirect.js" target="_blank" rel="noopener noreferrer">redirect.js</a> and <a
-										href="./styles.css" target="_blank" rel="noopener noreferrer">styles.css</a>.</em></p>
-				<p><a href="./feeds/blog.xml" target="_blank" rel="noopener noreferrer">Blog RSS</a></p>
-		</footer>
-</body>
+  <header>
+    <h1>David Uhden Collado</h1>
 
+    <nav>
+      <a href="./index.html" target="_blank" rel="noopener noreferrer">Home</a> <a href="./blog.html" target="_blank" rel="noopener noreferrer">Blog</a> <a class="lang-switch" href="./blog-es.html"><img src="./images/es.svg" alt="ES" class="icon">Español</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="4">
+      <h2><a href="./articles/gpl.html" target="_blank" rel="noopener noreferrer">The GPL: A Tool with Paradoxes in the World of Free Software</a>
+      </h2>
+
+      <p>March 8, 2025</p>
+    </section>
+
+    <section id="3">
+      <h2><a href="./articles/openbsd.html" target="_blank" rel="noopener noreferrer">OpenBSD: A Robust and Secure Operating System for the Future</a>
+      </h2>
+
+      <p>March 6, 2025</p>
+    </section>
+
+    <section id="2">
+      <h2><a href="./articles/unix.html" target="_blank" rel="noopener noreferrer">Rethinking the UNIX Philosophy: Beyond the Simplicity of Small Programs</a>
+      </h2>
+
+      <p>March 5, 2025</p>
+    </section>
+
+    <section id="1">
+      <h2><a href="./articles/systems.html" target="_blank" rel="noopener noreferrer">Reinventing Operating Systems: Lessons from OpenBSD and Beyond</a>
+      </h2>
+
+      <p>March 4, 2025</p>
+    </section>
+  </main>
+
+  <footer>
+    <p><a href="./feeds/blog.xml" target="_blank" rel="noopener noreferrer"><img src="./images/feed.svg" alt="RSS Icon" class="icon"> Blog RSS</a>
+    </p>
+  </footer>
+
+  <footer>
+    <p>&copy; 2024-2025 David Uhden Collado</p>
+
+    <p><em>Unauthorized reproduction of the content on this webpage is strictly prohibited without explicit written permission. This prohibition excludes the following files, which are subject to different terms of use: <a href="./redirect.js" target="_blank" rel="noopener noreferrer">redirect.js</a>, <a href="./scripts/update-feeds.pl" target="_blank" rel="noopener noreferrer">scripts/update-feeds.pl</a>, and <a href="./styles.css" target="_blank" rel="noopener noreferrer">styles.css</a>.</em>
+    </p>
+
+    <p><a href="./feeds/blog.xml" target="_blank" rel="noopener noreferrer">Blog RSS</a>
+    </p>
+  </footer>
+</body>
 </html>

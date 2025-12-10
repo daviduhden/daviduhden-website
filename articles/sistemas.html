@@ -1,116 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Reinventando los Sistemas Operativos - D.U.C.</title>
-		<link rel="icon" href="./../favicon.ico" type="image/x-icon">
-		<link rel="stylesheet" href="./../styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reinventando los Sistemas Operativos - D.U.C.</title>
+  <link rel="icon" href="./../favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./../styles.css">
+  <script src="./../redirect.js"></script>
+  <script src="./../popup-fallback.js"></script>
 </head>
-
 <body>
-		<header>
-				<h1>David Uhden Collado</h1>
-				<nav>
-						<a href="./../index-es.html" target="_blank" rel="noopener noreferrer">Inicio</a>
-						<a href="./../blog-es.html" target="_blank" rel="noopener noreferrer">Blog</a>
-				</nav>
-		</header>
-		<main>
-				<h1>Reinventando los Sistemas Operativos: Lecciones de OpenBSD y Más Allá</h1>
-				<p><em>4 de Marzo de 2025</em></p>
-				<p>La evolución de los sistemas operativos se ha visto, en gran parte, condicionada por las demandas del mercado
-						empresarial. Durante décadas, fabricantes como Microsoft han priorizado la compatibilidad hacia atrás,
-						mientras que proyectos como OpenBSD y Apple han apostado por una ruptura más agresiva con el pasado para
-						avanzar en seguridad, rendimiento y arquitectura. Este artículo explora cómo estos enfoques tan distintos
-						moldean la innovación y la seguridad de nuestros sistemas.</p>
+  <header>
+    <h1>David Uhden Collado</h1>
 
-				<h2>El Paradigma Empresarial y su Legado</h2>
-				<p>En el mundo corporativo, la estabilidad es sinónimo de confianza. Empresas que invierten en software a medida
-						para sus operaciones, desde bancos hasta agencias gubernamentales, esperan que sus aplicaciones continúen
-						funcionando durante décadas. Esta necesidad ha impulsado a gigantes como Microsoft a diseñar un sistema
-						operativo que preserve una compatibilidad casi inmutable entre versiones.</p>
-				<p>El desarrollo empresarial se basa en la premisa de evitar cambios disruptivos en la interfaz binaria de
-						aplicación (ABI)<sup>[1]</sup>. El resultado es un sistema que acumula capas de "soluciones de parche" para
-						mantener el funcionamiento de
-						aplicaciones críticas. Si bien esta estrategia minimiza riesgos inmediatos para clientes corporativos,
-						limita severamente la capacidad de introducir mejoras arquitectónicas o de seguridad, ya que cualquier
-						modificación drástica podría desestabilizar software antiguo.</p>
+    <nav>
+      <a href="./../index-es.html" target="_blank" rel="noopener noreferrer">Inicio</a> <a href="./../blog-es.html" target="_blank" rel="noopener noreferrer">Blog</a>
+    </nav>
+  </header>
 
-				<h2>Las Consecuencias de la Compatibilidad Retroactiva</h2>
-				<p>La insistencia en mantener APIs<sup>[2]</sup> y ABIs antiguos tiene un costo considerable. Por un lado, se
-						genera una
-						acumulación de código obsoleto o redundante en las partes más críticas del sistema, lo que incrementa la
-						superficie de ataque y la probabilidad de errores o vulnerabilidades. Por otro, la innovación se ve frenada:
-						en lugar de reinventar la rueda, se recurre a capas de compatibilidad que, con el tiempo, se vuelven un
-						lastre.</p>
-				<p>Ejemplos notorios son los extensos esfuerzos de Microsoft para adaptar aplicaciones que dependían de
-						comportamientos específicos de versiones anteriores del sistema, o la dependencia de ciertos fabricantes en
-						sistemas operativos con décadas de inmutabilidad. Este enfoque, aunque conveniente para el corto plazo,
-						tiende a sacrificar la evolución tecnológica y la eficiencia a largo plazo.</p>
+  <main>
+    <h1>Reinventando los Sistemas Operativos: Lecciones de OpenBSD y Más Allá</h1>
 
-				<h2>Un Enfoque Renovado: La Filosofía de OpenBSD y Apple</h2>
-				<p>Contrario al modelo empresarial, proyectos como OpenBSD y la línea de sistemas operativos de Apple adoptan un
-						enfoque radicalmente diferente: la modernización a cualquier costo. En lugar de temer romper la
-						compatibilidad con versiones anteriores, estos desarrolladores están dispuestos a rediseñar la arquitectura
-						del sistema para eliminar código antiguo, optimizar el rendimiento y reforzar la seguridad.</p>
+    <p><em>4 de Marzo de 2025</em>
+    </p>
 
-				<h3>OpenBSD: Simplicidad y Seguridad ante Todo</h3>
-				<p>OpenBSD es conocido por su riguroso proceso de auditoría del código y por no tolerar la acumulación de
-						"cruft" (código obsoleto o mal documentado). Cada línea de código que entra en el sistema es evaluada no
-						solo en términos de funcionalidad, sino también en cuanto a su seguridad y mantenibilidad. Este enfoque
-						permite introducir cambios significativos en la arquitectura del sistema, eliminando vulnerabilidades antes
-						de que se conviertan en un problema.</p>
+    <p>La evolución de los sistemas operativos se ha visto, en gran parte, condicionada por las demandas del mercado empresarial. Durante décadas, fabricantes como Microsoft han priorizado la compatibilidad hacia atrás, mientras que proyectos como OpenBSD y Apple han apostado por una ruptura más agresiva con el pasado para avanzar en seguridad, rendimiento y arquitectura. Este artículo explora cómo estos enfoques tan distintos moldean la innovación y la seguridad de nuestros sistemas.</p>
 
-				<h3>Apple: Innovación sin Ataduras</h3>
-				<p>Apple, por su parte, ha demostrado que la ruptura controlada con el pasado puede ser la clave para avances
-						disruptivos. Con su sistema Darwin/XNU, la compañía no teme descontinuar APIs antiguas y forzar a los
-						desarrolladores a modernizar sus aplicaciones. Este dinamismo se traduce en sistemas operativos que, aunque
-						a veces difíciles de adaptar para aplicaciones muy antiguas, ofrecen una experiencia de usuario moderna y
-						una plataforma más segura y eficiente.</p>
+    <h2>El Paradigma Empresarial y su Legado</h2>
 
-				<h2>Impacto en la Innovación y el Futuro de la Computación</h2>
-				<p>La tensión entre mantener la compatibilidad y empujar la innovación es el dilema central en el desarrollo de
-						sistemas operativos. Mientras que el modelo empresarial garantiza estabilidad a corto plazo, frena la
-						adopción de nuevas tecnologías y paradigmas arquitectónicos. Por otro lado, la ruptura deliberada con el
-						pasado permite un salto evolutivo en términos de rendimiento, seguridad y funcionalidad, aunque a costa de
-						requerir esfuerzos adicionales de adaptación por parte de desarrolladores y usuarios.</p>
-				<p>El futuro de la computación podría depender de encontrar un equilibrio más flexible. Tecnologías emergentes
-						como la virtualización, los contenedores y nuevas estrategias de actualización del software podrían ofrecer
-						soluciones híbridas. Estos enfoques permitirían a las empresas ejecutar aplicaciones antiguas en entornos
-						modernos sin sacrificar la innovación del sistema operativo anfitrión.</p>
+    <p>En el mundo corporativo, la estabilidad es sinónimo de confianza. Empresas que invierten en software a medida para sus operaciones, desde bancos hasta agencias gubernamentales, esperan que sus aplicaciones continúen funcionando durante décadas. Esta necesidad ha impulsado a gigantes como Microsoft a diseñar un sistema operativo que preserve una compatibilidad casi inmutable entre versiones.</p>
 
-				<h2>Conclusiones</h2>
-				<p>El debate sobre compatibilidad versus innovación no es nuevo, pero se vuelve cada vez más relevante en un
-						mundo donde la seguridad y la eficiencia son prioridades críticas. Mientras que el enfoque empresarial de
-						preservar el pasado ha asegurado la estabilidad de muchos sistemas, la apuesta por la modernización,
-						ejemplificada por OpenBSD y Apple, abre la puerta a un futuro donde los sistemas operativos sean más
-						seguros, ágiles y adaptativos.</p>
-				<p>La evolución de los sistemas operativos es, en última instancia, un reflejo de las prioridades del mercado.
-						Para avanzar hacia un futuro tecnológico más robusto y seguro, quizás sea necesario repensar la rigidez de
-						la compatibilidad en favor de una arquitectura que se renueve constantemente y que abrace los cambios como
-						una oportunidad, en lugar de verlos como una amenaza.</p>
-		</main>
-		<footer>
-				<p><strong>Notas:</strong></p>
-				<p><sup>[1]</sup> <strong>ABI:</strong> Una Interfaz Binaria de Aplicación (ABI) define la interfaz de bajo
-						nivel
-						entre una aplicación y el sistema operativo, incluyendo detalles como tipos de datos, tamaños y alineación,
-						convenciones de llamada y números de llamadas al sistema.</p>
-				<p><sup>[2]</sup> <strong>API:</strong> Una Interfaz de Programación de Aplicaciones (API) es un conjunto de
-						reglas y
-						protocolos para construir e interactuar con aplicaciones de software, definiendo los métodos y estructuras
-						de datos
-						que los desarrolladores pueden usar para interactuar con el sistema u otros componentes de software.</p>
-		</footer>
-		<footer>
-				<p>&copy; 2024-2025 David Uhden Collado</p>
-				<p><em>La reproducción no autorizada del contenido de esta página web está estrictamente prohibida sin permiso
-								escrito explícito. Esta prohibición excluye los siguientes archivos, que están sujetos a diferentes
-								términos de uso: <a href="./../redirect.js" target="_blank" rel="noopener noreferrer">redirect.js</a> y
-								<a href="./../styles.css" target="_blank" rel="noopener noreferrer">styles.css</a>.</em></p>
-		</footer>
+    <p>El desarrollo empresarial se basa en la premisa de evitar cambios disruptivos en la interfaz binaria de aplicación (ABI)<sup>[1]</sup>. El resultado es un sistema que acumula capas de "soluciones de parche" para mantener el funcionamiento de aplicaciones críticas. Si bien esta estrategia minimiza riesgos inmediatos para clientes corporativos, limita severamente la capacidad de introducir mejoras arquitectónicas o de seguridad, ya que cualquier modificación drástica podría desestabilizar software antiguo.</p>
+
+    <h2>Las Consecuencias de la Compatibilidad Retroactiva</h2>
+
+    <p>La insistencia en mantener APIs<sup>[2]</sup> y ABIs antiguos tiene un costo considerable. Por un lado, se genera una acumulación de código obsoleto o redundante en las partes más críticas del sistema, lo que incrementa la superficie de ataque y la probabilidad de errores o vulnerabilidades. Por otro, la innovación se ve frenada: en lugar de reinventar la rueda, se recurre a capas de compatibilidad que, con el tiempo, se vuelven un lastre.</p>
+
+    <p>Ejemplos notorios son los extensos esfuerzos de Microsoft para adaptar aplicaciones que dependían de comportamientos específicos de versiones anteriores del sistema, o la dependencia de ciertos fabricantes en sistemas operativos con décadas de inmutabilidad. Este enfoque, aunque conveniente para el corto plazo, tiende a sacrificar la evolución tecnológica y la eficiencia a largo plazo.</p>
+
+    <h2>Un Enfoque Renovado: La Filosofía de OpenBSD y Apple</h2>
+
+    <p>Contrario al modelo empresarial, proyectos como OpenBSD y la línea de sistemas operativos de Apple adoptan un enfoque radicalmente diferente: la modernización a cualquier costo. En lugar de temer romper la compatibilidad con versiones anteriores, estos desarrolladores están dispuestos a rediseñar la arquitectura del sistema para eliminar código antiguo, optimizar el rendimiento y reforzar la seguridad.</p>
+
+    <h3>OpenBSD: Simplicidad y Seguridad ante Todo</h3>
+
+    <p>OpenBSD es conocido por su riguroso proceso de auditoría del código y por no tolerar la acumulación de "cruft" (código obsoleto o mal documentado). Cada línea de código que entra en el sistema es evaluada no solo en términos de funcionalidad, sino también en cuanto a su seguridad y mantenibilidad. Este enfoque permite introducir cambios significativos en la arquitectura del sistema, eliminando vulnerabilidades antes de que se conviertan en un problema.</p>
+
+    <h3>Apple: Innovación sin Ataduras</h3>
+
+    <p>Apple, por su parte, ha demostrado que la ruptura controlada con el pasado puede ser la clave para avances disruptivos. Con su sistema Darwin/XNU, la compañía no teme descontinuar APIs antiguas y forzar a los desarrolladores a modernizar sus aplicaciones. Este dinamismo se traduce en sistemas operativos que, aunque a veces difíciles de adaptar para aplicaciones muy antiguas, ofrecen una experiencia de usuario moderna y una plataforma más segura y eficiente.</p>
+
+    <h2>Impacto en la Innovación y el Futuro de la Computación</h2>
+
+    <p>La tensión entre mantener la compatibilidad y empujar la innovación es el dilema central en el desarrollo de sistemas operativos. Mientras que el modelo empresarial garantiza estabilidad a corto plazo, frena la adopción de nuevas tecnologías y paradigmas arquitectónicos. Por otro lado, la ruptura deliberada con el pasado permite un salto evolutivo en términos de rendimiento, seguridad y funcionalidad, aunque a costa de requerir esfuerzos adicionales de adaptación por parte de desarrolladores y usuarios.</p>
+
+    <p>El futuro de la computación podría depender de encontrar un equilibrio más flexible. Tecnologías emergentes como la virtualización, los contenedores y nuevas estrategias de actualización del software podrían ofrecer soluciones híbridas. Estos enfoques permitirían a las empresas ejecutar aplicaciones antiguas en entornos modernos sin sacrificar la innovación del sistema operativo anfitrión.</p>
+
+    <h2>Conclusiones</h2>
+
+    <p>El debate sobre compatibilidad versus innovación no es nuevo, pero se vuelve cada vez más relevante en un mundo donde la seguridad y la eficiencia son prioridades críticas. Mientras que el enfoque empresarial de preservar el pasado ha asegurado la estabilidad de muchos sistemas, la apuesta por la modernización, ejemplificada por OpenBSD y Apple, abre la puerta a un futuro donde los sistemas operativos sean más seguros, ágiles y adaptativos.</p>
+
+    <p>La evolución de los sistemas operativos es, en última instancia, un reflejo de las prioridades del mercado. Para avanzar hacia un futuro tecnológico más robusto y seguro, quizás sea necesario repensar la rigidez de la compatibilidad en favor de una arquitectura que se renueve constantemente y que abrace los cambios como una oportunidad, en lugar de verlos como una amenaza.</p>
+  </main>
+
+  <footer>
+    <p id="footnotes"><strong>Notas:</strong>
+    </p>
+
+    <p><sup><a href="#footnotes">[1]</a></sup> <strong>ABI:</strong> Una Interfaz Binaria de Aplicación (ABI) define la interfaz de bajo nivel entre una aplicación y el sistema operativo, incluyendo detalles como tipos de datos, tamaños y alineación, convenciones de llamada y números de llamadas al sistema.</p>
+
+    <p><sup><a href="#footnotes">[2]</a></sup> <strong>API:</strong> Una Interfaz de Programación de Aplicaciones (API) es un conjunto de reglas y protocolos para construir e interactuar con aplicaciones de software, definiendo los métodos y estructuras de datos que los desarrolladores pueden usar para interactuar con el sistema u otros componentes de software.</p>
+  </footer>
+
+  <footer>
+    <p>&copy; 2024-2025 David Uhden Collado</p>
+
+    <p><em>La reproducción no autorizada del contenido de esta página web está estrictamente prohibida sin permiso escrito explícito. Esta prohibición excluye los siguientes archivos, que están sujetos a diferentes términos de uso: <a href="./../redirect.js" target="_blank" rel="noopener noreferrer">redirect.js</a>, <a href="./../scripts/update-feeds.pl" target="_blank" rel="noopener noreferrer">scripts/update-feeds.pl</a> y <a href="./../styles.css" target="_blank" rel="noopener noreferrer">styles.css</a>.</em>
+    </p>
+  </footer>
 </body>
-
 </html>

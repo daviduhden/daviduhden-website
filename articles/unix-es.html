@@ -1,91 +1,68 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Repensando la Filosofía UNIX - D.U.C.</title>
-		<link rel="icon" href="./../favicon.ico" type="image/x-icon">
-		<link rel="stylesheet" href="./../styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repensando la Filosofía UNIX - D.U.C.</title>
+  <link rel="icon" href="./../favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./../styles.css">
+  <script src="./../redirect.js"></script>
+  <script src="./../popup-fallback.js"></script>
 </head>
-
 <body>
-		<header>
-				<h1>David Uhden Collado</h1>
-				<nav>
-						<a href="./../index-es.html" target="_blank" rel="noopener noreferrer">Inicio</a>
-						<a href="./../blog-es.html" target="_blank" rel="noopener noreferrer">Blog</a>
-				</nav>
-		</header>
-		<main>
-				<h1>Repensando la Filosofía UNIX: Más Allá de la Simplicidad de los Pequeños Programas</h1>
-				<p><em>4 de Marzo de 2025</em></p>
-				<p>La filosofía UNIX ha sido enarbolada durante décadas como un paradigma que promueve la construcción de
-						sistemas a partir de pequeñas herramientas especializadas. Sin embargo, con el tiempo se ha observado una
-						tendencia a simplificar y malinterpretar sus fundamentos, reduciéndola a la idea de que basta con ensamblar
-						pequeños programas que se comunican a través de pipes<sup>[1]</sup> o, incluso, asociándola erróneamente con
-						conceptos
-						modernos como los microservicios.</p>
+  <header>
+    <h1>David Uhden Collado</h1>
 
-				<h2>La Esencia de la Filosofía UNIX</h2>
-				<p>En su origen, UNIX no fue concebido simplemente para ser una colección de programas pequeños, sino para
-						construir un ambiente en el que la <strong>composabilidad</strong> fuera la clave. Esta capacidad de
-						combinar herramientas simples para lograr funcionalidades complejas se ha destacado como uno de los rasgos
-						distintivos del sistema. Los pioneros de UNIX, como Ken Thompson, Dennis Ritchie y Doug McIlroy, enfatizaban
-						la importancia de diseñar programas que se integrasen armoniosamente, permitiendo que la potencia del
-						sistema emergiera de la relación entre sus componentes, más que de sus funciones individuales.</p>
-				<p>La idea de "hacer una cosa y hacerla bien" es solo una parte de una visión más amplia: se trata de un enfoque
-						que valora la adaptabilidad, la interacción y la evolución constante. En el ambiente UNIX, cada herramienta
-						se concibe no en aislamiento, sino como parte de un ecosistema colaborativo, donde la salida de un programa
-						se convierte en la entrada de otro, abriendo la puerta a soluciones creativas y eficientes.</p>
+    <nav>
+      <a href="./../index-es.html" target="_blank" rel="noopener noreferrer">Inicio</a> <a href="./../blog-es.html" target="_blank" rel="noopener noreferrer">Blog</a>
+    </nav>
+  </header>
 
-				<h2>Malentendidos en la Era de los Microservicios</h2>
-				<p>Con el advenimiento de arquitecturas modernas, como los microservicios, ha surgido la idea errónea de que
-						dichos sistemas son una extensión natural de la filosofía UNIX. Sin embargo, esta comparación resulta
-						superficial y conduce a malentendidos importantes. Mientras que UNIX se centra en la interacción lineal y
-						predecible de programas en un entorno controlado, los microservicios operan en un contexto distribuido donde
-						la comunicación se vuelve un grafo complejo con múltiples interconexiones y dependencias.</p>
-				<p>Esta complejidad adicional en los microservicios genera retos en cuanto a la gestión de datos y la
-						coordinación entre servicios, evidenciando que la simple analogía con UNIX no captura la esencia ni las
-						dificultades de la computación distribuida. La filosofía UNIX se basa en la simplicidad y en el acoplamiento
-						débil, características que, si se trasladan de manera directa a arquitecturas modernas, pueden resultar
-						contraproducentes.</p>
+  <main>
+    <h1>Repensando la Filosofía UNIX: Más Allá de la Simplicidad de los Pequeños Programas</h1>
 
-				<h2>Más Allá del Sistema Operativo</h2>
-				<p>Otro aspecto crucial para comprender la verdadera filosofía UNIX es distinguir entre las ideas que inspiraron
-						su desarrollo y las implementaciones específicas del sistema operativo. Las reglas de diseño, como evitar
-						formatos de entrada demasiado rígidos o fomentar el desarrollo iterativo, son principios generales que
-						pueden aplicarse en contextos tan diversos como el desarrollo de aplicaciones, la creación de bibliotecas de
-						software o incluso el diseño de interfaces de usuario.</p>
-				<p>Al abstraer estas ideas del entorno específico de los sistemas operativos, se abre la posibilidad de
-						aplicarlas en cualquier ámbito que requiera un diseño modular, flexible y evolutivo. En esencia, se trata de
-						fomentar un pensamiento en el que el todo es más que la suma de sus partes, y donde la colaboración entre
-						componentes es la fuente de innovación y robustez.</p>
+    <p><em>4 de Marzo de 2025</em>
+    </p>
 
-				<h2>Conclusiones</h2>
-				<p>La filosofía UNIX, en su forma más pura, es una invitación a repensar cómo diseñamos y ensamblamos sistemas.
-						Lejos de limitarse a una receta de "pequeños programas comunicándose por pipes", se trata de un enfoque que
-						valora la adaptabilidad, la interacción y la capacidad de los componentes de integrarse de manera efectiva
-						en un ecosistema mayor. Al comprender y aplicar estos principios de forma contextualizada, es posible
-						desarrollar soluciones que sean tanto elegantes como eficientes, sin caer en la trampa de simplificaciones
-						que distorsionan su esencia.</p>
-				<p>En un mundo donde la tecnología avanza rápidamente y las arquitecturas se vuelven cada vez más complejas,
-						retomar la verdadera esencia de la filosofía UNIX puede ofrecernos una brújula para navegar entre la
-						simplicidad deseada y la complejidad inevitable de los sistemas modernos.</p>
-		</main>
-		<footer>
-				<p><strong>Notas:</strong></p>
-				<p><sup>[1]</sup> <strong>Pipes:</strong> En UNIX, una pipe es un método para pasar información de un proceso a
-						otro. Permite que la salida de un programa se utilice como la entrada de otro, posibilitando la creación de
-						flujos de trabajo complejos a partir de programas simples y de un solo propósito.</p>
-		</footer>
-		<footer>
-				<p>&copy; 2024-2025 David Uhden Collado</p>
-				<p><em>La reproducción no autorizada del contenido de esta página web está estrictamente prohibida sin permiso
-								escrito explícito. Esta prohibición excluye los siguientes archivos, que están sujetos a diferentes
-								términos de uso: <a href="./../redirect.js" target="_blank" rel="noopener noreferrer">redirect.js</a> y
-								<a href="./../styles.css" target="_blank" rel="noopener noreferrer">styles.css</a>.</em></p>
-		</footer>
+    <p>La filosofía UNIX ha sido enarbolada durante décadas como un paradigma que promueve la construcción de sistemas a partir de pequeñas herramientas especializadas. Sin embargo, con el tiempo se ha observado una tendencia a simplificar y malinterpretar sus fundamentos, reduciéndola a la idea de que basta con ensamblar pequeños programas que se comunican a través de pipes<sup>[1]</sup> o, incluso, asociándola erróneamente con conceptos modernos como los microservicios.</p>
+
+    <h2>La Esencia de la Filosofía UNIX</h2>
+
+    <p>En su origen, UNIX no fue concebido simplemente para ser una colección de programas pequeños, sino para construir un ambiente en el que la <strong>composabilidad</strong> fuera la clave. Esta capacidad de combinar herramientas simples para lograr funcionalidades complejas se ha destacado como uno de los rasgos distintivos del sistema. Los pioneros de UNIX, como Ken Thompson, Dennis Ritchie y Doug McIlroy, enfatizaban la importancia de diseñar programas que se integrasen armoniosamente, permitiendo que la potencia del sistema emergiera de la relación entre sus componentes, más que de sus funciones individuales.</p>
+
+    <p>La idea de "hacer una cosa y hacerla bien" es solo una parte de una visión más amplia: se trata de un enfoque que valora la adaptabilidad, la interacción y la evolución constante. En el ambiente UNIX, cada herramienta se concibe no en aislamiento, sino como parte de un ecosistema colaborativo, donde la salida de un programa se convierte en la entrada de otro, abriendo la puerta a soluciones creativas y eficientes.</p>
+
+    <h2>Malentendidos en la Era de los Microservicios</h2>
+
+    <p>Con el advenimiento de arquitecturas modernas, como los microservicios, ha surgido la idea errónea de que dichos sistemas son una extensión natural de la filosofía UNIX. Sin embargo, esta comparación resulta superficial y conduce a malentendidos importantes. Mientras que UNIX se centra en la interacción lineal y predecible de programas en un entorno controlado, los microservicios operan en un contexto distribuido donde la comunicación se vuelve un grafo complejo con múltiples interconexiones y dependencias.</p>
+
+    <p>Esta complejidad adicional en los microservicios genera retos en cuanto a la gestión de datos y la coordinación entre servicios, evidenciando que la simple analogía con UNIX no captura la esencia ni las dificultades de la computación distribuida. La filosofía UNIX se basa en la simplicidad y en el acoplamiento débil, características que, si se trasladan de manera directa a arquitecturas modernas, pueden resultar contraproducentes.</p>
+
+    <h2>Más Allá del Sistema Operativo</h2>
+
+    <p>Otro aspecto crucial para comprender la verdadera filosofía UNIX es distinguir entre las ideas que inspiraron su desarrollo y las implementaciones específicas del sistema operativo. Las reglas de diseño, como evitar formatos de entrada demasiado rígidos o fomentar el desarrollo iterativo, son principios generales que pueden aplicarse en contextos tan diversos como el desarrollo de aplicaciones, la creación de bibliotecas de software o incluso el diseño de interfaces de usuario.</p>
+
+    <p>Al abstraer estas ideas del entorno específico de los sistemas operativos, se abre la posibilidad de aplicarlas en cualquier ámbito que requiera un diseño modular, flexible y evolutivo. En esencia, se trata de fomentar un pensamiento en el que el todo es más que la suma de sus partes, y donde la colaboración entre componentes es la fuente de innovación y robustez.</p>
+
+    <h2>Conclusiones</h2>
+
+    <p>La filosofía UNIX, en su forma más pura, es una invitación a repensar cómo diseñamos y ensamblamos sistemas. Lejos de limitarse a una receta de "pequeños programas comunicándose por pipes", se trata de un enfoque que valora la adaptabilidad, la interacción y la capacidad de los componentes de integrarse de manera efectiva en un ecosistema mayor. Al comprender y aplicar estos principios de forma contextualizada, es posible desarrollar soluciones que sean tanto elegantes como eficientes, sin caer en la trampa de simplificaciones que distorsionan su esencia.</p>
+
+    <p>En un mundo donde la tecnología avanza rápidamente y las arquitecturas se vuelven cada vez más complejas, retomar la verdadera esencia de la filosofía UNIX puede ofrecernos una brújula para navegar entre la simplicidad deseada y la complejidad inevitable de los sistemas modernos.</p>
+  </main>
+
+  <footer>
+    <p id="footnotes"><strong>Notas:</strong>
+    </p>
+
+    <p><sup><a href="#footnotes">[1]</a></sup> <strong>Pipes:</strong> En UNIX, una pipe es un método para pasar información de un proceso a otro. Permite que la salida de un programa se utilice como la entrada de otro, posibilitando la creación de flujos de trabajo complejos a partir de programas simples y de un solo propósito.</p>
+  </footer>
+
+  <footer>
+    <p>&copy; 2024-2025 David Uhden Collado</p>
+
+    <p><em>La reproducción no autorizada del contenido de esta página web está estrictamente prohibida sin permiso escrito explícito. Esta prohibición excluye los siguientes archivos, que están sujetos a diferentes términos de uso: <a href="./../redirect.js" target="_blank" rel="noopener noreferrer">redirect.js</a>, <a href="./../scripts/update-feeds.pl" target="_blank" rel="noopener noreferrer">scripts/update-feeds.pl</a> y <a href="./../styles.css" target="_blank" rel="noopener noreferrer">styles.css</a>.</em>
+    </p>
+  </footer>
 </body>
-
 </html>
