@@ -1,142 +1,236 @@
 /*!
  * Cascading Style Sheet (CSS) for a simple website
- * 
+ *
  * Copyright (c) 2024-2025 David Uhden Collado <david@uhden.dev>
- * 
- * Permission to use, copy, modify, and distribute this cascading style sheet 
+ *
+ * Permission to use, copy, modify, and distribute this cascading style sheet
  * for any purpose with or without fee is hereby granted, provided that the
  * above copyright notice and this permission notice appear in all copies.
- * 
- * THE CASCADING STYLE SHEET IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- * WARRANTIES WITH REGARD TO THIS CASCADING STYLE SHEET INCLUDING ALL IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE 
- * LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY 
- * DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN 
- * AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF 
+ *
+ * THE CASCADING STYLE SHEET IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ * WARRANTIES WITH REGARD TO THIS CASCADING STYLE SHEET INCLUDING ALL IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE
+ * LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
+ * DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN
+ * AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS CASCADING STYLE SHEET.
  */
 
-/* General styles for the body of the document */
+/*
+ * Design tokens (keep it simple)
+ * Uses reading-width measures (ch) and font-relative sizing (em).
+ */
+:root {
+  color-scheme: light;
+
+  --bg: #f7f9fb;
+  --panel: #ffffff;
+  --text: #1f2937;
+  --muted: #4b5563;
+  --heading: #0f172a;
+  --link: #0ea5e9;
+
+  --border: #e5e7eb;
+  --border-hover: #d1d5db;
+
+  --radius: 0.75em;
+  --radius-pill: 999em;
+
+  --shadow: 0 0.5em 1.5em rgba(15, 23, 42, 0.05);
+
+  /* Centers content and sets a reading-friendly max width. */
+  --max-width: 72ch;
+
+  /* Horizontal page gutter. */
+  --gutter: 1.25em;
+
+  /* Clear focus ring for keyboard users. */
+  --focus-ring: 0 0 0 0.2em rgba(14, 165, 233, 0.35);
+}
+
+/*
+ * Global box sizing
+ * Reduces layout surprises when padding/borders are applied.
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/*
+ * Root document adjustments
+ * Helps keep text sizing consistent across platforms.
+ */
+html {
+  text-size-adjust: 100%;
+}
+
+/*
+ * General styles for the body of the document
+ * Sets background, font, and text color for the whole site.
+ */
 body {
   margin: 0;
   padding: 0;
-  background: #f7f9fb;
-  color: #1f2937;
+  background: var(--bg);
+  color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   line-height: 1.6;
 }
 
+/*
+ * Layout containers for header, main, and footer
+ * Centers content and sets a max width.
+ */
 header,
 main,
 footer {
-  width: min(960px, 100% - 2.5rem);
+  width: min(var(--max-width), 100% - (var(--gutter) * 2));
   margin: 0 auto;
-  box-sizing: border-box;
 }
 
+/*
+ * Header styling
+ * Adds padding and centers the header text.
+ */
 header {
-  padding: 2rem 0 1.25rem;
+  padding: 2em 0 1.25em;
   text-align: center;
 }
 
 header h1 {
-  margin: 0 0 0.75rem;
-  font-size: 2rem;
+  margin: 0 0 0.75em;
+  font-size: clamp(1.6em, 2.5vw + 1em, 2.25em);
+  line-height: 1.2;
+  color: var(--heading);
 }
 
+/*
+ * Navigation link styles
+ * Styles the main navigation links.
+ */
 nav a {
-  margin: 0 0.75rem;
-  color: #0f172a;
+  margin: 0 0.75em;
+  color: var(--heading);
   text-decoration: none;
   font-weight: 600;
-}
-
-.lang-switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 0.75rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 999px;
-  background: #ffffff;
-  color: #0f172a;
-  text-decoration: none;
-  font-weight: 600;
-  margin-left: 0.5rem;
-}
-
-.lang-switch:hover {
-  background: #f3f4f6;
-  border-color: #d1d5db;
 }
 
 nav a:hover {
   text-decoration: underline;
 }
 
-main {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 1.75rem;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+/*
+ * Focus styles (accessibility)
+ * Makes keyboard navigation clearly visible without changing layout.
+ */
+a:focus-visible,
+button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 0.4em;
 }
 
+/*
+ * Language switch button styles
+ * Adds border, padding, and icon alignment for language switcher.
+ */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.4em 0.75em;
+  margin-left: 0.5em;
+
+  /* Use keywords to avoid px-like "1px" equivalents. */
+  border: thin solid var(--border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+}
+
+.lang-switch:hover {
+  background: #f3f4f6;
+  border-color: var(--border-hover);
+}
+
+/*
+ * Icon style for inline SVG or img icons
+ */
+.icon {
+  display: inline-block;
+  inline-size: 1.25em;
+  block-size: 1.25em;
+  vertical-align: middle;
+  margin-inline: 0.1em 0.25em;
+}
+
+/*
+ * Main content styling
+ * Creates a readable panel with subtle border and shadow.
+ */
+main {
+  background: var(--panel);
+  border: thin solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75em;
+  box-shadow: var(--shadow);
+}
+
+/*
+ * Article header spacing
+ */
 article header {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.25em;
 }
 
 .kicker {
-  margin: 0 0 0.35rem;
-  color: #0f172a;
+  margin: 0 0 0.35em;
+  color: var(--heading);
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: 0.85em;
 }
 
 .meta {
-  margin: 0 0 0.6rem;
-  color: #4b5563;
-  font-size: 0.95rem;
+  margin: 0 0 0.6em;
+  color: var(--muted);
+  font-size: 0.95em;
 }
 
 .lede {
-  margin: 0.2rem 0 1rem;
+  margin: 0.2em 0 1em;
   color: #111827;
-  font-size: 1.05rem;
+  font-size: 1.05em;
   line-height: 1.7;
 }
 
 section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5em;
 }
 
 section h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1.5rem;
-  color: #0f172a;
+  margin: 0 0 0.5em;
+  font-size: clamp(1.25em, 1.2vw + 1em, 1.6em);
+  color: var(--heading);
+  line-height: 1.25;
 }
 
 p {
-  margin: 0.4rem 0 0.8rem;
+  margin: 0.4em 0 0.8em;
   text-align: left;
 }
 
-.icon {
-  width: 16px;
-  height: 16px;
-  vertical-align: middle;
-  margin-right: 6px;
-}
-
 ul {
-  padding-left: 1.2rem;
-  margin: 0.25rem 0 0.75rem;
+  padding-left: 1.2em;
+  margin: 0.25em 0 0.75em;
 }
 
 a {
-  color: #0ea5e9;
+  color: var(--link);
   text-decoration: none;
 }
 
@@ -144,26 +238,88 @@ a:hover {
   text-decoration: underline;
 }
 
+/*
+ * Responsive image styles for articles
+ * Ensures images scale well and look good at different sizes.
+ */
+.article-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5em auto;
+  border-radius: calc(var(--radius) * 0.66);
+  box-shadow: 0 0.125em 0.75em rgba(0, 0, 0, 0.07);
+}
+
+/* Small images (e.g., icons, inline)
+   Add .img-small class to images in articles for small presentation
+   Uses character measures + viewport rather than fixed pixel equivalents. */
+.article-content img.img-small {
+  max-width: clamp(16ch, 30vw, 28ch);
+  margin: 1em auto;
+  box-shadow: none;
+}
+
+/* Medium images (e.g., half-width)
+   Add .img-medium class to images in articles for medium presentation
+   Uses character measures + viewport rather than fixed pixel equivalents. */
+.article-content img.img-medium {
+  max-width: clamp(32ch, 70vw, 56ch);
+}
+
+/* Large images (e.g., full-width banners)
+   Add .img-large class to images in articles for large presentation */
+.article-content img.img-large {
+  max-width: 100%;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/*
+ * Optional: avoid overflow in code blocks if you have them
+ */
+pre,
+code {
+  max-width: 100%;
+}
+
+/*
+ * Footer styling
+ * Sets spacing and a subtle style for footnotes.
+ */
 footer {
-  padding: 1.25rem 0 2rem;
+  padding: 1.25em 0 2em;
   text-align: left;
-  color: #4b5563;
-  font-size: 0.95rem;
+  color: var(--muted);
+  font-size: 0.95em;
 }
 
 footer p {
-  margin: 0.35rem 0;
+  margin: 0.35em 0;
 }
 
 footer p sup {
   display: inline-block;
-  min-width: 1.4rem;
-  margin-right: 0.4rem;
-  padding: 0.05rem 0.4rem;
-  border-radius: 999px;
+  min-width: 1.4em;
+  margin-right: 0.4em;
+  padding: 0.05em 0.4em;
+  border-radius: var(--radius-pill);
   background: #e0f2fe;
-  color: #0f172a;
+  color: var(--heading);
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.8em;
   text-align: center;
+}
+
+/*
+ * Motion preferences
+ * Disables transitions/animations for users who prefer reduced motion.
+ */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
 }
