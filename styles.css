@@ -79,6 +79,29 @@ body {
   line-height: 1.6;
 }
 
+/* Allow very long words to break and wrap to the next line to avoid overflow */
+html, body, p, li, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* Protect code and pre from forced breaks */
+code, pre, kbd, samp {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+pre {
+  white-space: pre;
+  overflow-x: auto;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
 /*
  * Layout containers for header, main, and footer
  * Centers content and sets a max width.
