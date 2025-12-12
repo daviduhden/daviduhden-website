@@ -19,6 +19,7 @@ use warnings;
 use POSIX qw(strftime);
 use FindBin;
 use File::Spec;
+use JSON::PP;
 
 my $root_dir = File::Spec->catdir($FindBin::RealBin, '..');
 my $feed_en   = File::Spec->catfile($root_dir, 'feeds', 'blog.xml');
@@ -110,31 +111,39 @@ sub update_redirect {
     my $slug_key = $args{slug_key};
     my $slug_en  = $args{slug_en};
     my $slug_es  = $args{slug_es};
+    my $title_en = $args{title_en} // '';
+    my $title_es = $args{title_es} // '';
 
-    my $content = read_file($redirect);
+    my $data_dir = File::Spec->catdir($root_dir, 'data');
+    my $json_file = File::Spec->catfile($data_dir, 'articles.json');
 
-    if ($content =~ /articlePages[^{]*\{[\s\S]*?$slug_key[\s\S]*?\}/) {
-        warn "Warning: redirect.js already contains slug $slug_key in articlePages. Skipping insert.\n";
-    } else {
-        my $entry = "\t\t\t\t$slug_key: {\n"
-                  . "\t\t\t\t\t\tes: articlePrefix + '$slug_es.html',\n"
-                  . "\t\t\t\t\t\ten: articlePrefix + '$slug_en.html'\n"
-                  . "\t\t\t\t},\n";
-        my $added = $content =~ s{(const articlePages = \{\n)([\s\S]*?)(\n\t\t\};)}{$1$2$entry$3}ms;
-        die "Could not insert into articlePages in redirect.js\n" unless $added;
+    # ensure data directory exists
+    unless (-d $data_dir) {
+        mkdir $data_dir or die "Could not create $data_dir: $!\n";
     }
 
-    if ($content =~ /articleFileToSlug[^{]*\{[\s\S]*?'$slug_en\.html'/) {
-        warn "Warning: redirect.js already maps $slug_en.html. Skipping insert.\n";
-    } else {
-        my $entry_files = "\t\t\t\t'$slug_en.html': '$slug_key',\n"
-                       . "\t\t\t\t'$slug_es.html': '$slug_key',\n";
-        my $added_files = $content =~ s{(const articleFileToSlug = \{\n)([\s\S]*?)(\n\t\t\};)}{$1$2$entry_files$3}ms;
-        die "Could not insert into articleFileToSlug in redirect.js\n" unless $added_files;
+    my $articles = {};
+    if (-e $json_file) {
+        my $jcontent = read_file($json_file);
+        eval {
+            $articles = JSON::PP->new->utf8->decode($jcontent);
+        };
+        if ($@) {
+            warn "Warning: could not parse existing $json_file, overwriting.\n";
+            $articles = {};
+        }
     }
 
-    write_file($redirect, $content);
-    print "Updated redirect.js\n";
+    $articles->{$slug_key} = {
+        en => "$slug_en.html",
+        es => "$slug_es.html",
+        title_en => $title_en,
+        title_es => $title_es,
+    };
+
+    my $json_out = JSON::PP->new->ascii->pretty->encode($articles);
+    write_file($json_file, $json_out);
+    print "Updated $json_file\n";
 }
 
 my $today = strftime('%a, %d %b %Y %H:%M:%S GMT', gmtime());
