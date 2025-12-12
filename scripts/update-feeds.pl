@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Copyright (c) 2024-2025 David Uhden Collado
+# Copyright (c) 2025 David Uhden Collado
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,6 +13,13 @@
 # WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# This script updates:
+#   - feeds/blog.xml and feeds/blog-es.xml (adds a new <item>)
+#   - data/articles.json (used by redirect.js to map en/es article filenames)
+#
+# Note: redirect.js reads data/articles.json at runtime; this script does NOT
+# modify redirect.js anymore.
 
 use strict;
 use warnings;
@@ -21,10 +28,9 @@ use FindBin;
 use File::Spec;
 use JSON::PP;
 
-my $root_dir = File::Spec->catdir($FindBin::RealBin, '..');
+my $root_dir  = File::Spec->catdir($FindBin::RealBin, '..');
 my $feed_en   = File::Spec->catfile($root_dir, 'feeds', 'blog.xml');
 my $feed_es   = File::Spec->catfile($root_dir, 'feeds', 'blog-es.xml');
-my $redirect  = File::Spec->catfile($root_dir, 'redirect.js');
 
 sub prompt {
     my ($message, $default) = @_;
@@ -38,7 +44,7 @@ sub prompt {
 
 sub read_file {
     my ($path) = @_;
-    open my $fh, '<', $path or die "Could not open $path for reading: $!\n";
+    open my $fh, '<:raw', $path or die "Could not open $path for reading: $!\n";
     local $/;
     my $content = <$fh>;
     close $fh;
@@ -47,7 +53,7 @@ sub read_file {
 
 sub write_file {
     my ($path, $content) = @_;
-    open my $fh, '>', $path or die "Could not open $path for writing: $!\n";
+    open my $fh, '>:raw', $path or die "Could not open $path for writing: $!\n";
     print {$fh} $content;
     close $fh;
 }
@@ -61,6 +67,20 @@ sub xml_escape {
     return $text;
 }
 
+sub normalize_slug {
+    my ($s) = @_;
+    $s //= '';
+    $s =~ s/^\s+|\s+$//g;
+    $s = lc $s;
+    return $s;
+}
+
+sub validate_key {
+    my ($key) = @_;
+    # JSON key used by redirect.js (via articles.json). Allow typical slug chars.
+    $key =~ /^[a-z0-9_-]+$/ or die "Key '$key' is invalid. Use only [a-z0-9_-].\n";
+}
+
 sub update_feed {
     my (%args) = @_;
     my $path   = $args{path};
@@ -69,6 +89,7 @@ sub update_feed {
     my $desc   = xml_escape($args{description});
     my $pub    = $args{pubdate};
 
+    # Keep existing feed link style
     my $link = "./../articles/$slug.html";
     my $guid = $link;
 
@@ -87,15 +108,17 @@ sub update_feed {
         return;
     }
 
-    $content =~ s{<pubDate>.*?</pubDate>}{<pubDate>$pub</pubDate>};
-    $content =~ s{<lastBuildDate>.*?</lastBuildDate>}{<lastBuildDate>$pub</lastBuildDate>};
+    # Update channel dates (assumes channel-level <pubDate> and <lastBuildDate> exist)
+    $content =~ s{<pubDate>[^<]*</pubDate>}{<pubDate>$pub</pubDate>}m;
+    $content =~ s{<lastBuildDate>[^<]*</lastBuildDate>}{<lastBuildDate>$pub</lastBuildDate>}m;
 
-    my $inserted = $content =~ s{(<lastBuildDate>.*?</lastBuildDate>\s*\n)}{$1\n$item}ms;
+    # Insert new item right after </lastBuildDate> when possible
+    my $inserted = $content =~ s{(<lastBuildDate>[^<]*</lastBuildDate>\s*\n)}{$1\n$item}m;
     if (!$inserted) {
-        $inserted = $content =~ s{(<channel>\s*\n)}{$1$item}ms;
+        $inserted = $content =~ s{(<channel>\s*\n)}{$1$item}m;
     }
     if (!$inserted) {
-        $inserted = $content =~ s{(</channel>)}{$item$1}ms;
+        $inserted = $content =~ s{(</channel>)}{$item$1}m;
     }
 
     unless ($inserted) {
@@ -106,18 +129,18 @@ sub update_feed {
     print "Updated feed: $path\n";
 }
 
-sub update_redirect {
+sub update_articles_json {
     my (%args) = @_;
-    my $slug_key = $args{slug_key};
+    my $key      = $args{key};
     my $slug_en  = $args{slug_en};
     my $slug_es  = $args{slug_es};
     my $title_en = $args{title_en} // '';
     my $title_es = $args{title_es} // '';
 
-    my $data_dir = File::Spec->catdir($root_dir, 'data');
+    my $data_dir  = File::Spec->catdir($root_dir, 'data');
     my $json_file = File::Spec->catfile($data_dir, 'articles.json');
 
-    # ensure data directory exists
+    # Ensure data directory exists
     unless (-d $data_dir) {
         mkdir $data_dir or die "Could not create $data_dir: $!\n";
     }
@@ -127,32 +150,45 @@ sub update_redirect {
         my $jcontent = read_file($json_file);
         eval {
             $articles = JSON::PP->new->utf8->decode($jcontent);
-        };
-        if ($@) {
+            1;
+        } or do {
             warn "Warning: could not parse existing $json_file, overwriting.\n";
             $articles = {};
-        }
+        };
     }
 
-    $articles->{$slug_key} = {
-        en => "$slug_en.html",
-        es => "$slug_es.html",
+    # redirect.js expects filenames (not paths); it builds URLs relative to /articles/
+    $articles->{$key} = {
+        en       => "$slug_en.html",
+        es       => "$slug_es.html",
         title_en => $title_en,
         title_es => $title_es,
     };
 
-    my $json_out = JSON::PP->new->ascii->pretty->encode($articles);
-    write_file($json_file, $json_out);
-    print "Updated $json_file\n";
+    # Stable output: canonical sorts keys
+    my $json_out = JSON::PP->new->utf8->canonical->pretty->encode($articles);
+
+    # Write as UTF-8 (no need to escape non-ASCII titles)
+    open my $fh, '>:encoding(UTF-8)', $json_file
+      or die "Could not open $json_file for writing: $!\n";
+    print {$fh} $json_out;
+    close $fh;
+
+    print "Updated mapping: $json_file\n";
 }
 
+# =========================
+# Main
+# =========================
 my $today = strftime('%a, %d %b %Y %H:%M:%S GMT', gmtime());
 
-my $slug_en = prompt('English slug (without .html, e.g., gpl)', '');
+my $slug_en = normalize_slug(prompt('English slug (without .html, e.g., gpl)', ''));
 length $slug_en or die "English slug is required.\n";
-my $slug_es = prompt('Spanish slug (without .html)', $slug_en . '-es');
-my $slug_key = prompt('Key for redirect.js (letters/numbers/underscore only)', $slug_en);
-$slug_key =~ /^[a-z0-9_]+$/ or die "Key $slug_key is invalid. Use only [a-z0-9_].\n";
+
+my $slug_es = normalize_slug(prompt('Spanish slug (without .html)', $slug_en . '-es'));
+
+my $key = normalize_slug(prompt('Key for data/articles.json (used by redirect.js)', $slug_en));
+validate_key($key);
 
 my $title_en = prompt('Title (English)', '');
 my $title_es = prompt('Title (Spanish)', '');
@@ -176,10 +212,12 @@ update_feed(
     pubdate     => $pubdate,
 );
 
-update_redirect(
-    slug_key => $slug_key,
+update_articles_json(
+    key      => $key,
     slug_en  => $slug_en,
     slug_es  => $slug_es,
+    title_en => $title_en,
+    title_es => $title_es,
 );
 
-print "Done. Review changes in feeds and redirect.js.\n";
+print "Done. Review changes in feeds and data/articles.json (redirect.js loads it).\n";
