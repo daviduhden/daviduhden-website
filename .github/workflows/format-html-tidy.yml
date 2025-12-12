@@ -22,6 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor != 'github-actions[bot]'
 
+    defaults:
+      run:
+        shell: bash
+
     steps:
       - name: Checkout (push)
         if: github.event_name == 'push'
@@ -38,7 +42,6 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Ensure bash + tidy are installed
-        shell: bash
         run: |
           set -euo pipefail
 
@@ -55,14 +58,12 @@ jobs:
           tidy -version
 
       - name: Run formatter script (bash)
-        shell: bash
         run: |
           set -euo pipefail
           bash ./scripts/format-html-tidy.bash
 
       - name: Commit & push changes (push event)
         if: github.event_name == 'push'
-        shell: bash
         run: |
           set -euo pipefail
           if [ -n "$(git status --porcelain)" ]; then
@@ -77,7 +78,6 @@ jobs:
 
       - name: Commit & push changes (PR from same repo)
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        shell: bash
         run: |
           set -euo pipefail
           if [ -n "$(git status --porcelain)" ]; then
@@ -92,7 +92,6 @@ jobs:
 
       - name: Fail if formatting changed files (PR from fork cannot be pushed)
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
-        shell: bash
         run: |
           set -euo pipefail
           if [ -n "$(git status --porcelain)" ]; then

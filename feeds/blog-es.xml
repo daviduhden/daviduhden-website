@@ -5,8 +5,19 @@
 				<link>./../blog-es.html</link>
 				<description>Últimos artículos y actualizaciones del blog de David Uhden Collado.</description>
 				<language>es-es</language>
-				<pubDate>Fri, 07 Mar 2025 10:00:00 GMT</pubDate>
-				<lastBuildDate>Fri, 07 Mar 2025 10:00:00 GMT</lastBuildDate>
+				<pubDate>Fri, 12 Dec 2025 10:00:00 GMT</pubDate>
+				<lastBuildDate>Fri, 12 Dec 2025 10:00:00 GMT</lastBuildDate>
+
+				<item>
+						<title>OpenBSD: Un sistema operativo robusto y seguro para el futuro</title>
+						<link>./../articles/openbsd-es.html</link>
+						<description>Desde sus inicios, OpenBSD se ha destacado como un sistema operativo tipo
+								UNIX basado en 4.4BSD, conocido tanto por su seguridad como por su diseño
+								minimalista. Este artículo explora su filosofía de seguridad y simplicidad,
+								innovaciones clave en seguridad y la comunidad comprometida detrás de él.</description>
+						<pubDate>Fri, 12 Dec 2025 10:00:00 GMT</pubDate>
+						<guid>./../articles/openbsd-es.html</guid>
+				</item>
 
 				<item>
 						<title>La GPL: Una Herramienta con Paradojas en el Mundo del Software Libre</title>
@@ -16,17 +27,6 @@
 								comunidad del software libre.</description>
 						<pubDate>Sat, 08 Mar 2025 10:00:00 GMT</pubDate>
 						<guid>./../articles/gpl-es.html</guid>
-				</item>
-
-				<item>
-						<title>OpenBSD: Un sistema operativo robusto y seguro para el futuro</title>
-						<link>./../articles/openbsd-es.html</link>
-						<description>Desde sus inicios, OpenBSD se ha destacado como un sistema operativo tipo
-								UNIX basado en 4.4BSD, conocido tanto por su seguridad como por su diseño
-								minimalista. Este artículo explora su filosofía de seguridad y simplicidad,
-								innovaciones clave en seguridad y la comunidad comprometida detrás de él.</description>
-						<pubDate>Thu, 06 Mar 2025 10:00:00 GMT</pubDate>
-						<guid>./../articles/openbsd-es.html</guid>
 				</item>
 
 				<item>
