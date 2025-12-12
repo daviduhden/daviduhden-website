@@ -54,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function () {
         blog: {
             es: rootPrefix + 'blog-es.html',
             en: rootPrefix + 'blog.html'
+        },
+        license: {
+            es: rootPrefix + 'licencia.html',
+            en: rootPrefix + 'license.html'
         }
     };
 
@@ -98,6 +102,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return pageName.toLowerCase().includes('blog');
     }
 
+    function isLicensePage(pageName) {
+        const lower = pageName.toLowerCase();
+        return lower.includes('license') || lower.includes('licencia');
+    }
+
     if (articleFileToSlug[currentPage]) {
         const slug = articleFileToSlug[currentPage];
         const targetPage = articlePages[slug] ? articlePages[slug][userLang] : null;
@@ -112,5 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = pages.index[userLang];
     } else if (isBlogPage(currentPage) && currentPage !== pages.blog[userLang].split('/').pop()) {
         window.location.href = pages.blog[userLang];
+    } else if (isLicensePage(currentPage) && currentPage !== pages.license[userLang].split('/').pop()) {
+        window.location.href = pages.license[userLang];
     }
 });
