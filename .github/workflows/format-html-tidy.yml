@@ -1,0 +1,75 @@
+name: Format HTML (tidy)
+
+on:
+  push:
+    paths:
+      - "/*.html"
+      - "articles/*.html"
+      - "ddgnoai/*.html"
+      - "templates/*.html"
+  pull_request:
+    paths:
+      - "/*.html"
+      - "articles/*.html"
+      - "ddgnoai/*.html"
+      - "templates/*.html"
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure bash + tidy are installed
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          pkgs=()
+          command -v bash >/dev/null 2>&1 || pkgs+=(bash)
+          command -v tidy >/dev/null 2>&1 || pkgs+=(tidy)
+
+          if [ "${#pkgs[@]}" -gt 0 ]; then
+            sudo apt-get update
+            sudo apt-get install -y "${pkgs[@]}"
+          fi
+
+          bash --version
+          tidy -version
+
+      - name: Run formatter script
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash ./scripts/format-html-tidy.bash
+
+      - name: Commit & push changes (push only)
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+            git add -A
+            git commit -m "chore: format HTML with tidy"
+            git push
+          else
+            echo "No changes to commit."
+          fi
+
+      - name: Fail if formatting changed files (PRs should commit the result)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code
