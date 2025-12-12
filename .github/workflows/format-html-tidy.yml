@@ -47,7 +47,6 @@ jobs:
       - name: Run formatter script
         shell: bash
         run: |
-          set -euo pipefail
           bash ./scripts/format-html-tidy.bash
 
       - name: Commit & push changes (push only)
