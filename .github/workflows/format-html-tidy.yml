@@ -7,12 +7,14 @@ on:
       - "articles/*.html"
       - "ddgnoai/*.html"
       - "templates/*.html"
+      - "scripts/*.bash"
   pull_request:
     paths:
       - "/*.html"
       - "articles/*.html"
       - "ddgnoai/*.html"
       - "templates/*.html"
+      - "scripts/*.bash"
 
 permissions:
   contents: write
