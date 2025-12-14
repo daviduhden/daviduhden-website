@@ -11,11 +11,13 @@
 </head>
 <body>
   <header>
-  <h1>David Uhden Collado</h1>
+    <h1>David Uhden Collado</h1>
 
-  <nav>
-    <a href="./../index-es.html" target="_blank" rel="noopener noreferrer">Inicio</a> <a href="./../blog-es.html" target="_blank" rel="noopener noreferrer">Blog</a>
-  </nav>
+    <nav>
+      <a href="./../index-es.html" target="_blank" rel=
+      "noopener noreferrer">Inicio</a> <a href="./../blog-es.html" target=
+      "_blank" rel="noopener noreferrer">Blog</a>
+    </nav>
   </header>
 
   <main>
@@ -25,179 +27,342 @@
 
         <h1>OpenBSD: un sistema operativo robusto y seguro para el futuro</h1>
 
-        <p class="meta">Por David Uhden Collado • Actualizado <time datetime="2025-12-12">12 de diciembre de 2025</time></p>
+        <p class="meta">Por David Uhden Collado • Actualizado <time datetime=
+        "2025-12-12">12 de diciembre de 2025</time></p>
 
-        <p class="lede">OpenBSD privilegia la simplicidad y la seguridad: auditado a fondo, con servicios mínimos por defecto y documentación clara para configurar sin exponer el sistema.</p>
+        <p class="lede">OpenBSD privilegia la simplicidad y la seguridad:
+        auditado a fondo, con servicios mínimos por defecto y documentación
+        clara para configurar sin exponer el sistema.</p>
       </header>
 
       <section>
-        <p>OpenBSD es una opción ideal tanto para entornos profesionales como para el uso personal, ofreciendo una plataforma en la que cada línea de código y cada configuración se desarrollan con una meticulosa atención al detalle.</p>
+        <p>OpenBSD es una opción ideal tanto para entornos profesionales como
+        para el uso personal, ofreciendo una plataforma en la que cada línea de
+        código y cada configuración se desarrollan con una meticulosa atención
+        al detalle.</p>
       </section>
 
       <section>
         <h2>Una filosofía de seguridad y simplicidad</h2>
 
-        <p>OpenBSD sigue a rajatabla la filosofía de Unix, lo que se traduce en un sistema sencillo de instalar y configurar, pero sin perder de vista la importancia de la seguridad. El sistema incluye una gran cantidad de aplicaciones integradas en el paquete base, todas ellas diseñadas para ser utilizadas tal cual, sin configuraciones predeterminadas que puedan comprometer la seguridad. Este enfoque “menos es más” obliga al usuario a habilitar solo los servicios que realmente necesita, minimizando así los riesgos de configuraciones erróneas o vulnerabilidades.</p>
+        <p>OpenBSD sigue a rajatabla la filosofía de Unix, lo que se traduce en
+        un sistema sencillo de instalar y configurar, pero sin perder de vista
+        la importancia de la seguridad. El sistema incluye una gran cantidad de
+        aplicaciones integradas en el paquete base, todas ellas diseñadas para
+        ser utilizadas tal cual, sin configuraciones predeterminadas que puedan
+        comprometer la seguridad. Este enfoque “menos es más” obliga al usuario
+        a habilitar solo los servicios que realmente necesita, minimizando así
+        los riesgos de configuraciones erróneas o vulnerabilidades.</p>
 
-        <p>Cada archivo de configuración en OpenBSD utiliza una sintaxis clara y legible, lo que facilita su comprensión y modificación. Además, la documentación es una prioridad absoluta: cada opción viene explicada en detalle en las páginas de manual. La premisa es simple, pero poderosa: la falta de documentación o documentación incorrecta se considera un fallo, puesto que la correcta configuración es esencial para mantener la seguridad del sistema.</p>
+        <p>Cada archivo de configuración en OpenBSD utiliza una sintaxis clara
+        y legible, lo que facilita su comprensión y modificación. Además, la
+        documentación es una prioridad absoluta: cada opción viene explicada en
+        detalle en las páginas de manual. La premisa es simple, pero poderosa:
+        la falta de documentación o documentación incorrecta se considera un
+        fallo, puesto que la correcta configuración es esencial para mantener
+        la seguridad del sistema.</p>
       </section>
 
       <section>
         <h2>Innovaciones en seguridad que marcan la diferencia</h2>
 
-        <p>Lo que realmente distingue a OpenBSD es su enfoque en la seguridad desde el núcleo del sistema. Cada componente, desde el kernel hasta las aplicaciones en el entorno de usuario, es sometido a auditorías rigurosas para identificar y eliminar posibles fallos de seguridad. Algunas de las innovaciones destacadas son:</p>
+        <p>Lo que realmente distingue a OpenBSD es su enfoque en la seguridad
+        desde el núcleo del sistema. Cada componente, desde el kernel hasta las
+        aplicaciones en el entorno de usuario, es sometido a auditorías
+        rigurosas para identificar y eliminar posibles fallos de seguridad.
+        Algunas de las innovaciones destacadas son:</p>
 
         <ul>
-          <li><strong>Política W^X:</strong> La aplicación obligatoria de W^X tanto en el kernel como en el espacio de usuario, que asegura que la memoria utilizada para ejecutar código no pueda ser modificada, y viceversa.</li>
+          <li><strong>Política W^X:</strong> La aplicación obligatoria de W^X
+          tanto en el kernel como en el espacio de usuario, que asegura que la
+          memoria utilizada para ejecutar código no pueda ser modificada, y
+          viceversa.</li>
 
-          <li><strong>Protecciones de pila y mitigaciones contra SROP:</strong> Técnicas avanzadas que limitan las posibilidades de explotación de vulnerabilidades, dificultando la ejecución de código malicioso.</li>
+          <li><strong>Protecciones de pila y mitigaciones contra SROP:</strong>
+          Técnicas avanzadas que limitan las posibilidades de explotación de
+          vulnerabilidades, dificultando la ejecución de código malicioso.</li>
 
-          <li><strong>Uso de bcrypt para contraseñas:</strong> Una política de hashing de contraseñas que ajusta automáticamente la cantidad de rondas en función del rendimiento del sistema, ofreciendo una capa adicional de seguridad.</li>
+          <li><strong>Uso de bcrypt para contraseñas:</strong> Una política de
+          hashing de contraseñas que ajusta automáticamente la cantidad de
+          rondas en función del rendimiento del sistema, ofreciendo una capa
+          adicional de seguridad.</li>
 
-          <li><strong>Aislamiento a nivel del sistema:</strong> Con <code>pledge(2)</code> y <code>unveil(2)</code>, OpenBSD restringe las capacidades de los procesos, reduciendo significativamente la superficie de ataque en caso de comprometer un servicio.</li>
+          <li><strong>Aislamiento a nivel del sistema:</strong> Con
+          <code>pledge(2)</code> y <code>unveil(2)</code>, OpenBSD restringe
+          las capacidades de los procesos, reduciendo significativamente la
+          superficie de ataque en caso de comprometer un servicio.</li>
         </ul>
 
-        <p>Estas características han inspirado a otros sistemas operativos a adoptar medidas similares, consolidando a OpenBSD como un referente en cuanto a seguridad y estabilidad.</p>
+        <p>Estas características han inspirado a otros sistemas operativos a
+        adoptar medidas similares, consolidando a OpenBSD como un referente en
+        cuanto a seguridad y estabilidad.</p>
       </section>
 
       <section>
         <h2>Valores por defecto y herramientas orientadas a la seguridad</h2>
 
-        <p>El enfoque de OpenBSD no se limita a mitigaciones contra técnicas de explotación. También prioriza valores por defecto conservadores, utilidades pequeñas y auditables, e integración estrecha entre el kernel y el entorno base de usuario. En la práctica, esto se traduce en un sistema que tiende a ser más seguro sin depender de un proceso de refuerzo posterior especialmente complejo.</p>
+        <p>El enfoque de OpenBSD no se limita a mitigaciones contra técnicas de
+        explotación. También prioriza valores por defecto conservadores,
+        utilidades pequeñas y auditables, e integración estrecha entre el
+        kernel y el entorno base de usuario. En la práctica, esto se traduce en
+        un sistema que tiende a ser más seguro sin depender de un proceso de
+        refuerzo posterior especialmente complejo.</p>
 
-        <p>Entre los mecanismos y herramientas del sistema base que suelen destacarse en este contexto se incluyen:</p>
+        <p>Entre los mecanismos y herramientas del sistema base que suelen
+        destacarse en este contexto se incluyen:</p>
 
         <ul>
-          <li><strong>KARL (Kernel Address Randomized Link):</strong> Una técnica que genera un kernel enlazado de forma única, aumentando la resistencia frente a ciertas clases de explotación a nivel de kernel.</li>
+          <li><strong>KARL (Kernel Address Randomized Link):</strong> Una
+          técnica que genera un kernel enlazado de forma única, aumentando la
+          resistencia frente a ciertas clases de explotación a nivel de
+          kernel.</li>
 
-          <li><strong>Reenlazado de bibliotecas críticas en el arranque:</strong> OpenBSD puede aleatorizar la disposición de bibliotecas compartidas clave en cada arranque, reduciendo la predictibilidad de ataques basados en desplazamientos fijos.</li>
+          <li><strong>Reenlazado de bibliotecas críticas en el
+          arranque:</strong> OpenBSD puede aleatorizar la disposición de
+          bibliotecas compartidas clave en cada arranque, reduciendo la
+          predictibilidad de ataques basados en desplazamientos fijos.</li>
 
-          <li><strong><code>arc4random(3)</code> y <code>getentropy(2)</code>:</strong> Una interfaz de aleatoriedad de alta calidad, ampliamente disponible y utilizada de forma coherente en el sistema base.</li>
+          <li><strong><code>arc4random(3)</code> y
+          <code>getentropy(2)</code>:</strong> Una interfaz de aleatoriedad de
+          alta calidad, ampliamente disponible y utilizada de forma coherente
+          en el sistema base.</li>
 
-          <li><strong><code>signify(1)</code>:</strong> Una herramienta sencilla para firmar y verificar artefactos de las releases y parches binarios, integrando la verificación de integridad en la administración habitual.</li>
+          <li><strong><code>signify(1)</code>:</strong> Una herramienta
+          sencilla para firmar y verificar artefactos de las releases y parches
+          binarios, integrando la verificación de integridad en la
+          administración habitual.</li>
 
-          <li><strong><code>doas(1)</code>:</strong> Una utilidad compacta de elevación de privilegios pensada para ser fácil de auditar y de configurar en flujos administrativos comunes.</li>
+          <li><strong><code>doas(1)</code>:</strong> Una utilidad compacta de
+          elevación de privilegios pensada para ser fácil de auditar y de
+          configurar en flujos administrativos comunes.</li>
 
-          <li><strong><code>pf(4)</code> y separación de privilegios:</strong> Un cortafuegos de primera clase, junto a una tradición consolidada de ejecutar servicios con privilegios mínimos, limitando el impacto en caso de compromiso de un demonio.</li>
+          <li><strong><code>pf(4)</code> y separación de privilegios:</strong>
+          Un cortafuegos de primera clase, junto a una tradición consolidada de
+          ejecutar servicios con privilegios mínimos, limitando el impacto en
+          caso de compromiso de un demonio.</li>
         </ul>
 
-        <p>Por último, la cultura de auditoría continua y la insistencia en páginas de manual de alta calidad contribuyen de manera decisiva a la seguridad operativa: la configuración es explícita, los valores por defecto son intencionales y la administración se apoya en primitivas documentadas.</p>
+        <p>Por último, la cultura de auditoría continua y la insistencia en
+        páginas de manual de alta calidad contribuyen de manera decisiva a la
+        seguridad operativa: la configuración es explícita, los valores por
+        defecto son intencionales y la administración se apoya en primitivas
+        documentadas.</p>
       </section>
 
       <section>
         <h2>Refuerzo adicional: aleatorización y seguridad de memoria</h2>
 
-        <p>Además de mitigaciones ampliamente conocidas, OpenBSD ha invertido durante años en técnicas que reducen la predictibilidad tanto en el espacio de usuario como en el kernel, dificultando la explotación fiable. Estas medidas suelen ser más efectivas cuando se combinan: incluso con fugas parciales de información, cada capa adicional incrementa el coste de construir cadenas de ataque consistentes.</p>
+        <p>Además de mitigaciones ampliamente conocidas, OpenBSD ha invertido
+        durante años en técnicas que reducen la predictibilidad tanto en el
+        espacio de usuario como en el kernel, dificultando la explotación
+        fiable. Estas medidas suelen ser más efectivas cuando se combinan:
+        incluso con fugas parciales de información, cada capa adicional
+        incrementa el coste de construir cadenas de ataque consistentes.</p>
 
         <ul>
-          <li><strong>Aleatorización de direcciones y disposición:</strong> Se emplean distintas capas de aleatorización para reducir la repetibilidad de técnicas que dependen de posiciones estables en memoria.</li>
+          <li><strong>Aleatorización de direcciones y disposición:</strong> Se
+          emplean distintas capas de aleatorización para reducir la
+          repetibilidad de técnicas que dependen de posiciones estables en
+          memoria.</li>
 
-          <li><strong>Aleatorización del kernel (KARL):</strong> OpenBSD puede generar un kernel enlazado de forma única, mejorando la resistencia frente a ataques que dependen de disposiciones predecibles.</li>
+          <li><strong>Aleatorización del kernel (KARL):</strong> OpenBSD puede
+          generar un kernel enlazado de forma única, mejorando la resistencia
+          frente a ataques que dependen de disposiciones predecibles.</li>
 
-          <li><strong>Aleatorización de PID:</strong> Los identificadores de proceso pueden ser menos predecibles, reduciendo el valor de ataques basados en adivinar PIDs.</li>
+          <li><strong>Aleatorización de PID:</strong> Los identificadores de
+          proceso pueden ser menos predecibles, reduciendo el valor de ataques
+          basados en adivinar PIDs.</li>
 
-          <li><strong>Primitivas más seguras en libc:</strong> Funciones como <code>freezero(3)</code> y <code>recallocarray(3)</code> están diseñadas para ayudar a manejar datos sensibles y patrones de asignación con mayor seguridad.</li>
+          <li><strong>Primitivas más seguras en libc:</strong> Funciones como
+          <code>freezero(3)</code> y <code>recallocarray(3)</code> están
+          diseñadas para ayudar a manejar datos sensibles y patrones de
+          asignación con mayor seguridad.</li>
 
-          <li><strong>Asignador de memoria reforzado y diagnóstico:</strong> La implementación de malloc en OpenBSD es conocida tanto por su trabajo de refuerzo como por su utilidad para detectar clases de errores de memoria durante desarrollo y depuración.</li>
+          <li><strong>Asignador de memoria reforzado y diagnóstico:</strong> La
+          implementación de malloc en OpenBSD es conocida tanto por su trabajo
+          de refuerzo como por su utilidad para detectar clases de errores de
+          memoria durante desarrollo y depuración.</li>
         </ul>
 
-        <p>Cuando corresponde, OpenBSD también tiende a exponer el control operativo de estas medidas mediante interfaces documentadas (habitualmente sysctl o ficheros de configuración), favoreciendo transparencia y verificabilidad.</p>
+        <p>Cuando corresponde, OpenBSD también tiende a exponer el control
+        operativo de estas medidas mediante interfaces documentadas
+        (habitualmente sysctl o ficheros de configuración), favoreciendo
+        transparencia y verificabilidad.</p>
       </section>
 
       <section>
         <h2>Servicios y utilidades con valores seguros por defecto</h2>
 
-        <p>Muchas decisiones de diseño buscan que operar de forma segura sea el camino natural. Esto se aprecia no solo en el kernel, sino también en valores por defecto de demonios y en herramientas de administración pequeñas y específicas.</p>
+        <p>Muchas decisiones de diseño buscan que operar de forma segura sea el
+        camino natural. Esto se aprecia no solo en el kernel, sino también en
+        valores por defecto de demonios y en herramientas de administración
+        pequeñas y específicas.</p>
 
         <ul>
-          <li><strong>Servidor web confinado:</strong> El <code>httpd(8)</code> base y servidores web comunes instalados desde paquetes suelen desplegarse con énfasis en confinamiento (por ejemplo, servir desde un árbol de directorios restringido).</li>
+          <li><strong>Servidor web confinado:</strong> El <code>httpd(8)</code>
+          base y servidores web comunes instalados desde paquetes suelen
+          desplegarse con énfasis en confinamiento (por ejemplo, servir desde
+          un árbol de directorios restringido).</li>
 
-          <li><strong>Controles en <code>cron(8)</code>:</strong> OpenBSD soporta opciones que reducen concurrencia accidental y pueden hacer menos predecible la ejecución de tareas, lo que aporta tanto fiabilidad como reducción de picos sincronizados.</li>
+          <li><strong>Controles en <code>cron(8)</code>:</strong> OpenBSD
+          soporta opciones que reducen concurrencia accidental y pueden hacer
+          menos predecible la ejecución de tareas, lo que aporta tanto
+          fiabilidad como reducción de picos sincronizados.</li>
 
-          <li><strong><code>rcctl(8)</code>:</strong> Una utilidad directa para habilitar y gestionar servicios manteniendo una configuración explícita y legible.</li>
+          <li><strong><code>rcctl(8)</code>:</strong> Una utilidad directa para
+          habilitar y gestionar servicios manteniendo una configuración
+          explícita y legible.</li>
 
-          <li><strong>Separación y revocación de privilegios:</strong> Es habitual que demonios y utilidades se ejecuten con privilegios reducidos y se estructuren para bajar privilegios cuando es posible, limitando impacto ante fallos.</li>
+          <li><strong>Separación y revocación de privilegios:</strong> Es
+          habitual que demonios y utilidades se ejecuten con privilegios
+          reducidos y se estructuren para bajar privilegios cuando es posible,
+          limitando impacto ante fallos.</li>
         </ul>
       </section>
 
       <section>
         <h2>Criptografía, red e integridad</h2>
 
-        <p>El ecosistema de OpenBSD incluye componentes de seguridad de red y criptografía que forman parte del sistema base o están estrechamente asociados al proyecto. Aunque muchos se usan fuera de OpenBSD, su cultura de desarrollo prioriza revisión, valores conservadores y un comportamiento operativo predecible.</p>
+        <p>El ecosistema de OpenBSD incluye componentes de seguridad de red y
+        criptografía que forman parte del sistema base o están estrechamente
+        asociados al proyecto. Aunque muchos se usan fuera de OpenBSD, su
+        cultura de desarrollo prioriza revisión, valores conservadores y un
+        comportamiento operativo predecible.</p>
 
         <ul>
-          <li><strong>OpenSSH:</strong> El proyecto mantiene OpenSSH, una herramienta de acceso remoto segura ampliamente desplegada en múltiples sistemas operativos.</li>
+          <li><strong>OpenSSH:</strong> El proyecto mantiene OpenSSH, una
+          herramienta de acceso remoto segura ampliamente desplegada en
+          múltiples sistemas operativos.</li>
 
-          <li><strong>LibreSSL:</strong> Un esfuerzo de limpieza y mantenimiento orientado a mejorar claridad y mantenibilidad en bibliotecas de TLS/criptografía.</li>
+          <li><strong>LibreSSL:</strong> Un esfuerzo de limpieza y
+          mantenimiento orientado a mejorar claridad y mantenibilidad en
+          bibliotecas de TLS/criptografía.</li>
 
-          <li><strong><code>pf(4)</code>:</strong> Un cortafuegos con un estilo de configuración claro (variables, tablas y reglas) que facilita construir políticas con primitivas legibles.</li>
+          <li><strong><code>pf(4)</code>:</strong> Un cortafuegos con un estilo
+          de configuración claro (variables, tablas y reglas) que facilita
+          construir políticas con primitivas legibles.</li>
 
-          <li><strong><code>rpki-client(8)</code>:</strong> Una herramienta para validar datos de RPKI y producir información de origen de rutas validada, relevante para operadores y para higiene de enrutamiento.</li>
+          <li><strong><code>rpki-client(8)</code>:</strong> Una herramienta
+          para validar datos de RPKI y producir información de origen de rutas
+          validada, relevante para operadores y para higiene de
+          enrutamiento.</li>
 
-          <li><strong><code>unwind(8)</code>:</strong> Un resolvedor DNS local con validación, pensado para equipos cliente y para reforzar integridad en resolución.</li>
+          <li><strong><code>unwind(8)</code>:</strong> Un resolvedor DNS local
+          con validación, pensado para equipos cliente y para reforzar
+          integridad en resolución.</li>
 
-          <li><strong><code>wg(4)</code>:</strong> Soporte para WireGuard mediante un controlador/interfaz dedicado, permitiendo configuraciones VPN modernas con un modelo operativo simple.</li>
+          <li><strong><code>wg(4)</code>:</strong> Soporte para WireGuard
+          mediante un controlador/interfaz dedicado, permitiendo
+          configuraciones VPN modernas con un modelo operativo simple.</li>
         </ul>
       </section>
 
       <section>
         <h2>Privacidad operativa y reducción de superficie de ataque</h2>
 
-        <p>OpenBSD expone palancas prácticas para reducir superficie de ataque y limitar lo que aplicaciones y servicios pueden hacer, incluso tras un compromiso. El objetivo no suele ser la “seguridad perfecta”, sino mantener fallos contenidos y observables.</p>
+        <p>OpenBSD expone palancas prácticas para reducir superficie de ataque
+        y limitar lo que aplicaciones y servicios pueden hacer, incluso tras un
+        compromiso. El objetivo no suele ser la “seguridad perfecta”, sino
+        mantener fallos contenidos y observables.</p>
 
         <ul>
-          <li><strong>Confinamiento de procesos:</strong> <code>pledge(2)</code> y <code>unveil(2)</code> permiten declarar necesidades y auto-restringirse, reduciendo impacto en caso de vulnerabilidad.</li>
+          <li><strong>Confinamiento de procesos:</strong>
+          <code>pledge(2)</code> y <code>unveil(2)</code> permiten declarar
+          necesidades y auto-restringirse, reduciendo impacto en caso de
+          vulnerabilidad.</li>
 
-          <li><strong>Controles de acceso a dispositivos:</strong> Cuando está soportado, existen controles del sistema para restringir capacidades sensibles (por ejemplo, reducir acceso a captura de audio/vídeo) alineando los valores por defecto con objetivos de privacidad.</li>
+          <li><strong>Controles de acceso a dispositivos:</strong> Cuando está
+          soportado, existen controles del sistema para restringir capacidades
+          sensibles (por ejemplo, reducir acceso a captura de audio/vídeo)
+          alineando los valores por defecto con objetivos de privacidad.</li>
 
-          <li><strong>Aleatorización de direcciones MAC:</strong> Las interfaces pueden configurarse con direcciones aleatorias para reducir trazabilidad en redes no confiables.</li>
+          <li><strong>Aleatorización de direcciones MAC:</strong> Las
+          interfaces pueden configurarse con direcciones aleatorias para
+          reducir trazabilidad en redes no confiables.</li>
 
-          <li><strong>Cifrado de swap:</strong> OpenBSD soporta configuraciones de swap cifrado para reducir el riesgo de persistencia de datos sensibles en claro en disco.</li>
+          <li><strong>Cifrado de swap:</strong> OpenBSD soporta configuraciones
+          de swap cifrado para reducir el riesgo de persistencia de datos
+          sensibles en claro en disco.</li>
 
-          <li><strong>Reducción de huella en herramientas comunes:</strong> Algunas utilidades incorporan pequeñas medidas para reducir la identificación por huella digital o el filtrado de información (por ejemplo, en herramientas de diagnóstico de red).</li>
+          <li><strong>Reducción de huella en herramientas comunes:</strong>
+          Algunas utilidades incorporan pequeñas medidas para reducir la
+          identificación por huella digital o el filtrado de información (por
+          ejemplo, en herramientas de diagnóstico de red).</li>
         </ul>
       </section>
 
       <section>
         <h2>Integración, licencias y cultura de documentación</h2>
 
-        <p>Un tema recurrente es la coherencia: el kernel, el entorno base de usuario y el modelo de administración evolucionan de forma coordinada. Esto facilita desplegar mecanismos de seguridad de manera transversal y documentarlos con consistencia.</p>
+        <p>Un tema recurrente es la coherencia: el kernel, el entorno base de
+        usuario y el modelo de administración evolucionan de forma coordinada.
+        Esto facilita desplegar mecanismos de seguridad de manera transversal y
+        documentarlos con consistencia.</p>
 
         <ul>
-          <li><strong>Kernel y entorno base de usuario desarrollados conjuntamente:</strong> Permite introducir funciones de seguridad de extremo a extremo, no solo como complementos opcionales.</li>
+          <li><strong>Kernel y entorno base de usuario desarrollados
+          conjuntamente:</strong> Permite introducir funciones de seguridad de
+          extremo a extremo, no solo como complementos opcionales.</li>
 
-          <li><strong>Licenciamiento permisivo (ISC/BSD):</strong> El proyecto favorece licencias permisivas en buena parte de su código, priorizando simplicidad de reutilización y distribución.</li>
+          <li><strong>Licenciamiento permisivo (ISC/BSD):</strong> El proyecto
+          favorece licencias permisivas en buena parte de su código,
+          priorizando simplicidad de reutilización y distribución.</li>
 
-          <li><strong>Man pages como interfaz principal:</strong> OpenBSD trata la documentación como parte del sistema: se espera que configuración y comportamiento operativo estén descritos con precisión.</li>
+          <li><strong>Man pages como interfaz principal:</strong> OpenBSD trata
+          la documentación como parte del sistema: se espera que configuración
+          y comportamiento operativo estén descritos con precisión.</li>
 
-          <li><strong>Mejora impulsada por auditoría:</strong> El modelo de seguridad valora la auditoría proactiva: corregir fallos de corrección incluso cuando la explotabilidad no está demostrada.</li>
+          <li><strong>Mejora impulsada por auditoría:</strong> El modelo de
+          seguridad valora la auditoría proactiva: corregir fallos de
+          corrección incluso cuando la explotabilidad no está demostrada.</li>
         </ul>
       </section>
 
       <section>
         <h2>Virtualización y entorno gráfico</h2>
 
-        <p>No todos los entornos son sin interfaz gráfica. OpenBSD incluye componentes para virtualización y gráficos con foco en reducir privilegios innecesarios y reforzar los valores por defecto.</p>
+        <p>No todos los entornos son sin interfaz gráfica. OpenBSD incluye
+        componentes para virtualización y gráficos con foco en reducir
+        privilegios innecesarios y reforzar los valores por defecto.</p>
 
         <ul>
-          <li><strong><code>vmm(4)</code>:</strong> OpenBSD ofrece un hipervisor integrado con un modelo deliberadamente contenido frente a alternativas orientadas a maximizar funcionalidades.</li>
+          <li><strong><code>vmm(4)</code>:</strong> OpenBSD ofrece un
+          hipervisor integrado con un modelo deliberadamente contenido frente a
+          alternativas orientadas a maximizar funcionalidades.</li>
 
-          <li><strong>X sin privilegios de root (cuando aplica):</strong> El proyecto ha trabajado para reducir requisitos de privilegios en la pila gráfica y para usar políticas y confinamiento que mitiguen riesgos.</li>
+          <li><strong>X sin privilegios de root (cuando aplica):</strong> El
+          proyecto ha trabajado para reducir requisitos de privilegios en la
+          pila gráfica y para usar políticas y confinamiento que mitiguen
+          riesgos.</li>
         </ul>
       </section>
 
       <section>
         <h2>Más que un sistema operativo: una comunidad comprometida</h2>
 
-        <p>Además de su robusta arquitectura, OpenBSD es el hogar de una comunidad activa y comprometida que trabaja incansablemente en la mejora continua del sistema. Proyectos complementarios como LibreSSL, OpenBGPD, OpenNTPD, OpenSMTPD, y OpenSSH, entre otros, forman parte integral del ecosistema, ofreciendo herramientas seguras y de alta calidad que se integran de manera natural en la distribución base.</p>
+        <p>Además de su robusta arquitectura, OpenBSD es el hogar de una
+        comunidad activa y comprometida que trabaja incansablemente en la
+        mejora continua del sistema. Proyectos complementarios como LibreSSL,
+        OpenBGPD, OpenNTPD, OpenSMTPD, y OpenSSH, entre otros, forman parte
+        integral del ecosistema, ofreciendo herramientas seguras y de alta
+        calidad que se integran de manera natural en la distribución base.</p>
 
-        <p>Esta estrecha integración entre los componentes del sistema y el compromiso de sus desarrolladores con la seguridad permiten a los usuarios disponer de una plataforma confiable, capaz de soportar desde servidores críticos hasta estaciones de trabajo para el desarrollo web.</p>
+        <p>Esta estrecha integración entre los componentes del sistema y el
+        compromiso de sus desarrolladores con la seguridad permiten a los
+        usuarios disponer de una plataforma confiable, capaz de soportar desde
+        servidores críticos hasta estaciones de trabajo para el desarrollo
+        web.</p>
       </section>
 
       <section>
         <h2>Conclusiones</h2>
 
-        <p>Si buscas un sistema operativo que combine simplicidad, seguridad y un diseño coherente, OpenBSD es una opción que merece la pena explorar. Su enfoque en la seguridad desde el diseño, la calidad de su documentación y la constante innovación en técnicas de mitigación de ataques hacen de él una herramienta indispensable para quienes valoran la estabilidad y la integridad en sus sistemas.</p>
+        <p>Si buscas un sistema operativo que combine simplicidad, seguridad y
+        un diseño coherente, OpenBSD es una opción que merece la pena explorar.
+        Su enfoque en la seguridad desde el diseño, la calidad de su
+        documentación y la constante innovación en técnicas de mitigación de
+        ataques hacen de él una herramienta indispensable para quienes valoran
+        la estabilidad y la integridad en sus sistemas.</p>
       </section>
     </article>
   </main>
@@ -207,15 +372,18 @@
 
     <ul>
       <li>
-        <a href="https://www.openbsd.org" target="_blank" rel="noopener noreferrer">OpenBSD</a>
+        <a href="https://www.openbsd.org" target="_blank" rel=
+        "noopener noreferrer">OpenBSD</a>
       </li>
 
       <li>
-        <a href="https://www.openbsd.org/innovations.html" target="_blank" rel="noopener noreferrer">Innovaciones de OpenBSD</a>
+        <a href="https://www.openbsd.org/innovations.html" target="_blank" rel=
+        "noopener noreferrer">Innovaciones de OpenBSD</a>
       </li>
 
       <li>
-        <a href="https://man.openbsd.org" target="_blank" rel="noopener noreferrer">Documentación de OpenBSD</a>
+        <a href="https://man.openbsd.org" target="_blank" rel=
+        "noopener noreferrer">Documentación de OpenBSD</a>
       </li>
     </ul>
   </footer>
@@ -223,7 +391,8 @@
   <footer>
     <p>&copy; 2024-2025 David Uhden Collado</p>
 
-    <p><a href="./../licencia.html" target="_blank" rel="noopener noreferrer">Licencia</a>
+    <p><a href="./../licencia.html" target="_blank" rel=
+    "noopener noreferrer">Licencia</a>
     </p>
   </footer>
 </body>
