@@ -129,6 +129,14 @@ header h1 {
   color: var(--heading);
 }
 
+header h2 {
+  margin: 0 0 1em;
+  font-size: clamp(1.05em, 1.1vw + 0.85em, 1.35em);
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+
 /*
  * Navigation link styles
  * Styles the main navigation links.
