@@ -1,4 +1,9 @@
 #!/bin/bash
+
+if [[ -z "${ZSH_VERSION:-}" ]] && command -v zsh >/dev/null 2>&1; then
+    exec zsh "$0" "$@"
+fi
+
 set -euo pipefail
 
 # Script to format HTML files using tidy
@@ -17,6 +22,20 @@ set -euo pipefail
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+# Basic PATH (important when run from cron)
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH
+
+if [[ -t 1 && "${NO_COLOR:-}" != "1" ]]; then
+  GREEN="\033[32m"; YELLOW="\033[33m"; RED="\033[31m"; RESET="\033[0m"
+else
+  GREEN=""; YELLOW=""; RED=""; RESET=""
+fi
+
+log()   { printf '%s %b[INFO]%b ✅ %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$GREEN" "$RESET" "$*"; }
+warn()  { printf '%s %b[WARN]%b ⚠️ %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$YELLOW" "$RESET" "$*" >&2; }
+error() { printf '%s %b[ERROR]%b ❌ %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$RED" "$RESET" "$*" >&2; }
+
 ROOT="${1:-$(dirname "$0")/..}"
 
 ensure_tidy() {
@@ -25,7 +44,7 @@ ensure_tidy() {
     fi
 
     if command -v apt-get >/dev/null 2>&1; then
-        echo "tidy not found; attempting installation with apt-get ..." >&2
+        warn "tidy not found; attempting installation with apt-get ..."
         cmd=(apt-get install -y tidy)
         if command -v sudo >/dev/null 2>&1; then
             cmd=(sudo "${cmd[@]}")
@@ -33,22 +52,29 @@ ensure_tidy() {
         if "${cmd[@]}"; then
             return 0
         fi
-        echo "error: apt-get failed to install tidy" >&2
+        error "apt-get failed to install tidy"
     else
-        echo "error: tidy is not installed and apt-get is unavailable" >&2
+        error "tidy is not installed and apt-get is unavailable"
     fi
 
     return 1
 }
 
-ensure_tidy || exit 1
+format_html_files() {
+    find "$ROOT" -type f -name '*.html' -print0 |
+    while IFS= read -r -d '' file; do
+        tidy -indent -quiet -wrap 80 -utf8 \
+          --indent-spaces 2 \
+          --tidy-mark no \
+          --preserve-entities yes \
+          --vertical-space yes \
+          -modify "$file" || warn "tidy issues in $file"
+    done
+}
 
-find "$ROOT" -type f -name '*.html' -print0 |
-while IFS= read -r -d '' file; do
-  tidy -indent -quiet -wrap 0 -utf8 \
-    --indent-spaces 2 \
-    --tidy-mark no \
-    --preserve-entities yes \
-    --vertical-space yes \
-    -modify "$file" || echo "warning: tidy issues in $file" >&2
-done
+main() {
+    ensure_tidy || exit 1
+    format_html_files
+}
+
+main "$@"
