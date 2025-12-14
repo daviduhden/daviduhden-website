@@ -32,19 +32,41 @@ my $root_dir  = File::Spec->catdir($FindBin::RealBin, '..');
 my $feed_en   = File::Spec->catfile($root_dir, 'feeds', 'blog.xml');
 my $feed_es   = File::Spec->catfile($root_dir, 'feeds', 'blog-es.xml');
 
+my $GREEN = "\e[32m";
+my $YELLOW = "\e[33m";
+my $RED = "\e[31m";
+my $RESET = "\e[0m";
+
+sub log {
+    my ($msg) = @_;
+    print "${GREEN}✅ [INFO]${RESET} $msg\n";
+}
+
+sub warn {
+    my ($msg) = @_;
+    print STDERR "${YELLOW}⚠️  [WARN]${RESET} $msg\n";
+}
+
+sub error {
+    my ($msg, $code) = @_;
+    $code //= 1;
+    print STDERR "${RED}❌ [ERROR]${RESET} $msg\n";
+    exit $code;
+}
+
 sub prompt {
     my ($message, $default) = @_;
     my $suffix = defined $default && length $default ? " [$default]" : '';
     print "$message$suffix: ";
     my $input = <STDIN>;
-    defined $input or die "Could not read input.\n";
+    defined $input or error("Could not read input.");
     chomp $input;
     return length $input ? $input : $default;
 }
 
 sub read_file {
     my ($path) = @_;
-    open my $fh, '<:raw', $path or die "Could not open $path for reading: $!\n";
+    open my $fh, '<:raw', $path or error("Could not open $path for reading: $!");
     local $/;
     my $content = <$fh>;
     close $fh;
@@ -53,7 +75,7 @@ sub read_file {
 
 sub write_file {
     my ($path, $content) = @_;
-    open my $fh, '>:raw', $path or die "Could not open $path for writing: $!\n";
+    open my $fh, '>:raw', $path or error("Could not open $path for writing: $!");
     print {$fh} $content;
     close $fh;
 }
@@ -78,7 +100,7 @@ sub normalize_slug {
 sub validate_key {
     my ($key) = @_;
     # JSON key used by redirect.js (via articles.json). Allow typical slug chars.
-    $key =~ /^[a-z0-9_-]+$/ or die "Key '$key' is invalid. Use only [a-z0-9_-].\n";
+    $key =~ /^[a-z0-9_-]+$/ or error("Key '$key' is invalid. Use only [a-z0-9_-].");
 }
 
 sub update_feed {
@@ -104,7 +126,7 @@ sub update_feed {
     my $content = read_file($path);
 
     if ($content =~ /\Q$link\E/) {
-        warn "Warning: feed $path already contains a link to $link. Skipping insert.\n";
+        warn("Feed $path already contains a link to $link. Skipping insert.");
         return;
     }
 
@@ -121,12 +143,10 @@ sub update_feed {
         $inserted = $content =~ s{(</channel>)}{$item$1}m;
     }
 
-    unless ($inserted) {
-        die "Could not insert the new item into $path.\n";
-    }
+    error("Could not insert the new item into $path.") unless $inserted;
 
     write_file($path, $content);
-    print "Updated feed: $path\n";
+    log("Updated feed: $path");
 }
 
 sub update_articles_json {
@@ -142,7 +162,7 @@ sub update_articles_json {
 
     # Ensure data directory exists
     unless (-d $data_dir) {
-        mkdir $data_dir or die "Could not create $data_dir: $!\n";
+        mkdir $data_dir or error("Could not create $data_dir: $!");
     }
 
     my $articles = {};
@@ -152,7 +172,7 @@ sub update_articles_json {
             $articles = JSON::PP->new->utf8->decode($jcontent);
             1;
         } or do {
-            warn "Warning: could not parse existing $json_file, overwriting.\n";
+            warn("Could not parse existing $json_file, overwriting.");
             $articles = {};
         };
     }
@@ -169,12 +189,12 @@ sub update_articles_json {
     my $json_out = JSON::PP->new->utf8->canonical->pretty->encode($articles);
 
     # Write as UTF-8 (no need to escape non-ASCII titles)
-    open my $fh, '>:encoding(UTF-8)', $json_file
-      or die "Could not open $json_file for writing: $!\n";
+        open my $fh, '>:encoding(UTF-8)', $json_file
+            or error("Could not open $json_file for writing: $!");
     print {$fh} $json_out;
     close $fh;
 
-    print "Updated mapping: $json_file\n";
+        log("Updated mapping: $json_file");
 }
 
 # =========================
@@ -183,7 +203,7 @@ sub update_articles_json {
 my $today = strftime('%a, %d %b %Y %H:%M:%S GMT', gmtime());
 
 my $slug_en = normalize_slug(prompt('English slug (without .html, e.g., gpl)', ''));
-length $slug_en or die "English slug is required.\n";
+length $slug_en or error('English slug is required.');
 
 my $slug_es = normalize_slug(prompt('Spanish slug (without .html)', $slug_en . '-es'));
 
@@ -220,4 +240,4 @@ update_articles_json(
     title_es => $title_es,
 );
 
-print "Done. Review changes in feeds and data/articles.json (redirect.js loads it).\n";
+log('Done. Review changes in feeds and data/articles.json (redirect.js loads it).');
