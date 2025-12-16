@@ -317,17 +317,23 @@ code {
 
 /*
  * Footer styling
- * Sets spacing and a subtle style for footnotes.
+ * Center footer content, except footnote paragraphs.
  */
 footer {
   padding: 1.25em 0 2em;
-  text-align: left;
+  text-align: center;
   color: var(--muted);
   font-size: 0.95em;
 }
 
 footer p {
   margin: 0.35em 0;
+  text-align: center;
+}
+
+/* Keep footnote paragraphs left-aligned (those that contain <sup>) */
+footer p:has(sup) {
+  text-align: left;
 }
 
 footer p sup {
