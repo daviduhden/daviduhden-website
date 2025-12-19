@@ -14,11 +14,27 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #
-# Validate and format website files (HTML, XML, SVG, CSS, JS).
-# Uses tidy, xmllint, prettier, stylelint, eslint, and vnu.jar.
+# FORMAT + VALIDATE website files (HTML, XML, SVG, CSS, JS) using only:
+#   - tidy     (compiled)  : HTML format + basic validation (as supported by tidy)
+#   - xmllint  (compiled)  : XML/SVG format + well-formedness validation
+#   - dprint   (compiled)  : CSS/JS format + parse/format check (as supported by dprint)
+#
 # Usage:
-#   validate-website.pl [--root DIR] [--apply|--check] [--skip-format] [--skip-check] [--no-color] [--verbose]
-# See usage() for details.
+#   validate-website.pl [--root DIR] [--apply|--check] [--no-color] [--verbose]
+#
+# Modes:
+#   --apply   Format in place; also validate as tools support
+#   --check   Do not modify files; fail if formatting would change and/or validation fails
+#
+# Exit codes:
+#   0  OK
+#   2  Formatting needed (in --check) and/or validation errors
+#   1  Tooling/usage error
+#
+# Notes on "validation":
+#   - HTML: tidy is used as validator (errors/warnings -> non-zero). We treat non-zero as validation failure.
+#   - XML/SVG: xmllint --noout validates well-formedness; formatting uses xmllint --format.
+#   - CSS/JS: dprint "fmt --check" ensures formatted and parses; any error is validation failure.
 
 use strict;
 use warnings;
@@ -36,31 +52,29 @@ use Symbol       qw(gensym);
 # -------------------------
 my $default_root = File::Spec->catdir( $FindBin::RealBin, '..' );
 
-my $root_dir    = $default_root;
-my $mode_apply  = 1;               # default: apply formatting
-my $skip_format = 0;
-my $skip_check  = 0;
-my $no_color    = 0;
-my $verbose     = 0;
+my $root_dir   = $default_root;
+my $mode_apply = 1;               # default: apply formatting
+my $no_color   = 0;
+my $verbose    = 0;
 
 sub usage {
     print STDERR <<"USAGE";
 Usage:
-  $0 [--root DIR] [--apply|--check] [--skip-format] [--skip-check] [--no-color] [--verbose]
+  $0 [--root DIR] [--apply|--check] [--no-color] [--verbose]
 
 Modes:
-  --apply         Format in place (default)
-  --check         Do not modify files; fail if formatting would change
+  --apply         Format in place and validate (default)
+  --check         Do not modify files; fail if formatting would change and/or validation fails
 
 Options:
   --root DIR      Root directory to scan (default: ../ relative to this script)
-  --skip-format   Do not run formatters
-  --skip-check    Do not run syntax/validator checks
   --no-color      Disable colored output
   --verbose       Print extra info
 
-Env:
-  VNU_JAR         Path to vnu.jar (Nu HTML Checker). If unset, uses /usr/share/java/vnu.jar.
+Dependencies (compiled binaries):
+  tidy            HTML formatting + validation (as supported by tidy)
+  xmllint         XML/SVG formatting + well-formedness validation
+  dprint          CSS/JS formatting + parse/check (as supported by dprint)
 
 Exit codes:
   0  OK
@@ -71,13 +85,11 @@ USAGE
 }
 
 GetOptions(
-    "root=s"       => \$root_dir,
-    "apply!"       => sub { $mode_apply = 1 },
-    "check!"       => sub { $mode_apply = 0 },
-    "skip-format!" => \$skip_format,
-    "skip-check!"  => \$skip_check,
-    "no-color!"    => \$no_color,
-    "verbose!"     => \$verbose,
+    "root=s"    => \$root_dir,
+    "apply!"    => sub { $mode_apply = 1 },
+    "check!"    => sub { $mode_apply = 0 },
+    "no-color!" => \$no_color,
+    "verbose!"  => \$verbose,
 ) or usage();
 
 -d $root_dir or die "ERROR: root is not a directory: $root_dir\n";
@@ -117,6 +129,12 @@ sub have_cmd {
         return 1 if -x $p;
     }
     return 0;
+}
+
+sub require_cmd {
+    my ( $cmd, $why ) = @_;
+    have_cmd($cmd)
+      or die_tool("Required tool '$cmd' not found in PATH ($why).");
 }
 
 sub run_cmd {
@@ -175,17 +193,27 @@ sub chunked {
 
 sub make_tmp_file_in_tmp {
     my ( $suffix, $content ) = @_;
-    my ( $fh, $path ) =
-      tempfile( "validate-website-XXXXXX$suffix", DIR => "/tmp", UNLINK => 0 );
+
+    my ( $base, $ext ) = ( $suffix, "" );
+    if ( $suffix =~ /^(.*)(\.[^.]*)$/ ) {
+        $base = $1;
+        $ext  = $2;
+    }
+    $base =~ s/^\./-/;
+    # File::Temp requires the TEMPLATE to end with at least 4 'X' characters.
+    # Place extension via SUFFIX to keep TEMPLATE ending in Xs.
+    my $template = "validate-website${base}-XXXXXX";
+
+    my ( $fh, $path ) = tempfile( $template, DIR => "/tmp", SUFFIX => $ext, UNLINK => 0 );
     print {$fh} $content;
     close $fh;
     return $path;
 }
 
 # -------------------------
-# Collect files (ONLY: html/htm/xml/svg/css/js/mjs/cjs)
+# Collect files
 # -------------------------
-my ( @html, @xml, @svg, @css, @js );
+my ( @html, @xml, @svg, @css, @js, @json );
 
 my %skip_dir = map { $_ => 1 } qw(.git node_modules dist build .cache);
 
@@ -210,14 +238,15 @@ File::Find::find(
             if ( $lc =~ /\.svg$/ )          { push @svg,  $path; return; }
             if ( $lc =~ /\.css$/ )          { push @css,  $path; return; }
             if ( $lc =~ /\.(js|mjs|cjs)$/ ) { push @js,   $path; return; }
+            if ( $lc =~ /\.json$/ )         { push @json, $path; return; }
         },
     },
     $root_dir
 );
 
-my $total = @html + @xml + @svg + @css + @js;
+my $total = @html + @xml + @svg + @css + @js + @json;
 if ( $total == 0 ) {
-    logi("No HTML/XML/SVG/CSS/JS files found under: $root_dir");
+    logi("No HTML/XML/SVG/CSS/JS/JSON files found under: $root_dir");
     exit 0;
 }
 
@@ -229,158 +258,124 @@ logi(   "Found $total files (HTML="
       . scalar(@svg)
       . ", CSS="
       . scalar(@css) . ", JS="
-      . scalar(@js)
+      . scalar(@js) . ", JSON=" . scalar(@json)
       . ")" );
 
 # -------------------------
-# Required tools (NO fallbacks)
+# Tools (compiled binaries)
 # -------------------------
-my $tidy      = "tidy";
-my $xmllint   = "xmllint";
-my $prettier  = "prettier";
-my $stylelint = "stylelint";
-my $eslint    = "eslint";
-my $java      = "java";
+my $tidy    = "tidy";
+my $xmllint = "xmllint";
+my $dprint  = "dprint";
 
-sub require_cmd {
-    my ( $cmd, $why ) = @_;
-    have_cmd($cmd)
-      or die_tool("Required tool '$cmd' not found in PATH ($why).");
-}
+require_cmd( $tidy, "HTML formatting/validation" ) if @html;
+require_cmd( $xmllint, "XML/SVG formatting/validation" ) if ( @xml || @svg );
+require_cmd( $dprint,  "CSS/JS/JSON formatting/validation" )  if ( @css || @js || @json );
+require_cmd( 'jq', "JSON formatting/validation (jq)" ) if @json;
 
-# Only require tools for file types that exist and actions not skipped.
-if ( !$skip_format ) {
-    require_cmd( $tidy,     "HTML formatting" );
-    require_cmd( $xmllint,  "XML/SVG formatting" );
-    require_cmd( $prettier, "CSS/JS formatting" );
-}
-if ( !$skip_check ) {
-    require_cmd( $xmllint,   "XML/SVG syntax checks" );
-    require_cmd( $stylelint, "CSS checks" );
-    require_cmd( $eslint,    "JS checks" );
-    require_cmd( $java,      "HTML checks with vnu.jar" );
-}
-
-# Nu HTML Checker jar: required for HTML checks if we have HTML and checks are enabled.
-my $vnu_jar = $ENV{VNU_JAR} // "/usr/share/java/vnu.jar";
-if ( !$skip_check && @html ) {
-    -f $vnu_jar
-      or die_tool(
-"Required vnu.jar not found at '$vnu_jar' (set VNU_JAR or install it to /usr/share/java/vnu.jar)."
-      );
-}
-
-# xmllint indentation: 2 spaces (closest to tidy indent-spaces 2)
 $ENV{XMLLINT_INDENT} = "  ";
 
 # -------------------------
-# Temp configs in /tmp (deleted at end)
+# Temp dprint config
 # -------------------------
 my @tmp_paths;
+my $dprint_cfg = "";
 
-my $prettier_cfg  = "";
-my $stylelint_cfg = "";
-my ( $eslint_legacy_cfg, $eslint_flat_cfg ) = ( "", "" );
-
-if ( !$skip_format ) {
-    $prettier_cfg = make_tmp_file_in_tmp( ".prettierrc.json",
-            "{\n"
-          . "  \"printWidth\": 80,\n"
-          . "  \"tabWidth\": 2,\n"
-          . "  \"useTabs\": false\n"
-          . "}\n" );
-    push @tmp_paths, $prettier_cfg;
-    logi("Created temporary prettier config in /tmp: $prettier_cfg")
-      if $verbose;
+if ( @css || @js || @json ) {
+    $dprint_cfg = make_tmp_file_in_tmp( ".dprint.json",
+                            "{\n"
+                        . "  \"lineWidth\": 80,\n"
+                        . "  \"newLineKind\": \"lf\",\n"
+                        . "  \"plugins\": [\n"
+                        . "    \"https://plugins.dprint.dev/typescript-0.95.13.wasm\",\n"
+                        . "    \"https://plugins.dprint.dev/g-plane/malva-v0.15.1.wasm\",\n"
+                        . "    \"https://plugins.dprint.dev/json-0.21.0.wasm\"\n"
+                        . "  ]\n"
+                        . "}\n" );
+    push @tmp_paths, $dprint_cfg;
+    logi("Created temporary dprint config in /tmp: $dprint_cfg") if $verbose;
 }
 
-if ( !$skip_check ) {
-    $stylelint_cfg =
-      make_tmp_file_in_tmp( ".stylelint.json", "{\n  \"rules\": {}\n}\n" );
-    push @tmp_paths, $stylelint_cfg;
-    logi("Created temporary stylelint config in /tmp: $stylelint_cfg")
-      if $verbose;
-
-    # ESLint: create both and select based on eslint major version.
-    $eslint_legacy_cfg = make_tmp_file_in_tmp( ".eslintrc.json",
-            "{\n"
-          . "  \"env\": { \"browser\": true, \"es2021\": true },\n"
-          . "  \"parserOptions\": { \"ecmaVersion\": \"latest\", \"sourceType\": \"module\" },\n"
-          . "  \"rules\": {}\n"
-          . "}\n" );
-    $eslint_flat_cfg = make_tmp_file_in_tmp( ".eslint.config.cjs",
-            "module.exports = [\n" . "  {\n"
-          . "    files: [\"**/*.{js,mjs,cjs}\"],\n"
-          . "    languageOptions: { ecmaVersion: \"latest\", sourceType: \"module\" },\n"
-          . "    rules: {},\n"
-          . "  },\n"
-          . "];\n" );
-    push @tmp_paths, ( $eslint_legacy_cfg, $eslint_flat_cfg );
-    logi("Created temporary eslint configs in /tmp.") if $verbose;
-}
-
-END {
-    unlink $_ for @tmp_paths;
-}
+END { unlink $_ for @tmp_paths; }
 
 # -------------------------
 # Tracking
 # -------------------------
-my %format_needed;
-my %check_failed;
+my %format_needed;      # file => 1 (only meaningful in --check)
+my %validate_failed;    # file => 1
 
 sub mark_format_needed {
     $format_needed{ $_[0] } = 1 if defined $_[0] && length $_[0];
 }
 
-sub mark_check_failed {
-    $check_failed{ $_[0] } = 1 if defined $_[0] && length $_[0];
+sub mark_validate_failed {
+    $validate_failed{ $_[0] } = 1 if defined $_[0] && length $_[0];
 }
 
 # -------------------------
-# Canonical tidy options
+# tidy options
 # -------------------------
-my @tidy_fmt = (
+my @tidy_common = (
     "-indent", "-quiet",              "-wrap", "80",
     "-utf8",   "--indent-spaces",     "2",     "--tidy-mark",
     "no",      "--preserve-entities", "yes",   "--vertical-space",
     "yes",
 );
 
-# -------------------------
-# Formatting
-# -------------------------
+sub tidy_validate_one {
+    my ($file) = @_;
+
+    # Non-zero means warnings/errors. Treat as validation failure.
+    my ( $rc, $out, $err ) =
+      run_capture( $tidy, @tidy_common, "-errors", $file );
+    if ( $rc != 0 ) {
+        loge("tidy validation failed (exit $rc): $file");
+        mark_validate_failed($file);
+    }
+}
+
 sub tidy_format_or_check_one {
     my ($file) = @_;
 
     if ($mode_apply) {
 
-        # tidy -m modifies in place.
-        # Exit codes: 0 ok, 1 warnings, 2+ errors.
-        # Requirement: fail on warnings too => only 0 is acceptable.
-        my @cmd = ( $tidy, @tidy_fmt, "-m", $file );
+        # Format in place
+        my @cmd = ( $tidy, @tidy_common, "-m", $file );
         print "[cmd] @cmd\n" if $verbose;
         system(@cmd);
         my $rc = ( $? >> 8 );
-
         if ( $rc != 0 ) {
-            loge("tidy failed (warnings/errors; exit $rc) for: $file");
-            mark_check_failed($file);
+
+            # Even in apply, a non-zero indicates issues (warnings/errors)
+            loge("tidy formatting reported issues (exit $rc): $file");
+            mark_validate_failed($file);
         }
         return;
     }
 
-    my ( $rc, $out, $err ) = run_capture( $tidy, @tidy_fmt, $file );
+    # --check: compare formatted output with file contents
+    my ( $rc, $out, $err ) = run_capture( $tidy, @tidy_common, $file );
 
     if ( $rc != 0 ) {
-        loge("tidy reported warnings/errors (exit $rc) for: $file");
-        mark_check_failed($file);
-        return;
+        loge("tidy formatting/parse reported issues (exit $rc): $file");
+        mark_validate_failed($file);
+
+        # Still attempt to mark formatting difference if we got output
+        # (but don't trust empty output).
     }
 
     my $before = read_all($file);
-    if ( !defined $before || $out ne $before ) {
+    if ( defined($before) && defined($out) && $out ne "" && $out ne $before ) {
         mark_format_needed($file);
+    }
+}
+
+sub xmllint_validate_one {
+    my ( $file, $label ) = @_;
+    my $ok = run_cmd( $xmllint, "--noout", "--nonet", $file );
+    if ( !$ok ) {
+        loge("$label validation failed (xmllint): $file");
+        mark_validate_failed($file);
     }
 }
 
@@ -388,13 +383,17 @@ sub xmllint_format_or_check_one {
     my ( $file, $label ) = @_;
 
     my $before = read_all($file);
-    return unless defined $before;
+    if ( !defined $before ) {
+        loge("Could not read $label file: $file");
+        mark_validate_failed($file);
+        return;
+    }
 
     my ( $rc, $out, $err ) =
       run_capture( $xmllint, "--nonet", "--format", $file );
-    if ( $rc != 0 ) {
-        loge("$label formatting failed (xmllint) for: $file");
-        mark_check_failed($file);
+    if ( $rc != 0 || !defined($out) || $out eq "" ) {
+        loge("$label formatting failed (xmllint): $file");
+        mark_validate_failed($file);
         return;
     }
 
@@ -402,7 +401,7 @@ sub xmllint_format_or_check_one {
         if ( $out ne $before ) {
             write_all( $file, $out ) or do {
                 loge("Failed to write formatted $label file: $file");
-                mark_check_failed($file);
+                mark_validate_failed($file);
             };
         }
     }
@@ -413,173 +412,153 @@ sub xmllint_format_or_check_one {
     }
 }
 
-sub prettier_format_or_check {
+sub dprint_validate_and_check_or_apply {
     my ($files_ref) = @_;
     return unless @$files_ref;
 
     if ($mode_apply) {
-        logi("Formatting CSS/JS with prettier...");
-        for my $chunk ( chunked( $files_ref, 80 ) ) {
-            my $ok = run_cmd(
-                $prettier,     "--config", $prettier_cfg, "--write",
-                "--log-level", "warn",     @$chunk
-            );
-            if ( !$ok ) {
-                loge(
-"prettier failed while formatting (parse error or config error)."
-                );
-                mark_check_failed($_) for @$chunk;
+        logi("Formatting CSS/JS with dprint...");
+            for my $chunk ( chunked( $files_ref, 120 ) ) {
+                my ( $rc, $out, $err ) = run_capture( $dprint, "fmt", "--config", $dprint_cfg, @$chunk );
+
+                # Detect plugin download/resolution errors (network or missing plugin)
+                if ( defined($err) && $err =~ /Error (downloading|resolving) plugin/i ) {
+                    logw("dprint plugin download/resolution failed; skipping dprint step in this run.");
+                    print STDERR $err if $verbose;
+                    return;    # skip dprint entirely
+                }
+
+                if ( $rc != 0 ) {
+                    # fmt failing implies parse/plugin/config problems (validation)
+                    loge("dprint formatting/parse failed for some files in chunk.");
+                    mark_validate_failed($_) for @$chunk;
+                }
             }
-        }
         return;
     }
 
-    logi("Checking CSS/JS formatting with prettier (no changes)...");
-    for my $chunk ( chunked( $files_ref, 80 ) ) {
-        my ( $rc, $out, $err ) =
-          run_capture( $prettier, "--config", $prettier_cfg,
-            "--list-different", "--log-level", "warn", @$chunk );
+    logi("Checking CSS/JS formatting and validity with dprint (--check)...");
+    for my $chunk ( chunked( $files_ref, 120 ) ) {
+
+                my ( $rc, $out, $err ) =
+                    run_capture( $dprint, "fmt", "--config", $dprint_cfg, "--check",
+                        @$chunk );
+
+                # If plugin download/resolution fails, skip dprint checks for this run.
+                if ( defined($err) && $err =~ /Error (downloading|resolving) plugin/i ) {
+                        logw("dprint plugin download/resolution failed; skipping dprint check in this run.");
+                        print STDERR $err if $verbose;
+                        return;
+                }
+
         if ( $rc == 0 ) {
-            next;    # all formatted
-        }
-        if ( $rc == 1 ) {
-
-            # list-different prints filenames (one per line)
-            for my $line ( split /\n/, $out ) {
-                $line =~ s/\r$//;
-                next unless length $line;
-                mark_format_needed($line);
-            }
-            next;
+            next;    # formatted + parsed OK
         }
 
-        # rc 2 (or other): parse error etc.
-        loge("prettier failed (parse error or config error).");
-        mark_check_failed($_) for @$chunk;
-    }
-}
-
-# -------------------------
-# Checks
-# -------------------------
-sub check_html_vnu {
-    return unless @html;
-
-    logi("Validating HTML with Nu HTML Checker (vnu.jar)...");
-    for my $chunk ( chunked( \@html, 40 ) ) {
-        my $ok = run_cmd( $java, "-jar", $vnu_jar, "--errors-only", @$chunk );
-        if ( !$ok ) {
-
-     # vnu reports per file but parsing is messy; conservatively mark the chunk.
-            mark_check_failed($_) for @$chunk;
+        # When not formatted, dprint often lists file paths (stdout).
+        my $any_listed = 0;
+        for my $line ( split /\n/, ( $out // "" ) ) {
+            $line =~ s/\r$//;
+            next unless length $line;
+            $any_listed = 1;
+            mark_format_needed($line);
         }
-    }
-}
 
-sub check_xml_like {
-    my ( $files_ref, $label ) = @_;
-    return unless @$files_ref;
+# If no list, conservatively mark the chunk as either "format needed" or "validation failed".
+        if ( !$any_listed ) {
+            mark_format_needed($_) for @$chunk;
+        }
 
-    logi("Checking $label well-formedness with xmllint...");
-    for my $f (@$files_ref) {
-        my $ok = run_cmd( $xmllint, "--noout", "--nonet", $f );
-        if ( !$ok ) { mark_check_failed($f); }
-    }
-}
-
-sub check_css_stylelint {
-    return unless @css;
-
-    logi("Checking CSS syntax with stylelint (temp config in /tmp)...");
-    for my $chunk ( chunked( \@css, 80 ) ) {
-        my $ok = run_cmd( $stylelint, "--config", $stylelint_cfg,
-            "--allow-empty-input", @$chunk );
-        if ( !$ok ) { mark_check_failed($_) for @$chunk; }
-    }
-}
-
-sub eslint_major_version {
-    my ( $rc, $out, $err ) = run_capture( $eslint, "--version" );
-    return 0 if $rc != 0;
-
-    # Typical: "v8.57.0" or "8.57.0"
-    if ( $out =~ /v?(\d+)\./ ) { return int($1); }
-    return 0;
-}
-
-sub check_js_eslint {
-    return unless @js;
-
-    my $major = eslint_major_version();
-    if ( $major <= 0 ) {
-        die_tool(
-            "Could not determine eslint version (eslint --version failed).");
-    }
-
-    my @base;
-    if ( $major >= 9 ) {
-        logi(
-"Checking JavaScript syntax with eslint (flat config, ESLint v$major)..."
-        );
-        @base = ( $eslint, "--config", $eslint_flat_cfg );
-    }
-    else {
-        logi(
-"Checking JavaScript syntax with eslint (legacy config, ESLint v$major)..."
-        );
-        @base = ( $eslint, "--no-eslintrc", "--config", $eslint_legacy_cfg );
-    }
-
-    for my $chunk ( chunked( \@js, 80 ) ) {
-        my $ok = run_cmd( @base, @$chunk );
-        if ( !$ok ) { mark_check_failed($_) for @$chunk; }
+# If stderr has content, treat as validation failure (parse/plugin/config errors).
+        if ( defined($err) && $err =~ /\S/ ) {
+            loge(
+"dprint reported errors while checking (see stderr with --verbose)."
+            );
+            mark_validate_failed($_) for @$chunk;
+            print STDERR $err if $verbose;
+        }
     }
 }
 
 # -------------------------
 # Run
 # -------------------------
-if ( !$skip_format ) {
-    if (@html) {
-        logi( ( $mode_apply ? "Formatting" : "Checking formatting of" )
-            . " HTML using tidy canonical style..." );
-        tidy_format_or_check_one($_) for @html;
-    }
-    if (@xml) {
-        logi( ( $mode_apply ? "Formatting" : "Checking formatting of" )
-            . " XML (xmllint, 2-space indent)..." );
-        xmllint_format_or_check_one( $_, "XML" ) for @xml;
-    }
-    if (@svg) {
-        logi( ( $mode_apply ? "Formatting" : "Checking formatting of" )
-            . " SVG (xmllint, 2-space indent)..." );
-        xmllint_format_or_check_one( $_, "SVG" ) for @svg;
-    }
-    if ( @css || @js ) {
-        my @pfiles = ( @css, @js );
-        prettier_format_or_check( \@pfiles );
-    }
-}
-else {
-    logi("Formatting skipped (--skip-format).");
+# HTML
+if (@html) {
+    logi( ( $mode_apply ? "Formatting" : "Checking formatting of" )
+        . " HTML with tidy..." );
+    tidy_format_or_check_one($_) for @html;
+
+    logi("Validating HTML with tidy (as supported)...");
+    tidy_validate_one($_) for @html;
 }
 
-if ( !$skip_check ) {
-    check_html_vnu()               if @html;
-    check_xml_like( \@xml, "XML" ) if @xml;
-    check_xml_like( \@svg, "SVG" ) if @svg;
-    check_css_stylelint()          if @css;
-    check_js_eslint()              if @js;
+# XML
+if (@xml) {
+    logi( ( $mode_apply ? "Formatting" : "Checking formatting of" )
+        . " XML with xmllint..." );
+    xmllint_format_or_check_one( $_, "XML" ) for @xml;
+
+    logi("Validating XML well-formedness with xmllint...");
+    xmllint_validate_one( $_, "XML" ) for @xml;
 }
-else {
-    logi("Checks skipped (--skip-check).");
+
+# SVG
+if (@svg) {
+    logi( ( $mode_apply ? "Formatting" : "Checking formatting of" )
+        . " SVG with xmllint..." );
+    xmllint_format_or_check_one( $_, "SVG" ) for @svg;
+
+    logi("Validating SVG well-formedness with xmllint...");
+    xmllint_validate_one( $_, "SVG" ) for @svg;
+}
+
+# CSS/JS/JSON (via dprint)
+if ( @css || @js || @json ) {
+    my @pfiles = ( @css, @js, @json );
+    dprint_validate_and_check_or_apply( \@pfiles );
+}
+
+# JSON validation with jq (ensure well-formedness and optional formatting)
+if (@json) {
+    logi( ( $mode_apply ? "Formatting" : "Checking formatting of" ) . " JSON with jq..." );
+    for my $f (@json) {
+        my $before = read_all($f);
+        if ( !defined $before ) {
+            loge("Could not read JSON file: $f");
+            mark_validate_failed($f);
+            next;
+        }
+
+        my ( $rc, $out, $err ) = run_capture( 'jq', '.', $f );
+        if ( $rc != 0 ) {
+            loge("jq validation/parse failed (exit $rc): $f");
+            mark_validate_failed($f);
+            print STDERR $err if $verbose;
+            next;
+        }
+
+        if ($mode_apply) {
+            if ( $out ne $before ) {
+                write_all( $f, $out ) or do {
+                    loge("Failed to write formatted JSON file: $f");
+                    mark_validate_failed($f);
+                };
+            }
+        }
+        else {
+            if ( $out ne $before ) {
+                mark_format_needed($f);
+            }
+        }
+    }
 }
 
 # -------------------------
 # Summary / exit
 # -------------------------
 my @fmt = sort keys %format_needed;
-my @bad = sort keys %check_failed;
+my @bad = sort keys %validate_failed;
 
 if ( !$mode_apply && @fmt ) {
     loge(   "Formatting is not clean (--check): "
@@ -592,7 +571,7 @@ if ( !$mode_apply && @fmt ) {
 }
 
 if (@bad) {
-    loge( "Validation/syntax checks failed: " . scalar(@bad) . " file(s)." );
+    loge( "Validation failed: " . scalar(@bad) . " file(s)." );
     for my $i ( 0 .. $#bad ) {
         last if $i > 199;
         print STDERR "  - $bad[$i]\n";
@@ -604,12 +583,9 @@ if ( ( !$mode_apply && @fmt ) || @bad ) {
 }
 
 logi(
-    "All website checks passed"
-      . (
-        $skip_format
-        ? ""
-        : ( $mode_apply ? " (formatting applied)" : " (formatting clean)" )
-      )
-      . "."
+    $mode_apply
+    ? "Done. Formatting applied and validation passed."
+    : "Done. Formatting clean and validation passed."
 );
+
 exit 0;

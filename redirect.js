@@ -17,29 +17,29 @@
  */
 
 (() => {
-  'use strict';
+  "use strict";
 
   // =========================
   // Config
   // =========================
-  const DISABLE_KEY = 'langRedirectDisabledUntil'; // timestamp (ms)
+  const DISABLE_KEY = "langRedirectDisabledUntil"; // timestamp (ms)
   const DISABLE_DAYS = 30; // how long to respect manual language choice
-  const JSON_CACHE_KEY = 'articlesMapCache:v1';
+  const JSON_CACHE_KEY = "articlesMapCache:v1";
   const JSON_CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 
   // Main pages (filenames only; URLs are built later)
   const MAIN_PAGES = {
-    index: { es: 'index-es.html', en: 'index.html' },
-    blog: { es: 'blog-es.html', en: 'blog.html' },
-    license: { es: 'licencia.html', en: 'license.html' }
+    index: { es: "index-es.html", en: "index.html" },
+    blog: { es: "blog-es.html", en: "blog.html" },
+    license: { es: "licencia.html", en: "license.html" },
   };
 
   // Fallback static mapping (filenames only; URLs are built later)
   const FALLBACK_ARTICLES = {
-    gpl: { en: 'gpl.html', es: 'gpl-es.html' },
-    openbsd: { en: 'openbsd.html', es: 'openbsd-es.html' },
-    systems: { en: 'systems.html', es: 'sistemas.html' },
-    unix: { en: 'unix.html', es: 'unix-es.html' }
+    gpl: { en: "gpl.html", es: "gpl-es.html" },
+    openbsd: { en: "openbsd.html", es: "openbsd-es.html" },
+    systems: { en: "systems.html", es: "sistemas.html" },
+    unix: { en: "unix.html", es: "unix-es.html" },
   };
 
   // =========================
@@ -48,10 +48,16 @@
   const now = () => Date.now();
 
   function safeLocalStorageGet(key) {
-    try { return localStorage.getItem(key); } catch { return null; }
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
   }
   function safeLocalStorageSet(key, value) {
-    try { localStorage.setItem(key, value); } catch { /* ignore */ }
+    try {
+      localStorage.setItem(key, value);
+    } catch { /* ignore */ }
   }
 
   // Disable auto redirect for a while after the user explicitly switches language
@@ -73,20 +79,26 @@
     // If any preferred language starts with "es", pick Spanish, otherwise English.
     const langs = (navigator.languages && navigator.languages.length)
       ? navigator.languages
-      : [navigator.language || 'en'];
-    return langs.some(l => String(l).toLowerCase().startsWith('es')) ? 'es' : 'en';
+      : [navigator.language || "en"];
+    return langs.some(l => String(l).toLowerCase().startsWith("es"))
+      ? "es"
+      : "en";
   }
 
   function currentFileName(url) {
     // /path/ -> index.html ; /path/file.html -> file.html
     const p = url.pathname;
-    if (p.endsWith('/')) return 'index.html';
-    const last = p.split('/').pop() || 'index.html';
-    try { return decodeURIComponent(last); } catch { return last; }
+    if (p.endsWith("/")) return "index.html";
+    const last = p.split("/").pop() || "index.html";
+    try {
+      return decodeURIComponent(last);
+    } catch {
+      return last;
+    }
   }
 
   function buildBaseUrls(url) {
-    const parts = url.pathname.split('/').filter(Boolean);
+    const parts = url.pathname.split("/").filter(Boolean);
 
     // Current supported structure:
     //   /articles/*
@@ -122,12 +134,14 @@
     // --- End future-proof rootBase calculation ---
 
     // Current behavior (OK for /articles/* only):
-    const isInArticles = parts.includes('articles');
-    const rootBase = isInArticles ? new URL('../', url) : new URL('./', url);
+    const isInArticles = parts.includes("articles");
+    const rootBase = isInArticles ? new URL("../", url) : new URL("./", url);
 
     // Build base URLs
-    const articlesBase = isInArticles ? new URL('./', url) : new URL('articles/', rootBase);
-    const jsonUrl = new URL('data/articles.json', rootBase);
+    const articlesBase = isInArticles
+      ? new URL("./", url)
+      : new URL("articles/", rootBase);
+    const jsonUrl = new URL("data/articles.json", rootBase);
 
     return { isInArticles, rootBase, articlesBase, jsonUrl };
   }
@@ -196,8 +210,10 @@
       const raw = sessionStorage.getItem(JSON_CACHE_KEY);
       if (!raw) return null;
       const parsed = JSON.parse(raw);
-      if (!parsed || typeof parsed !== 'object') return null;
-      if (!parsed.savedAt || (now() - parsed.savedAt) > JSON_CACHE_TTL_MS) return null;
+      if (!parsed || typeof parsed !== "object") return null;
+      if (!parsed.savedAt || (now() - parsed.savedAt) > JSON_CACHE_TTL_MS) {
+        return null;
+      }
       return parsed.data || null;
     } catch {
       return null;
@@ -206,7 +222,10 @@
 
   function writeJsonCache(data) {
     try {
-      sessionStorage.setItem(JSON_CACHE_KEY, JSON.stringify({ savedAt: now(), data }));
+      sessionStorage.setItem(
+        JSON_CACHE_KEY,
+        JSON.stringify({ savedAt: now(), data }),
+      );
     } catch {
       /* ignore */
     }
@@ -220,8 +239,11 @@
     const timeout = setTimeout(() => controller.abort(), 2500);
 
     try {
-      const resp = await fetch(jsonUrlHref, { cache: 'no-cache', signal: controller.signal });
-      if (!resp.ok) throw new Error('articles.json not available');
+      const resp = await fetch(jsonUrlHref, {
+        cache: "no-cache",
+        signal: controller.signal,
+      });
+      if (!resp.ok) throw new Error("articles.json not available");
       const data = await resp.json();
       writeJsonCache(data);
       return data;
@@ -240,9 +262,11 @@
 
   // Always install the language-switch handler (delegation), even if we return early.
   // This works even if buttons are added later or inside templates.
-  document.addEventListener('DOMContentLoaded', () => {
-    document.addEventListener('click', (e) => {
-      const el = e.target && e.target.closest ? e.target.closest('.lang-switch') : null;
+  document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("click", (e) => {
+      const el = e.target && e.target.closest
+        ? e.target.closest(".lang-switch")
+        : null;
       if (el) disableAutoRedirect();
     }, { passive: true });
   });

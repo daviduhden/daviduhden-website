@@ -21,18 +21,25 @@
 # Usage: update-feeds.pl
 # Prompts for article info (slug, title, description, pubDate).
 #-------------------------
-# Assumes feeds are in feeds/ and articles.json is in data/ relative to script.
-# Assumes articles are in articles/ with filenames based on slugs.
+# Outputs to feeds/blog.xml, feeds/blog-es.xml, and data/articles.json
+#-------------------------
 # Generates RFC2822 pubDate timestamps in GMT.
+# Requires Perl with JSON::PP
+# Requires UTF-8 support
+# Requires POSIX for strftime
+# Requires Cwd and File::Basename for path handling
+# Requires File::Spec for path handling
+# Requires strict and warnings
 #-------------------------
 # Note: redirect.js reads data/articles.json at runtime.
 
 use strict;
 use warnings;
 use POSIX qw(strftime);
-use FindBin;
 use File::Spec;
+use Getopt::Long;
 use JSON::PP;
+use Time::Local qw(timegm);
 
 # -------------------------
 # Logging
@@ -59,9 +66,13 @@ sub die_tool {
     exit 1;
 }
 
-my $root_dir = File::Spec->catdir( $FindBin::RealBin, '..' );
-my $feed_en  = File::Spec->catfile( $root_dir, 'feeds', 'blog.xml' );
-my $feed_es  = File::Spec->catfile( $root_dir, 'feeds', 'blog-es.xml' );
+my $replace_existing = 0;
+GetOptions( 'replace' => \$replace_existing );
+
+my $root_dir =
+  File::Spec->catdir( ( File::Spec->splitpath($0) )[1] || '.', '..' );
+my $feed_en = File::Spec->catfile( $root_dir, 'feeds', 'blog.xml' );
+my $feed_es = File::Spec->catfile( $root_dir, 'feeds', 'blog-es.xml' );
 
 sub prompt {
     my ( $message, $default ) = @_;
@@ -75,7 +86,7 @@ sub prompt {
 
 sub read_file {
     my ($path) = @_;
-    open my $fh, '<:raw', $path
+    open my $fh, '<:encoding(UTF-8)', $path
       or loge("Could not open $path for reading: $!");
     local $/;
     my $content = <$fh>;
@@ -85,7 +96,7 @@ sub read_file {
 
 sub write_file {
     my ( $path, $content ) = @_;
-    open my $fh, '>:raw', $path
+    open my $fh, '>:encoding(UTF-8)', $path
       or loge("Could not open $path for writing: $!");
     print {$fh} $content;
     close $fh;
@@ -98,6 +109,84 @@ sub xml_escape {
     $text =~ s/</&lt;/g;
     $text =~ s/>/&gt;/g;
     return $text;
+}
+
+# Locale-aware RFC2822 formatter (en/es)
+sub rfc2822_from_ts_locale {
+    my ( $t, $lang ) = @_;
+    $lang ||= 'en';
+    my @wday_en = qw(Sun Mon Tue Wed Thu Fri Sat);
+    my @mon_en  = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
+    my @wday_es = qw(dom lun mar mié jue vie sáb);
+    my @mon_es  = qw(ene feb mar abr may jun jul ago sep oct nov dic);
+    my ( $sec, $min, $hour, $mday, $mon, $year, $wday ) = gmtime($t);
+    $year += 1900;
+
+    if ( $lang eq 'es' ) {
+        my $wd = $wday_es[$wday] || 'dom';
+        my $mn = $mon_es[$mon]   || 'ene';
+        return sprintf( '%s, %02d %s %d %02d:%02d:%02d GMT',
+            lc($wd), $mday, lc($mn), $year, $hour, $min, $sec );
+    }
+    else {
+        my $wd = $wday_en[$wday] || 'Sun';
+        my $mn = $mon_en[$mon]   || 'Jan';
+        return sprintf( '%s, %02d %s %d %02d:%02d:%02d GMT',
+            $wd, $mday, $mn, $year, $hour, $min, $sec );
+    }
+}
+
+sub iso_to_epoch {
+    my ($s) = @_;
+    return undef unless defined $s;
+    if ( $s =~
+/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})(Z|([+-])(\d{2}):(\d{2}))?$/
+      )
+    {
+        my ( $Y, $M, $D, $h, $m, $sec, $z, $sign, $oh, $om ) =
+          ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10 );
+        $Y   -= 0;
+        $M   -= 1;
+        $D   -= 0;
+        $h   -= 0;
+        $m   -= 0;
+        $sec -= 0;
+        my $epoch = timegm( $sec, $m, $h, $D, $M, $Y );
+
+        if ( defined $sign && defined $oh ) {
+            my $ofs = $oh * 3600 + $om * 60;
+            $epoch -= ( $sign eq '+' ) ? $ofs : -$ofs;
+        }
+        return $epoch;
+    }
+    if ( $s =~ /^(\d{4})-(\d{2})-(\d{2})$/ ) {
+        my ( $Y, $M, $D ) = ( $1, $2, $3 );
+        return timegm( 0, 0, 0, $D, $M - 1, $Y );
+    }
+    return undef;
+}
+
+sub epoch_to_iso {
+    my ($t) = @_;
+    $t ||= time();
+    my ( $sec, $min, $hour, $mday, $mon, $year ) = gmtime($t);
+    $year += 1900;
+    $mon  += 1;
+    return sprintf( '%04d-%02d-%02dT%02d:%02d:%02dZ',
+        $year, $mon, $mday, $hour, $min, $sec );
+}
+
+sub extract_datetime_from_article {
+    my ($path) = @_;
+    return undef unless -e $path;
+    my $html = read_file($path) || '';
+    if ( $html =~ /<time[^>]*\sdatetime\s*=\s*"([^"]+)"/i ) {
+        return $1;
+    }
+    if ( $html =~ /<time[^>]*\sdatetime\s*=\s*'([^']+)'/i ) {
+        return $1;
+    }
+    return undef;
 }
 
 sub normalize_slug {
@@ -117,12 +206,16 @@ sub validate_key {
 }
 
 sub update_feed {
-    my (%args) = @_;
-    my $path   = $args{path};
-    my $title  = xml_escape( $args{title} );
-    my $slug   = $args{slug};
-    my $desc   = xml_escape( $args{description} );
-    my $pub    = $args{pubdate};
+    my (%args)  = @_;
+    my $path    = $args{path};
+    my $title   = xml_escape( $args{title} );
+    my $slug    = $args{slug};
+    my $desc    = xml_escape( $args{description} );
+    my $lang    = $args{lang}    // 'en';
+    my $replace = $args{replace} // 0;
+
+    # Use provided RFC pubdate if passed, otherwise current GMT time
+    my $pub = $args{pubdate_rfc} // rfc2822_from_ts_locale( time(), $lang );
 
     # Keep existing feed link style
     my $link = "./../articles/$slug.html";
@@ -140,8 +233,35 @@ sub update_feed {
     my $content = read_file($path);
 
     if ( $content =~ /\Q$link\E/ ) {
-        logw("Feed $path already contains a link to $link. Skipping insert.");
-        return;
+        if ( $replace || $replace_existing ) {
+
+            # remove existing <item> blocks that reference this link
+            my $before = $content;
+            $content =~ s{<item>.*?<link>\Q$link\E.*?</item>\s*}{}gs;
+            if ( $content ne $before ) {
+                logi("Removed existing item(s) for $link from $path");
+            }
+        }
+        else {
+            logw("Feed $path already contains a link to $link. Skipping insert."
+            );
+            return;
+        }
+    }
+
+    # Validate pubdate roughly (RFC2822): day, dd Mon yyyy hh:mm:ss GMT
+    unless ( defined $pub
+        && $pub =~
+/^[A-Za-z]{3},\s+\d{1,2}\s+[A-Za-z]{3}\s+\d{4}\s+\d{2}:\d{2}:\d{2}\s+GMT$/
+      )
+    {
+        logw(
+"Provided pubDate '$pub' doesn't look like RFC2822; using current date."
+        );
+        $pub = strftime( '%a, %d %b %Y %H:%M:%S GMT', gmtime() );
+
+        # also update pub variable in item string
+        $item =~ s{<pubDate>.*?</pubDate>}{<pubDate>$pub</pubDate>}s;
     }
 
 # Update channel dates (assumes channel-level <pubDate> and <lastBuildDate> exist)
@@ -172,6 +292,7 @@ sub update_articles_json {
     my $slug_es  = $args{slug_es};
     my $title_en = $args{title_en} // '';
     my $title_es = $args{title_es} // '';
+    my $pubdate  = $args{pubdate};
 
     my $data_dir  = File::Spec->catdir( $root_dir, 'data' );
     my $json_file = File::Spec->catfile( $data_dir, 'articles.json' );
@@ -199,6 +320,7 @@ sub update_articles_json {
         es       => "$slug_es.html",
         title_en => $title_en,
         title_es => $title_es,
+        ( defined $pubdate ? ( pubdate => $pubdate ) : () ),
     };
 
     # Stable output: canonical sorts keys
@@ -233,16 +355,47 @@ my $title_en = prompt( 'Title (English)',       '' );
 my $title_es = prompt( 'Title (Spanish)',       '' );
 my $desc_en  = prompt( 'Description (English)', '' );
 my $desc_es  = prompt( 'Description (Spanish)', '' );
-my $pubdate =
-  prompt( 'Publication date RFC2822 (e.g., Fri, 07 Mar 2025 10:00:00 GMT)',
-    $today );
+
+# Try to extract datetime from article header (<time datetime="...">)
+my $articles_dir    = File::Spec->catdir( $root_dir, 'articles' );
+my $article_en_path = File::Spec->catfile( $articles_dir, $slug_en . '.html' );
+my $article_es_path = File::Spec->catfile( $articles_dir, $slug_es . '.html' );
+my $found_iso       = extract_datetime_from_article($article_en_path)
+  || extract_datetime_from_article($article_es_path);
+my $pubdate_input = '';
+if ($found_iso) {
+    $pubdate_input = $found_iso;
+    logi("Found datetime in article header: $found_iso");
+}
+else {
+    $pubdate_input = prompt(
+'Publication date ISO (e.g., 2025-03-06T10:00:00Z) or leave blank for now',
+        ''
+    );
+}
+
+# Normalize to epoch (UTC) if possible, otherwise fallback to now
+my $pub_epoch = iso_to_epoch($pubdate_input);
+unless ( defined $pub_epoch ) {
+    if ($pubdate_input) {
+        logw(
+"Could not parse provided pubdate '$pubdate_input' as ISO; falling back to current time"
+        );
+    }
+    $pub_epoch = time();
+}
+my $pub_iso    = epoch_to_iso($pub_epoch);
+my $pub_rfc_en = rfc2822_from_ts_locale( $pub_epoch, 'en' );
+my $pub_rfc_es = rfc2822_from_ts_locale( $pub_epoch, 'es' );
 
 update_feed(
     path        => $feed_en,
     title       => $title_en,
     slug        => $slug_en,
     description => $desc_en,
-    pubdate     => $pubdate,
+    lang        => 'en',
+    replace     => $replace_existing,
+    pubdate_rfc => $pub_rfc_en,
 );
 
 update_feed(
@@ -250,7 +403,9 @@ update_feed(
     title       => $title_es,
     slug        => $slug_es,
     description => $desc_es,
-    pubdate     => $pubdate,
+    lang        => 'es',
+    replace     => $replace_existing,
+    pubdate_rfc => $pub_rfc_es,
 );
 
 update_articles_json(
@@ -259,7 +414,22 @@ update_articles_json(
     slug_es  => $slug_es,
     title_en => $title_en,
     title_es => $title_es,
+    pubdate  => $pub_iso,
 );
+
+# Run rebuild script to regenerate feeds (ensures consistent ordering and encoding)
+my $rebuild_script =
+  File::Spec->catfile( $root_dir, 'scripts', 'rebuild-feeds.pl' );
+if ( -x $rebuild_script ) {
+    logi("Running rebuild script: $rebuild_script");
+    my $rc = system( $^X, $rebuild_script );
+    if ( $rc != 0 ) {
+        logw("Rebuild script exited with code $rc");
+    }
+}
+else {
+    logw("Rebuild script not found or not executable: $rebuild_script");
+}
 
 logi(
 'Done. Review changes in feeds and data/articles.json (redirect.js loads it).'

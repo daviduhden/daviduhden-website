@@ -10,28 +10,28 @@
   <script src="./../popup-fallback.js"></script>
 </head>
 <body>
-  <header>
+  <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Artículo</h2>
 
-    <nav>
-      <a href="./../index-es.html" target="_blank" rel=
-      "noopener noreferrer">Inicio</a> <a href="./../blog-es.html" target=
-      "_blank" rel="noopener noreferrer">Blog</a> <a class="lang-switch" href=
-      "./../index.html"><img src="./../images/en.svg" alt="EN" class=
-      "icon">English</a>
+    <nav id="site-nav">
+      <ul>
+        <li><a href="./../index-es.html" target="_blank" rel="noopener noreferrer">Inicio</a></li>
+        <li><a href="./../blog-es.html" target="_blank" rel="noopener noreferrer">Blog</a></li>
+        <li><a class="lang-switch" href="./../index.html"><img src="./../images/en.svg" alt="EN" class="icon">English</a></li>
+      </ul>
     </nav>
   </header>
 
-  <main>
+  <main id="site-main">
     <article>
-      <header>
+      <header id="article-header">
         <p class="kicker">CATEGORÍA O ETIQUETA</p>
 
         <h1>Título del artículo</h1>
 
-        <p class="meta">Por AUTOR • Actualizado <time datetime=
+        <p class="meta">Por AUTOR - Actualizado <time datetime=
         "2025-01-01">FECHA</time></p>
 
         <p class="lede">Una o dos frases que expliquen qué aporta el artículo y
@@ -63,6 +63,8 @@
         <p>Desarrolla el argumento, la guía o el tutorial. Prefiere párrafos
         breves y pasos accionables.</p>
 
+        <p>Aquí hay un ejemplo de cita en línea con referencia a nota al pie<sup><a href="#fn-1" id="ref-1">[1]</a></sup>.</p>
+
         <ul>
           <li>Punto clave uno</li>
 
@@ -72,6 +74,11 @@
         <pre><code>// Ejemplo de bloque de código
 console.log("Hola mundo");
 </code></pre>
+
+        <blockquote>
+          <p>"La simplicidad es la máxima sofisticación."</p>
+          <cite>— Leonardo da Vinci</cite>
+        </blockquote>
       </section>
 
       <section>
@@ -90,21 +97,21 @@ console.log("Hola mundo");
     </article>
 
     <section id="footnotes">
-      <p><strong>Notas:</strong>
-      </p>
+      <p><strong>Notas:</strong></p>
 
-      <p><sup><a href="#footnotes">[1]</a></sup> Sustituye por tu primera nota
-      al pie.</p>
+      <p id="fn-1"><sup>1</sup> Ejemplo de nota al pie que amplía la cita anterior. <a href="#ref-1">↩</a></p>
     </section>
   </main>
 
-  <footer>
+  <footer id="site-footer">
     <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
 
     <p><strong><a href="./../licencia.html" target="_blank" rel=
-    "noopener noreferrer">LICENCIA</a></strong></p>
+    "noopener noreferrer">LICENCIA</a></strong>
+    </p>
 
-    <h4>VIVE ET SINE ALIOS VIVERE</h4>
+    <h4 class="motto">VIVE ET SINE ALIOS VIVERE</h4>
+    <img src="./images/anarchy.svg" alt="libertad" class="icon">
   </footer>
 </body>
 </html>
