@@ -1,0 +1,68 @@
+name: Archive repository (pax + gzip + signify)
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    name: Archive repository (pax + gzip + signify)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run archive job in OpenBSD VM
+        uses: vmactions/openbsd-vm@v1
+        with:
+          usesh: false
+          run: |
+            set -x
+
+            echo "Running on:"
+            uname -a
+
+            # Extract repository name
+            REPO_NAME=$(basename "$GITHUB_REPOSITORY")
+
+            # Create temporary output directory (outside repository to avoid conflicts)
+            TMP_ARCHIVE_DIR="/tmp/archive"
+            mkdir -p "$TMP_ARCHIVE_DIR"
+
+            ARCHIVE="$TMP_ARCHIVE_DIR/${REPO_NAME}.tar.gz"
+            CHECKSUM="$TMP_ARCHIVE_DIR/${REPO_NAME}.tar.gz.sha256"
+            SIGNATURE="$TMP_ARCHIVE_DIR/${REPO_NAME}.tar.gz.sig"
+
+            # Remove previous files if they exist
+            rm -f "$ARCHIVE" "$CHECKSUM" "$SIGNATURE"
+
+            # Archive the whole repository (including .git)
+            pax -w . | gzip -n -9 > "$ARCHIVE"
+
+            # Create SHA256 checksum
+            sha256 -q "$ARCHIVE" > "$CHECKSUM"
+
+            # Create temporary private key file for signify
+            echo "${{ secrets.SIGNIFY_KEY }}" | openssl base64 -d > archive.sec
+            chmod 600 archive.sec
+
+            # Sign the archive
+            signify -S -s archive.sec -m "$ARCHIVE"
+
+            # Copy the final files to repository archive directory
+            ARCHIVE_DIR="archive"
+            mkdir -p "$ARCHIVE_DIR"
+            cp "$ARCHIVE" "$ARCHIVE_DIR/"
+            cp "$CHECKSUM" "$ARCHIVE_DIR/"
+            cp "${ARCHIVE}.sig" "$ARCHIVE_DIR/"
+
+            # List the generated files
+            ls -lah "$ARCHIVE_DIR"
