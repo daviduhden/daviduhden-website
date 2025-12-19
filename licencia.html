@@ -10,21 +10,21 @@
   <script src="./popup-fallback.js"></script>
 </head>
 <body>
-  <header>
+  <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Términos del sitio</h2>
 
-    <nav>
-      <a href="./index-es.html" target="_blank" rel=
-      "noopener noreferrer">Inicio</a> <a href="./blog-es.html" target="_blank"
-      rel="noopener noreferrer">Blog</a> <a class="lang-switch" href=
-      "./license.html" target="_blank" rel="noopener noreferrer"><img src=
-      "./images/en.svg" alt="EN" class="icon">English</a>
+    <nav id="site-nav">
+      <ul>
+        <li><a href="./index-es.html" target="_blank" rel="noopener noreferrer">Inicio</a></li>
+        <li><a href="./blog-es.html" target="_blank" rel="noopener noreferrer">Blog</a></li>
+        <li><a class="lang-switch" href="./license.html" target="_blank" rel="noopener noreferrer"><img src="./images/en.svg" alt="EN" class="icon">English</a></li>
+      </ul>
     </nav>
   </header>
 
-  <main>
+  <main id="site-main">
     <section>
       <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos
       reservados.</p>
@@ -64,6 +64,16 @@
         </li>
 
         <li>
+          <a href="./scripts/convert-media.pl" target="_blank" rel=
+          "noopener noreferrer">./scripts/convert-media.pl</a>
+        </li>
+
+        <li>
+          <a href="./scripts/rebuild-feeds.pl" target="_blank" rel=
+          "noopener noreferrer">./scripts/rebuild-feeds.pl</a>
+        </li>
+
+        <li>
           <a href="./scripts/update-feeds.pl" target="_blank" rel=
           "noopener noreferrer">./scripts/update-feeds.pl</a>
         </li>
@@ -72,17 +82,6 @@
           <a href="./scripts/validate-website.pl" target="_blank" rel=
           "noopener noreferrer">./scripts/validate-website.pl</a>
         </li>
-
-        <li>
-          <a href="./scripts/convert-media.pl" target="_blank" rel=
-          "noopener noreferrer">./scripts/convert-media.pl</a>
-        </li>
-
-        <li>
-          <a href="./scripts/strip-metadata.pl" target="_blank" rel=
-          "noopener noreferrer">./scripts/strip-metadata.pl</a>
-        </li>
-
       </ul>
 
       <p>Estos archivos están licenciados bajo una licencia de tipo ISC, la
@@ -90,13 +89,16 @@
     </section>
   </main>
 
-  <footer>
+  <footer id="site-footer">
     <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
 
     <p><strong><a href="./licencia.html" target="_blank" rel=
-    "noopener noreferrer">LICENCIA</a></strong></p>
+    "noopener noreferrer">LICENCIA</a></strong>
+    </p>
 
-    <h4>VIVE ET SINE ALIOS VIVERE</h4>
+    <img src="./images/anarchy.svg" alt="libertad" class="icon">
+    <h4 class="motto">VIVE ET SINE ALIOS VIVERE</h4>
+    <img src="./images/anarchy.svg" alt="libertad" class="icon">
   </footer>
 </body>
 </html>

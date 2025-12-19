@@ -10,21 +10,21 @@
   <script src="./popup-fallback.js"></script>
 </head>
 <body>
-  <header>
+  <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Sitio personal</h2>
 
-    <nav>
-      <a href="./index-es.html" target="_blank" rel=
-      "noopener noreferrer">Inicio</a> <a href="./blog-es.html" target="_blank"
-      rel="noopener noreferrer">Blog</a> <a class="lang-switch" href=
-      "./index.html"><img src="./images/en.svg" alt="EN" class=
-      "icon">English</a>
+    <nav id="site-nav">
+      <ul>
+        <li><a href="./index-es.html" target="_blank" rel="noopener noreferrer">Inicio</a></li>
+        <li><a href="./blog-es.html" target="_blank" rel="noopener noreferrer">Blog</a></li>
+        <li><a class="lang-switch" href="./index.html"><img src="./images/en.svg" alt="EN" class="icon">English</a></li>
+      </ul>
     </nav>
   </header>
 
-  <main>
+  <main id="site-main">
     <section id="bio">
       <h2>Sobre Mi</h2>
 
@@ -80,12 +80,10 @@
     <section id="domains">
       <h2>Dominios</h2>
 
-      <ul>
-        <li>
-          <a href="https://uhden.dev" target="_blank" rel=
-          "noopener noreferrer">Clearnet</a>
-        </li>
-      </ul>
+      <p><img src="./images/www.svg" alt="WWW" class="icon"><a href=
+      "https://uhden.dev" target="_blank" rel="noopener noreferrer">Red
+      clara</a>
+      </p>
     </section>
 
     <section id="donate">
@@ -97,7 +95,7 @@
       "bitcoin:btc.uhden.dev">bc1qeyyk9cn4rm44qhrdwsvhx50t46lejmysgj3jp5</a>
       </p>
 
-      <p><strong><img src="./images/monero2.svg" alt="XMR" class="icon">Monero
+      <p><strong><img src="./images/monero.svg" alt="XMR" class="icon">Monero
       (XMR)</strong><br>
       <a href=
       "monero:xmr.uhden.dev">4AscQ2Y5aaz8huxvEj6a8Q2ucAszYgMfMeHjeH2bBYZijn71LgXJnDodgRZbdpuMnM1DEK9DESBXNM1WgX1YwSzc3QHki7X</a>
@@ -105,13 +103,16 @@
     </section>
   </main>
 
-  <footer>
+  <footer id="site-footer">
     <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
 
     <p><strong><a href="./licencia.html" target="_blank" rel=
-    "noopener noreferrer">LICENCIA</a></strong></p>
+    "noopener noreferrer">LICENCIA</a></strong>
+    </p>
 
-    <h4>VIVE ET SINE ALIOS VIVERE</h4>
+    <img src="./images/anarchy.svg" alt="libertad" class="icon">
+    <h4 class="motto">VIVE ET SINE ALIOS VIVERE</h4>
+    <img src="./images/anarchy.svg" alt="libertad" class="icon">
   </footer>
 </body>
 </html>

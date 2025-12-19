@@ -10,27 +10,29 @@
   <script src="./../popup-fallback.js"></script>
 </head>
 <body>
-  <header>
+  <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Artículo</h2>
 
-    <nav>
-      <a href="./../index-es.html" target="_blank" rel=
-      "noopener noreferrer">Inicio</a> <a href="./../blog-es.html" target=
-      "_blank" rel="noopener noreferrer">Blog</a>
+    <nav id="site-nav">
+      <ul>
+        <li><a href="./../index-es.html" target="_blank" rel="noopener noreferrer">Inicio</a></li>
+        <li><a href="./../blog-es.html" target="_blank" rel="noopener noreferrer">Blog</a></li>
+        <li><a class="lang-switch" href="./systems.html"><img src="./../images/en.svg" alt="EN" class="icon">English</a></li>
+      </ul>
     </nav>
   </header>
 
-  <main>
+  <main id="site-main">
     <article>
-      <header>
+      <header id="article-header">
         <p class="kicker">Sistemas operativos</p>
 
         <h1>Reinventando los Sistemas Operativos: Lecciones de OpenBSD y Más
         Allá</h1>
 
-        <p class="meta">Por David Uhden Collado • Actualizado <time datetime=
+        <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
         "2025-03-04">4 de marzo de 2025</time></p>
 
         <p class="lede">Mientras el enfoque empresarial prioriza
@@ -61,7 +63,7 @@
         compatibilidad casi inmutable entre versiones.</p>
 
         <p>El desarrollo empresarial se basa en la premisa de evitar cambios
-        disruptivos en la interfaz binaria de aplicación (ABI)<sup>[1]</sup>.
+        disruptivos en la interfaz binaria de aplicación (ABI)<sup><a href="#fn-1" id="ref-1">[1]</a></sup>.
         El resultado es un sistema que acumula capas de "soluciones de parche"
         para mantener el funcionamiento de aplicaciones críticas. Si bien esta
         estrategia minimiza riesgos inmediatos para clientes corporativos,
@@ -73,7 +75,7 @@
       <section>
         <h2>Las Consecuencias de la Compatibilidad Retroactiva</h2>
 
-        <p>La insistencia en mantener APIs<sup>[2]</sup> y ABIs antiguos tiene
+        <p>La insistencia en mantener APIs<sup><a href="#fn-2" id="ref-2">[2]</a></sup> y ABIs antiguos tiene
         un costo considerable. Por un lado, se genera una acumulación de código
         obsoleto o redundante en las partes más críticas del sistema, lo que
         incrementa la superficie de ataque y la probabilidad de errores o
@@ -161,31 +163,33 @@
     </article>
   </main>
 
-  <footer>
-    <p id="footnotes"><strong>Notas:</strong>
-    </p>
+  <footer id="footnotes">
+    <p><strong>Notas:</strong></p>
 
-    <p><sup><a href="#footnotes">[1]</a></sup> <strong>ABI:</strong> Una
+    <p id="fn-1"><sup>1</sup> <strong>ABI:</strong> Una
     Interfaz Binaria de Aplicación (ABI) define la interfaz de bajo nivel entre
     una aplicación y el sistema operativo, incluyendo detalles como tipos de
     datos, tamaños y alineación, convenciones de llamada y números de llamadas
-    al sistema.</p>
+    al sistema. <a href="#ref-1">↩</a></p>
 
-    <p><sup><a href="#footnotes">[2]</a></sup> <strong>API:</strong> Una
+    <p id="fn-2"><sup>2</sup> <strong>API:</strong> Una
     Interfaz de Programación de Aplicaciones (API) es un conjunto de reglas y
     protocolos para construir e interactuar con aplicaciones de software,
     definiendo los métodos y estructuras de datos que los desarrolladores
     pueden usar para interactuar con el sistema u otros componentes de
-    software.</p>
+    software. <a href="#ref-2">↩</a></p>
   </footer>
 
-  <footer>
+  <footer id="site-footer">
     <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
 
     <p><strong><a href="./../licencia.html" target="_blank" rel=
-    "noopener noreferrer">LICENCIA</a></strong></p>
+    "noopener noreferrer">LICENCIA</a></strong>
+    </p>
 
-    <h4>VIVE ET SINE ALIOS VIVERE</h4>
+    <img src="./../images/anarchy.svg" alt="libertad" class="icon">
+    <h4 class="motto">VIVE ET SINE ALIOS VIVERE</h4>
+    <img src="./../images/anarchy.svg" alt="libertad" class="icon">
   </footer>
 </body>
 </html>

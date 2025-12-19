@@ -7,7 +7,6 @@
     <language>en-us</language>
     <pubDate>Fri, 12 Dec 2025 10:00:00 GMT</pubDate>
     <lastBuildDate>Fri, 12 Dec 2025 10:00:00 GMT</lastBuildDate>
-
     <item>
       <title>OpenBSD: A Robust and Secure Operating System for the Future</title>
       <link>./../articles/openbsd.html</link>
@@ -18,7 +17,6 @@
       <pubDate>Fri, 12 Dec 2025 10:00:00 GMT</pubDate>
       <guid>/articles/openbsd.html</guid>
     </item>
-
     <item>
       <title>The GPL: A Tool with Paradoxes in the World of Free Software</title>
       <link>./../articles/gpl.html</link>
@@ -28,7 +26,6 @@
       <pubDate>Sat, 08 Mar 2025 10:00:00 GMT</pubDate>
       <guid>./../articles/gpl.html</guid>
     </item>
-
     <item>
       <title>Rethinking the UNIX Philosophy: Beyond the Simplicity of Small Programs</title>
       <link>./../articles/unix.html</link>
@@ -39,7 +36,6 @@
       <pubDate>Wed, 05 Mar 2025 10:00:00 GMT</pubDate>
       <guid>/articles/unix.html</guid>
     </item>
-
     <item>
       <title>Reinventing Operating Systems: Lessons from OpenBSD and Beyond</title>
       <link>./../articles/systems.html</link>
@@ -50,6 +46,5 @@
       <pubDate>Tue, 04 Mar 2025 10:00:00 GMT</pubDate>
       <guid>/articles/systems.html</guid>
     </item>
-
   </channel>
 </rss>
