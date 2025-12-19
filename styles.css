@@ -52,7 +52,7 @@
   --max-width: 72ch;
   --gutter: 1.25em;
 
-  /* page padding (matches cyberpunk site) */
+  /* page padding (matches cypherpunk site) */
   --pad-y: 2em;
   --pad-x: 1.25em;
 
@@ -378,7 +378,7 @@ a:hover {
 
 /*
  * Generic image styling (outside article content)
- * Match cyberpunk-handbook visual treatment for images.
+ * Match cypherpunk-handbook visual treatment for images.
  */
 img {
   max-width: 100%;
