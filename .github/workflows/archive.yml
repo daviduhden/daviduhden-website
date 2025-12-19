@@ -52,7 +52,7 @@ jobs:
           # Generate SHA256 checksum
           sha256sum "$ARCHIVE" | awk '{print $1}' > "$CHECKSUM"
 
-          # Write the SIGNIFY_KEY secret to a temporary file
+          # Write SIGNIFY_KEY secret to a temporary file
           printf "%s\n" "$SIGNIFY_KEY" > "$TMP_DIR/archive.sec"
           chmod 600 "$TMP_DIR/archive.sec"
 
@@ -66,10 +66,7 @@ jobs:
         run: |
           set -e
 
-          # Authenticate GitHub CLI
-          echo "$GH_TOKEN" | gh auth login --with-token
-
-          # Setup git with GitHub CLI
+          # Setup git to use GitHub CLI credentials (no gh auth login needed)
           gh auth setup-git
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -84,4 +81,3 @@ jobs:
             git push origin "$BRANCH"
           else
             echo "No changes to commit."
-          fi
