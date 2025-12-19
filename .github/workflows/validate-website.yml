@@ -120,66 +120,24 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Install into user prefix (no sudo)
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          # Install Rust toolchain (non-interactive) so we can use `cargo`
+          curl -sSf https://sh.rustup.rs -o /tmp/rustup.sh
+          chmod +x /tmp/rustup.sh
+          RUSTUP_HOME="$HOME/.rustup" CARGO_HOME="$HOME/.cargo" sh /tmp/rustup.sh -y --no-modify-path
 
-          # Try the official install script first; if it's unavailable (404),
-          # fall back to selecting an asset from the GitHub releases API.
-          tmp_script="/tmp/dprint-install.sh"
-          if curl -fLsS --retry 5 https://dprint.dev/install.sh -o "$tmp_script"; then
-            bash "$tmp_script" --dir "$HOME/.local/bin"
-          else
-            echo "Official install script not available; falling back to GitHub release"
-            OS=$(uname -s)
-            ARCH=$(uname -m)
+          # Ensure cargo in PATH for the rest of the job
+          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.cargo/bin:$PATH"
 
-            case "$ARCH" in
-              x86_64|amd64) arch="x86_64" ;;
-              aarch64|arm64) arch="aarch64" ;;
-              *) arch="$ARCH" ;;
-            esac
+          cargo --version || true
 
-            # Query GitHub API for latest release and pick a matching tar.gz asset
-            api_json=$(curl -fsS --retry 5 "https://api.github.com/repos/dprint/dprint/releases/latest" || true)
-            download_url=""
-            if [ -n "$api_json" ]; then
-              download_url=$(printf '%s' "$api_json" \
-                | grep '"browser_download_url":' \
-                | sed -E 's/.*"([^\"]+)".*/\1/' \
-                | grep -E '\.zip$' \
-                | grep -i "$arch" || true)
-            fi
+          # Install dprint via cargo.
+          cargo install dprint --locked || true
 
-            # If no match found by arch, fallback to any linux tarball
-            if [ -z "$download_url" ]; then
-              download_url=$(printf '%s' "$api_json" \
-                | grep '"browser_download_url":' \
-                | sed -E 's/.*"([^\"]+)".*/\1/' \
-                | grep -i linux \
-                | grep -E '\.zip$' \
-                | head -n1 || true)
-            fi
+          # Ensure any cargo-installed binaries are available
+          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
 
-            if [ -z "$download_url" ]; then
-              echo "Could not determine a dprint release asset to download." >&2
-              exit 1
-            fi
-
-            echo "Downloading dprint from: $download_url"
-            curl -fLsS --retry 5 "$download_url" -o /tmp/dprint.tar.gz
-            tar -xzf /tmp/dprint.tar.gz -C /tmp
-            # Find the extracted dprint binary
-            binpath=$(find /tmp -maxdepth 3 -type f -name dprint -perm /u+x -print -quit || true)
-            if [ -z "$binpath" ]; then
-              echo "dprint binary not found inside archive" >&2
-              exit 1
-            fi
-            mv "$binpath" "$HOME/.local/bin/dprint"
-            chmod +x "$HOME/.local/bin/dprint"
-          fi
-
-          dprint --version
+          dprint --version || true
 
       - name: Run validate-website.pl (format + validate)
         run: |
