@@ -10,26 +10,28 @@
   <script src="./../popup-fallback.js"></script>
 </head>
 <body>
-  <header>
+  <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Artículo</h2>
 
-    <nav>
-      <a href="./../index-es.html" target="_blank" rel=
-      "noopener noreferrer">Inicio</a> <a href="./../blog-es.html" target=
-      "_blank" rel="noopener noreferrer">Blog</a>
+    <nav id="site-nav">
+      <ul>
+        <li><a href="./../index-es.html" target="_blank" rel="noopener noreferrer">Inicio</a></li>
+        <li><a href="./../blog-es.html" target="_blank" rel="noopener noreferrer">Blog</a></li>
+        <li><a class="lang-switch" href="./openbsd.html"><img src="./../images/en.svg" alt="EN" class="icon">English</a></li>
+      </ul>
     </nav>
   </header>
 
-  <main>
+  <main id="site-main">
     <article>
-      <header>
+      <header id="article-header">
         <p class="kicker">Sistemas operativos</p>
 
         <h1>OpenBSD: un sistema operativo robusto y seguro para el futuro</h1>
 
-        <p class="meta">Por David Uhden Collado • Actualizado <time datetime=
+        <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
         "2025-12-12">12 de diciembre de 2025</time></p>
 
         <p class="lede">OpenBSD privilegia la simplicidad y la seguridad:
@@ -369,7 +371,7 @@
     </article>
   </main>
 
-  <footer>
+  <footer id="links-footer">
     <h3>Enlaces de interés</h3>
 
     <ul>
@@ -390,13 +392,16 @@
     </ul>
   </footer>
 
-  <footer>
+  <footer id="site-footer">
     <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
 
     <p><strong><a href="./../licencia.html" target="_blank" rel=
-    "noopener noreferrer">LICENCIA</a></strong></p>
+    "noopener noreferrer">LICENCIA</a></strong>
+    </p>
 
-    <h4>VIVE ET SINE ALIOS VIVERE</h4>
+    <img src="./../images/anarchy.svg" alt="libertad" class="icon">
+    <h4 class="motto">VIVE ET SINE ALIOS VIVERE</h4>
+    <img src="./../images/anarchy.svg" alt="libertad" class="icon">
   </footer>
 </body>
 </html>

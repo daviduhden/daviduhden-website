@@ -17,34 +17,45 @@
  */
 
 /*
- * Design tokens (keep it simple)
- * Uses reading-width measures (ch) and font-relative sizing (em).
+ * Design tokens (shared structure)
+ * Each site defines its palette in :root below; the rest of the
+ * stylesheet intentionally re-uses these tokens so both sites share
+ * identical layout and component rules while keeping colors local.
  */
 :root {
+  /* Light site palette (local to daviduhden-website) */
   color-scheme: light;
 
   --bg: #f7f9fb;
   --panel: #ffffff;
+  --panel-2: #fbfdff;
+
   --text: #1f2937;
   --muted: #4b5563;
   --heading: #0f172a;
   --link: #0ea5e9;
+  --link-hover: #0891b2;
 
   --border: #e5e7eb;
   --border-hover: #d1d5db;
 
+  --nav-bg: transparent;
+  --nav-bg-hover: #f3f4f6;
+
   --radius: 0.75em;
+  --radius-soft: 0.66em;
   --radius-pill: 999em;
 
   --shadow: 0 0.5em 1.5em rgba(15, 23, 42, 0.05);
+  --shadow-img: 0 0.125em 0.75em rgba(0, 0, 0, 0.07);
 
-  /* Centers content and sets a reading-friendly max width. */
   --max-width: 72ch;
-
-  /* Horizontal page gutter. */
   --gutter: 1.25em;
 
-  /* Clear focus ring for keyboard users. */
+  /* page padding (matches cyberpunk site) */
+  --pad-y: 2em;
+  --pad-x: 1.25em;
+
   --focus-ring: 0 0 0 0.2em rgba(14, 165, 233, 0.35);
 }
 
@@ -72,7 +83,7 @@ html {
  */
 body {
   margin: 0;
-  padding: 0;
+  padding: var(--pad-y) var(--pad-x);
   background: var(--bg);
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -109,7 +120,7 @@ code {
 header,
 main,
 footer {
-  width: min(var(--max-width), 100% - (var(--gutter) * 2));
+  width: min(var(--max-width), 100% - var(--gutter) * 2);
   margin: 0 auto;
 }
 
@@ -141,15 +152,36 @@ header h2 {
  * Navigation link styles
  * Styles the main navigation links.
  */
+nav * {
+  vertical-align: middle;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75em;
+  padding: 0;
+  margin: 0 0 1.5em;
+  justify-content: center;
+}
+
 nav a {
-  margin: 0 0.75em;
+  display: inline-block;
+  padding: 0.45em 0.75em;
+  margin: 0 0.35em;
+  border: thin solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--nav-bg, transparent);
   color: var(--heading);
   text-decoration: none;
   font-weight: 600;
 }
 
 nav a:hover {
-  text-decoration: underline;
+  background: var(--nav-bg-hover, #f3f4f6);
+  border-color: var(--border-hover);
 }
 
 /*
@@ -170,20 +202,22 @@ button:focus-visible {
 .lang-switch {
   display: inline-flex;
   align-items: center;
-  gap: 0.35em;
-  padding: 0.4em 0.75em;
-  margin-left: 0.5em;
-
-  /* Use keywords to avoid px-like "1px" equivalents. */
+  gap: 0.2em;
+  padding: 0.25em 0.5em;
+  margin-left: 0.35em;
   border: thin solid var(--border);
   border-radius: var(--radius-pill);
-  background: transparent;
-  color: inherit;
+  background: var(--nav-bg, transparent);
+  color: var(--heading);
   text-decoration: none;
+  font-weight: 600;
+  line-height: 1;
+  font-size: inherit;
+  height: auto;
 }
 
 .lang-switch:hover {
-  background: #f3f4f6;
+  background: var(--nav-bg-hover, #f3f4f6);
   border-color: var(--border-hover);
 }
 
@@ -195,7 +229,19 @@ button:focus-visible {
   inline-size: 1.25em;
   block-size: 1.25em;
   vertical-align: middle;
-  margin-inline: 0.1em 0.25em;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+}
+
+.lang-switch .icon {
+  inline-size: 1em;
+  block-size: 1em;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+  vertical-align: middle;
 }
 
 /*
@@ -234,7 +280,7 @@ article header {
 
 .lede {
   margin: 0.2em 0 1em;
-  color: #111827;
+  color: var(--heading);
   font-size: 1.05em;
   line-height: 1.7;
 }
@@ -250,14 +296,35 @@ section h2 {
   line-height: 1.25;
 }
 
-p {
-  margin: 0.4em 0 0.8em;
-  text-align: left;
+pre {
+  background: var(--panel-2);
+  border: thin solid var(--border);
+  border-radius: calc(var(--radius-soft, 0.66em) * 0.9);
+  padding: 1em;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  margin: 1em 0;
 }
 
-ul {
-  padding-left: 1.2em;
-  margin: 0.25em 0 0.75em;
+code {
+  white-space: pre-wrap;
+  padding: 0.2em 0.35em;
+  border-radius: 0.35em;
+  background: var(--nav-bg, transparent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+/* List indentation: make lists visually indented from normal paragraph text */
+ul, ol {
+  padding-left: 1.8em;
+  margin: 0.35em 0 0.85em;
+}
+
+/* Nested lists should be slightly more indented */
+ul ul, ol ol, ul ol, ol ul {
+  padding-left: 1.4em;
 }
 
 a {
@@ -279,7 +346,7 @@ a:hover {
   height: auto;
   margin: 1.5em auto;
   border-radius: calc(var(--radius) * 0.66);
-  box-shadow: 0 0.125em 0.75em rgba(0, 0, 0, 0.07);
+  box-shadow: var(--shadow-img);
 }
 
 /* Small images (e.g., icons, inline)
@@ -308,11 +375,49 @@ a:hover {
 }
 
 /*
+ * Generic image styling (outside article content)
+ * Match cyberpunk-handbook visual treatment for images.
+ */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
+  border-radius: calc(var(--radius) * 1.1);
+  border: thin solid var(--border);
+  box-shadow: var(--shadow-img);
+}
+
+/*
  * Optional: avoid overflow in code blocks if you have them
  */
 pre,
 code {
   max-width: 100%;
+}
+
+/* Quotation styles */
+blockquote {
+  margin: 0 0 1em;
+  padding: 0.8em 1em;
+  background: var(--panel-2);
+  border-left: 4px solid var(--border);
+  border-radius: calc(var(--radius) * 0.35);
+  color: var(--muted);
+  font-style: italic;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+blockquote cite {
+  display: block;
+  margin-top: 0.5em;
+  font-size: 0.95em;
+  color: var(--muted);
+  font-style: normal;
+  text-align: right;
 }
 
 /*
@@ -333,7 +438,7 @@ footer p {
 
 /* Keep footnote paragraphs left-aligned (those that contain <sup>) */
 footer p:has(sup) {
-  text-align: left;
+  text-align: justify;
 }
 
 footer p sup {
@@ -347,6 +452,15 @@ footer p sup {
   font-weight: 700;
   font-size: 0.8em;
   text-align: center;
+}
+
+/* Footer motto: keep icon tight with heading text */
+footer h4,
+footer .motto {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  margin: 0.35em 0;
 }
 
 /*

@@ -10,26 +10,28 @@
   <script src="./../popup-fallback.js"></script>
 </head>
 <body>
-  <header>
+  <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Article</h2>
 
-    <nav>
-      <a href="./../index.html" target="_blank" rel=
-      "noopener noreferrer">Home</a> <a href="./../blog.html" target="_blank"
-      rel="noopener noreferrer">Blog</a>
+    <nav id="site-nav">
+      <ul>
+        <li><a href="./../index.html" target="_blank" rel="noopener noreferrer">Home</a></li>
+        <li><a href="./../blog.html" target="_blank" rel="noopener noreferrer">Blog</a></li>
+        <li><a class="lang-switch" href="./gpl-es.html"><img src="./../images/es.svg" alt="ES" class="icon">Español</a></li>
+      </ul>
     </nav>
   </header>
 
-  <main>
+  <main id="site-main">
     <article>
-      <header>
+      <header id="article-header">
         <p class="kicker">Licensing</p>
 
         <h1>The GPL: A Tool with Paradoxes in the World of Free Software</h1>
 
-        <p class="meta">By David Uhden Collado • Updated <time datetime=
+        <p class="meta">By David Uhden Collado - Updated <time datetime=
         "2025-03-06">March 6, 2025</time></p>
 
         <p class="lede">The GPL set out to secure software freedom, but its
@@ -138,13 +140,16 @@
     </article>
   </main>
 
-  <footer>
+  <footer id="site-footer">
     <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
 
     <p><strong><a href="./../license.html" target="_blank" rel=
-    "noopener noreferrer">LICENSE</a></strong></p>
+    "noopener noreferrer">LICENSE</a></strong>
+    </p>
 
-    <h4>VIVE ET SINE ALIOS VIVERE</h4>
+    <img src="./../images/anarchy.svg" alt="freedom" class="icon">
+    <h4 class="motto">VIVE ET SINE ALIOS VIVERE</h4>
+    <img src="./../images/anarchy.svg" alt="freedom" class="icon">
   </footer>
 </body>
 </html>
