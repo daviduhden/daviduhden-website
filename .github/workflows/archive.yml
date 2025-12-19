@@ -26,7 +26,7 @@ jobs:
           usesh: true
           prepare: |
             # Install required packages in OpenBSD
-            pkg_add gh git
+            pkg_add -I git github-cli
 
           run: |
             set -x
