@@ -182,4 +182,3 @@ jobs:
             exit 1
           fi
           echo "No formatting changes detected."
-
