@@ -27,6 +27,8 @@ on:
       - "**/*.json"
       - "scripts/validate-website.pl"
       - ".github/workflows/validate-website.yml"
+  # Allow manual runs from the Actions tab
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -145,7 +147,7 @@ jobs:
               download_url=$(printf '%s' "$api_json" \
                 | grep '"browser_download_url":' \
                 | sed -E 's/.*"([^\"]+)".*/\1/' \
-                | grep -E '\.tar\.gz$' \
+                | grep -E '\.zip$' \
                 | grep -i "$arch" || true)
             fi
 
@@ -155,7 +157,7 @@ jobs:
                 | grep '"browser_download_url":' \
                 | sed -E 's/.*"([^\"]+)".*/\1/' \
                 | grep -i linux \
-                | grep -E '\.tar\.gz$' \
+                | grep -E '\.zip$' \
                 | head -n1 || true)
             fi
 
