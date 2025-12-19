@@ -9,6 +9,8 @@ on:
     paths:
       - "**/*.yml"
       - "**/*.yaml"
+  # Allow manual runs from the Actions tab
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -73,4 +75,3 @@ jobs:
         if: steps.detect.outputs.has_yaml != 'true'
         run: |
           echo "No YAML files tracked; skipping."
-
