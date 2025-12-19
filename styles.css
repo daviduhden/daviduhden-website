@@ -302,8 +302,9 @@ pre {
   border-radius: calc(var(--radius-soft, 0.66em) * 0.9);
   padding: 1em;
   overflow-x: auto;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   margin: 1em 0;
 }
 
@@ -312,8 +313,9 @@ code {
   padding: 0.2em 0.35em;
   border-radius: 0.35em;
   background: var(--nav-bg, transparent);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
 }
 
 /* List indentation: make lists visually indented from normal paragraph text */
