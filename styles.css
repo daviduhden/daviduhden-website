@@ -195,6 +195,14 @@ button:focus-visible {
   border-radius: 0.4em;
 }
 
+/* Utility: underlined text (shared with cypherpunk-handbook) */
+.underline,
+.u-underline {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-skip-ink: auto;
+}
+
 /*
  * Language switch button styles
  * Adds border, padding, and icon alignment for language switcher.
@@ -233,7 +241,8 @@ button:focus-visible {
   margin-right: 0.25em;
   border-radius: 0;
   border: none;
-  background: transparent;
+  background: inherit;
+  box-shadow: none;
 }
 
 .lang-switch .icon {
@@ -306,6 +315,7 @@ pre {
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
   margin: 1em 0;
+  line-height: 1.5;
 }
 
 code {
@@ -316,6 +326,12 @@ code {
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
+}
+
+/* Ensure content inside pre has equal spacing top/bottom */
+pre code,
+pre p {
+  margin: 0;
 }
 
 /* List indentation: make lists visually indented from normal paragraph text */
