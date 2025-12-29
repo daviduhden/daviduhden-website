@@ -67,9 +67,6 @@ jobs:
           # Sign the archive
           signify-openbsd -S -s "$TMP_DIR/archive.sec" -m "$ARCHIVE"
 
-          # Copy files to archive directory
-          cp "$ARCHIVE" "$CHECKSUM" "$SIGNATURE" "$ARCHIVE_DIR/"
-
       # ----------------------------
       # Track archive file with LFS
       # ----------------------------
@@ -86,11 +83,18 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Rewrite history to remove previous archive files
-          git filter-repo --path archive/daviduhden-website.tar.gz --invert-paths --force
+          # Remove old archive versions from history
+          git filter-repo --path "archive/$REPO_NAME.tar.gz" --invert-paths --force
 
-          # Add the newly generated archive, checksum, and signature
-          git add archive/*.tar.gz archive/*.sha256 archive/*.sig
+          # Copy the newly generated archive, checksum, and signature into the repo
+          cp "$GITHUB_WORKSPACE/tmp_archive/$REPO_NAME.tar.gz" "$GITHUB_WORKSPACE/archive/"
+          cp "$GITHUB_WORKSPACE/tmp_archive/$REPO_NAME.tar.gz.sha256" "$GITHUB_WORKSPACE/archive/"
+          cp "$GITHUB_WORKSPACE/tmp_archive/$REPO_NAME.tar.gz.sig" "$GITHUB_WORKSPACE/archive/"
+
+          # Add the new files explicitly to Git
+          git add "archive/$REPO_NAME.tar.gz"
+          git add "archive/$REPO_NAME.tar.gz.sha256"
+          git add "archive/$REPO_NAME.tar.gz.sig"
 
       # ----------------------------
       # Commit and push changes
