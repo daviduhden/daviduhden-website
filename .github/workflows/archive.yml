@@ -72,6 +72,7 @@ jobs:
       # ----------------------------
       - name: Track Archive with LFS
         run: |
+          set -euo pipefail
           git lfs install --local
           git lfs track "archive/*.tar.gz"
           git add .gitattributes
@@ -82,6 +83,8 @@ jobs:
       - name: Clean old archive from history
         run: |
           set -euo pipefail
+
+          REPO_NAME=$(basename "$GITHUB_REPOSITORY")
 
           # Remove old archive versions from history
           git filter-repo --path "archive/$REPO_NAME.tar.gz" --invert-paths --force
@@ -102,6 +105,8 @@ jobs:
       - name: Commit and Push
         run: |
           set -euo pipefail
+
+          REPO_NAME=$(basename "$GITHUB_REPOSITORY")
 
           # Re-add origin remote (required after git-filter-repo)
           git remote add origin https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
