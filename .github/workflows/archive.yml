@@ -78,9 +78,19 @@ jobs:
 
           rm -f "$ARCHIVE" "$CHECKSUM" "$SIGNATURE" "$KEYFILE"
 
-          # Create tar.gz archive (PAX format, includes .git)
+          # Create tar.gz archive
+          # Excluded:
+          # - .git/           (VCS metadata)
+          # - .github/        (CI configuration)
+          # - .gitattributes  (LFS rules / derived config)
+          # - archive/        (derived artifacts)
+          # - tmp_archive/    (temporary files)
           tar \
             --format=pax \
+            --exclude="./.git" \
+            --exclude="./.github" \
+            --exclude="./.gitattributes" \
+            --exclude="./archive" \
             --exclude="./tmp_archive" \
             -czf "$ARCHIVE" .
 
