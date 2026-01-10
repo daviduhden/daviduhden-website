@@ -66,7 +66,7 @@
         system that is simple to install and configure without compromising
         security. The system includes a large number of built-in applications
         in the base package, all designed to be used as-is, without default
-        configurations that could jeopardize security. This “less is more”
+        configurations that could jeopardize security. This "less is more"
         approach forces the user to enable only the services that are truly
         needed, thereby minimizing risks associated with misconfigurations or
         vulnerabilities.</p>
@@ -116,7 +116,7 @@
       <section>
         <h2>Secure Defaults and Tooling in Practice</h2>
 
-        <p>OpenBSD’s security posture is not limited to exploit mitigations. It
+        <p>OpenBSD's security posture is not limited to exploit mitigations. It
         also emphasizes secure defaults, small and auditable system utilities,
         and tight integration between the kernel and the base userland. The
         practical result is a system that tends to be safer without requiring
@@ -153,7 +153,7 @@
           daemon is compromised.</li>
         </ul>
 
-        <p>Finally, OpenBSD’s culture of continuous auditing, as well as its
+        <p>Finally, OpenBSD's culture of continuous auditing, as well as its
         insistence on high-quality manual pages, plays an outsized role in
         real-world security: configuration is explicit, defaults are
         intentional, and administration is meant to be done from documented
@@ -188,7 +188,7 @@
           designed to help developers and system components handle sensitive
           data and allocation patterns more safely.</li>
 
-          <li><strong>Allocator hardening and diagnostics:</strong> OpenBSD’s
+          <li><strong>Allocator hardening and diagnostics:</strong> OpenBSD's
           malloc implementation is widely regarded for its hardening work and
           its usefulness in catching classes of memory bugs during development
           and debugging.</li>
@@ -215,7 +215,7 @@
           deployed with an emphasis on confinement (for example, serving
           content from a restricted directory tree).</li>
 
-          <li><strong><code>cron(8)</code> control features:</strong> OpenBSD’s
+          <li><strong><code>cron(8)</code> control features:</strong> OpenBSD's
           cron supports options that help reduce accidental concurrency and can
           make job timing less predictable, which is valuable both for
           reliability and for reducing synchronized load spikes.</li>
@@ -234,7 +234,7 @@
       <section>
         <h2>Cryptography, Network Security, and Integrity</h2>
 
-        <p>OpenBSD’s ecosystem includes a set of security-focused network and
+        <p>OpenBSD's ecosystem includes a set of security-focused network and
         cryptographic components that are either part of the base system or
         closely associated with the project. While many of these tools are used
         far beyond OpenBSD, their development culture emphasizes reviewability,
@@ -272,8 +272,8 @@
 
         <p>OpenBSD also exposes a number of practical levers that help
         operators reduce the attack surface and tighten what applications and
-        services can do, even after compromise. The goal is rarely “perfect
-        security”; instead, it is to keep failures contained and
+        services can do, even after compromise. The goal is rarely "perfect
+        security"; instead, it is to keep failures contained and
         observable.</p>
 
         <ul>
