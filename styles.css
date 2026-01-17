@@ -294,6 +294,12 @@ article header {
   line-height: 1.7;
 }
 
+audio {
+  display: block;
+  margin: 1em auto;
+  max-width: 100%;
+}
+
 section {
   margin-bottom: 1.5em;
 }
@@ -447,6 +453,11 @@ footer {
   text-align: center;
   color: var(--muted);
   font-size: 0.95em;
+}
+
+footer ul,
+footer ol {
+  text-align: justify;
 }
 
 footer p {
