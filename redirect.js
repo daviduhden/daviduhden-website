@@ -1,5 +1,5 @@
 /*!
- * Language Redirect Script (improved)
+ * Language Redirect Script
  *
  * Copyright (c) 2024-2025 David Uhden Collado <david@uhden.dev>
  *
