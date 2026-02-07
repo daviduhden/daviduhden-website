@@ -1,7 +1,7 @@
 /*!
  * Cascading Style Sheet (CSS) for a simple website
  *
- * Copyright (c) 2024-2025 David Uhden Collado <david@uhden.dev>
+ * Copyright (c) 2024-2026 David David Uhden Collado <david@uhden.dev>
  *
  * Permission to use, copy, modify, and distribute this cascading style sheet
  * for any purpose with or without fee is hereby granted, provided that the
@@ -46,8 +46,8 @@
   --radius-soft: 0.66em;
   --radius-pill: 999em;
 
-  --shadow: 0 0.5em 1.5em rgba(15, 23, 42, 0.05);
-  --shadow-img: 0 0.125em 0.75em rgba(0, 0, 0, 0.07);
+  --shadow: 0 0.5em 1.5em #0f172a0d;
+  --shadow-img: 0 0.125em 0.75em #00000012;
 
   --max-width: 72ch;
   --gutter: 1.25em;
@@ -56,7 +56,7 @@
   --pad-y: 2em;
   --pad-x: 1.25em;
 
-  --focus-ring: 0 0 0 0.2em rgba(14, 165, 233, 0.35);
+  --focus-ring: 0 0 0 0.2em #0ea5e959;
 }
 
 /*
@@ -294,12 +294,6 @@ article header {
   line-height: 1.7;
 }
 
-audio {
-  display: block;
-  margin: 1em auto;
-  max-width: 100%;
-}
-
 section {
   margin-bottom: 1.5em;
 }
@@ -309,6 +303,52 @@ section h2 {
   font-size: clamp(1.25em, 1.2vw + 1em, 1.6em);
   color: var(--heading);
   line-height: 1.25;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0 1.4em;
+  font-size: 0.98em;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-soft);
+  overflow: hidden;
+}
+
+caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 600;
+  color: var(--heading);
+  margin-bottom: 0.5em;
+}
+
+thead th {
+  background: var(--panel-2);
+  color: var(--heading);
+  text-align: left;
+  font-weight: 600;
+  padding: 0.7em 0.8em;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody td {
+  padding: 0.6em 0.8em;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr:nth-child(even) {
+  background: var(--panel-2);
+}
+
+tbody tr:hover {
+  background: color-mix(in srgb, var(--panel-2) 85%, var(--link) 15%);
+}
+
+th, td {
+  vertical-align: top;
 }
 
 pre {

@@ -1,7 +1,7 @@
 /*!
  * Language Redirect Script
  *
- * Copyright (c) 2024-2025 David Uhden Collado <david@uhden.dev>
+ * Copyright (c) 2024-2026 David David Uhden Collado <david@uhden.dev>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
