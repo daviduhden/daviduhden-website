@@ -335,102 +335,108 @@ sub update_articles_json {
     logi("Updated mapping: $json_file");
 }
 
-# =========================
-# Main
-# =========================
-my $today = strftime( '%a, %d %b %Y %H:%M:%S GMT', gmtime() );
+sub run_update {
+    my $slug_en =
+      normalize_slug( prompt( 'English slug (without .html, e.g., gpl)', '' ) );
+    length $slug_en or loge('English slug is required.');
 
-my $slug_en =
-  normalize_slug( prompt( 'English slug (without .html, e.g., gpl)', '' ) );
-length $slug_en or loge('English slug is required.');
+    my $slug_es =
+      normalize_slug(
+        prompt( 'Spanish slug (without .html)', $slug_en . '-es' ) );
 
-my $slug_es =
-  normalize_slug( prompt( 'Spanish slug (without .html)', $slug_en . '-es' ) );
+    my $key = normalize_slug(
+        prompt( 'Key for data/articles.json (used by redirect.js)', $slug_en )
+    );
+    validate_key($key);
 
-my $key = normalize_slug(
-    prompt( 'Key for data/articles.json (used by redirect.js)', $slug_en ) );
-validate_key($key);
+    my $title_en = prompt( 'Title (English)',       '' );
+    my $title_es = prompt( 'Title (Spanish)',       '' );
+    my $desc_en  = prompt( 'Description (English)', '' );
+    my $desc_es  = prompt( 'Description (Spanish)', '' );
 
-my $title_en = prompt( 'Title (English)',       '' );
-my $title_es = prompt( 'Title (Spanish)',       '' );
-my $desc_en  = prompt( 'Description (English)', '' );
-my $desc_es  = prompt( 'Description (Spanish)', '' );
+    my $articles_dir = File::Spec->catdir( $root_dir, 'articles' );
+    my $article_en_path =
+      File::Spec->catfile( $articles_dir, $slug_en . '.html' );
+    my $article_es_path =
+      File::Spec->catfile( $articles_dir, $slug_es . '.html' );
+    my $found_iso = extract_datetime_from_article($article_en_path)
+      || extract_datetime_from_article($article_es_path);
 
-# Try to extract datetime from article header (<time datetime="...">)
-my $articles_dir    = File::Spec->catdir( $root_dir, 'articles' );
-my $article_en_path = File::Spec->catfile( $articles_dir, $slug_en . '.html' );
-my $article_es_path = File::Spec->catfile( $articles_dir, $slug_es . '.html' );
-my $found_iso       = extract_datetime_from_article($article_en_path)
-  || extract_datetime_from_article($article_es_path);
-my $pubdate_input = '';
-if ($found_iso) {
-    $pubdate_input = $found_iso;
-    logi("Found datetime in article header: $found_iso");
-}
-else {
-    $pubdate_input = prompt(
+    my $pubdate_input = '';
+    if ($found_iso) {
+        $pubdate_input = $found_iso;
+        logi("Found datetime in article header: $found_iso");
+    }
+    else {
+        $pubdate_input = prompt(
 'Publication date ISO (e.g., 2025-03-06T10:00:00Z) or leave blank for now',
-        ''
+            ''
+        );
+    }
+
+    my $pub_epoch = iso_to_epoch($pubdate_input);
+    unless ( defined $pub_epoch ) {
+        if ($pubdate_input) {
+            logw(
+"Could not parse provided pubdate '$pubdate_input' as ISO; falling back to current time"
+            );
+        }
+        $pub_epoch = time();
+    }
+
+    my $pub_iso    = epoch_to_iso($pub_epoch);
+    my $pub_rfc_en = rfc2822_from_ts_locale( $pub_epoch, 'en' );
+    my $pub_rfc_es = rfc2822_from_ts_locale( $pub_epoch, 'es' );
+
+    update_feed(
+        path        => $feed_en,
+        title       => $title_en,
+        slug        => $slug_en,
+        description => $desc_en,
+        lang        => 'en',
+        replace     => $replace_existing,
+        pubdate_rfc => $pub_rfc_en,
+    );
+
+    update_feed(
+        path        => $feed_es,
+        title       => $title_es,
+        slug        => $slug_es,
+        description => $desc_es,
+        lang        => 'es',
+        replace     => $replace_existing,
+        pubdate_rfc => $pub_rfc_es,
+    );
+
+    update_articles_json(
+        key      => $key,
+        slug_en  => $slug_en,
+        slug_es  => $slug_es,
+        title_en => $title_en,
+        title_es => $title_es,
+        pubdate  => $pub_iso,
+    );
+
+    my $rebuild_script =
+      File::Spec->catfile( $root_dir, 'scripts', 'rebuild-feeds.pl' );
+    if ( -x $rebuild_script ) {
+        logi("Running rebuild script: $rebuild_script");
+        my $rc = system( $^X, $rebuild_script );
+        if ( $rc != 0 ) {
+            logw("Rebuild script exited with code $rc");
+        }
+    }
+    else {
+        logw("Rebuild script not found or not executable: $rebuild_script");
+    }
+
+    logi(
+'Done. Review changes in feeds and data/articles.json (redirect.js loads it).'
     );
 }
 
-# Normalize to epoch (UTC) if possible, otherwise fallback to now
-my $pub_epoch = iso_to_epoch($pubdate_input);
-unless ( defined $pub_epoch ) {
-    if ($pubdate_input) {
-        logw(
-"Could not parse provided pubdate '$pubdate_input' as ISO; falling back to current time"
-        );
-    }
-    $pub_epoch = time();
-}
-my $pub_iso    = epoch_to_iso($pub_epoch);
-my $pub_rfc_en = rfc2822_from_ts_locale( $pub_epoch, 'en' );
-my $pub_rfc_es = rfc2822_from_ts_locale( $pub_epoch, 'es' );
-
-update_feed(
-    path        => $feed_en,
-    title       => $title_en,
-    slug        => $slug_en,
-    description => $desc_en,
-    lang        => 'en',
-    replace     => $replace_existing,
-    pubdate_rfc => $pub_rfc_en,
-);
-
-update_feed(
-    path        => $feed_es,
-    title       => $title_es,
-    slug        => $slug_es,
-    description => $desc_es,
-    lang        => 'es',
-    replace     => $replace_existing,
-    pubdate_rfc => $pub_rfc_es,
-);
-
-update_articles_json(
-    key      => $key,
-    slug_en  => $slug_en,
-    slug_es  => $slug_es,
-    title_en => $title_en,
-    title_es => $title_es,
-    pubdate  => $pub_iso,
-);
-
-# Run rebuild script to regenerate feeds (ensures consistent ordering and encoding)
-my $rebuild_script =
-  File::Spec->catfile( $root_dir, 'scripts', 'rebuild-feeds.pl' );
-if ( -x $rebuild_script ) {
-    logi("Running rebuild script: $rebuild_script");
-    my $rc = system( $^X, $rebuild_script );
-    if ( $rc != 0 ) {
-        logw("Rebuild script exited with code $rc");
-    }
-}
-else {
-    logw("Rebuild script not found or not executable: $rebuild_script");
+sub main {
+    run_update();
 }
 
-logi(
-'Done. Review changes in feeds and data/articles.json (redirect.js loads it).'
-);
+main();
