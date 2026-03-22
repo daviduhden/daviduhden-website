@@ -175,20 +175,7 @@ my $feed_en      = File::Spec->catfile( $feeds_dir, 'blog.xml' );
 my $feed_es      = File::Spec->catfile( $feeds_dir, 'blog-es.xml' );
 my $articles_dir = File::Spec->catdir( $root, 'articles' );
 
-my $json_text = read_utf8($data_file) // die_tool "Could not read $data_file\n";
-my $articles  = eval { JSON::PP->new->decode($json_text) };
-if ( $@ || !$articles ) {
-    die_tool "Could not parse $data_file as JSON\n";
-}
-
-# Re-write data/articles.json sorted alphabetically by key (stable canonical JSON)
-my $sorted = {};
-for my $k ( sort keys %$articles ) {
-    $sorted->{$k} = $articles->{$k};
-}
-my $json_out = JSON::PP->new->canonical->pretty->encode($sorted);
-write_utf8( $data_file, $json_out );
-logi("Wrote sorted $data_file");
+my $sorted;
 
 sub rfc2822_from_ts_locale {
     my ( $t, $lang ) = @_;
@@ -301,7 +288,33 @@ s{<lastBuildDate>[^<]*</lastBuildDate>}{<lastBuildDate>$now</lastBuildDate>}m;
     logi("Rebuilt $path with $count items");
 }
 
-rebuild_feed( $feed_en, 'en' );
-rebuild_feed( $feed_es, 'es' );
+sub load_and_sort_articles {
+    my $json_text = read_utf8($data_file)
+      // die_tool "Could not read $data_file\n";
+    my $articles = eval { JSON::PP->new->decode($json_text) };
+    if ( $@ || !$articles ) {
+        die_tool "Could not parse $data_file as JSON\n";
+    }
 
+    $sorted = {};
+    for my $k ( sort keys %$articles ) {
+        $sorted->{$k} = $articles->{$k};
+    }
+
+    my $json_out = JSON::PP->new->canonical->pretty->encode($sorted);
+    write_utf8( $data_file, $json_out );
+    logi("Wrote sorted $data_file");
+}
+
+sub run_rebuild {
+    load_and_sort_articles();
+    rebuild_feed( $feed_en, 'en' );
+    rebuild_feed( $feed_es, 'es' );
+}
+
+sub main {
+    run_rebuild();
+}
+
+main();
 exit 0;
