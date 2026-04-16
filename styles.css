@@ -305,6 +305,10 @@ section h2 {
   line-height: 1.25;
 }
 
+main p {
+  text-align: justify;
+}
+
 /* Tables */
 table {
   width: 100%;
