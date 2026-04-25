@@ -199,7 +199,7 @@ button:focus-visible {
 .underline,
 .u-underline {
   text-decoration: underline;
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: max(0.06em, 0.04lh);
   text-decoration-skip-ink: auto;
 }
 
@@ -316,7 +316,7 @@ table {
   margin: 1em 0 1.4em;
   font-size: 0.98em;
   background: var(--panel);
-  border: 1px solid var(--border);
+  border: thin solid var(--border);
   border-radius: var(--radius-soft);
   overflow: hidden;
 }
@@ -335,12 +335,12 @@ thead th {
   text-align: left;
   font-weight: 600;
   padding: 0.7em 0.8em;
-  border-bottom: 1px solid var(--border);
+  border-bottom: thin solid var(--border);
 }
 
 tbody td {
   padding: 0.6em 0.8em;
-  border-bottom: 1px solid var(--border);
+  border-bottom: thin solid var(--border);
 }
 
 tbody tr:nth-child(even) {
@@ -443,6 +443,17 @@ a:hover {
 }
 
 /*
+ * Homepage portrait
+ * Responsive sizing (no fixed pixels), preserving the source colors.
+ */
+.home-portrait {
+  inline-size: min(100%, clamp(18ch, 35vw, 34ch));
+  block-size: auto;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+/*
  * Generic image styling (outside article content)
  * Match cypherpunk-handbook visual treatment for images.
  */
@@ -469,7 +480,7 @@ blockquote {
   margin: 0 0 1em;
   padding: 0.8em 1em;
   background: var(--panel-2);
-  border-left: 4px solid var(--border);
+  border-left: clamp(0.18em, 0.35vw, 0.32em) solid var(--border);
   border-radius: calc(var(--radius) * 0.35);
   color: var(--muted);
   font-style: italic;
