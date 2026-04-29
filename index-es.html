@@ -9,41 +9,42 @@
   <script src="./redirect.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#site-main">Saltar al contenido principal</a>
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Sitio personal</h2>
 
-    <nav id="site-nav">
+    <nav id="site-nav" aria-label="Navegación principal">
       <ul>
         <li>
-          <a href="./index-es.html">Inicio</a>
+          <a href="./index-es.html" rel="home">Inicio</a>
         </li>
 
         <li>
-          <a href="./blog-es.html">Blog</a>
+          <a href="./blog-es.html" rel="contents">Blog</a>
         </li>
 
         <li>
-          <a class="lang-switch" href="./index.html"><img src="./images/en.png"
-          alt="EN" class="icon">English</a>
+          <a class="lang-switch" href="./index.html" rel="alternate" hreflang=
+          "en"><img src="./images/en.png" alt="EN" class="icon">English</a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main id="site-main">
+  <main id="site-main" tabindex="-1">
     <section id="bio">
       <h2>Sobre Mi</h2>
       <img src="./images/me.png" alt="David Uhden Collado" class=
       "home-portrait">
-      <p>Técnico autodidacta; aspirante a programador en el corto plazo y a
-      ingeniero en el medio plazo.</p>
+      <p>Soy un técnico autodidacta y aspiro a ser programador en el corto
+      plazo e ingeniero en el medio plazo.</p>
 
-      <p>Defiendo la soberanía individual frente al colectivo y la aplico a la
-      tecnología promoviendo solo software libre y de código abierto que
-      devuelva control a los usuarios sin sacrificar seguridad, privacidad ni
-      anonimato.</p>
+      <p>Defiendo la soberanía individual frente al colectivo. En tecnología,
+      esto se traduce en promover solo software libre y de código abierto que
+      devuelva el control a los usuarios sin sacrificar seguridad, privacidad
+      ni anonimato.</p>
     </section>
 
     <section id="links">
@@ -60,9 +61,10 @@
         </li>
 
         <li>The Cypherpunk Handbook (<a href=
-        "http://5u6pytvslmtzmlheqsno2wt3vpyd7nggxhdgn533spyy2euaqwvpfbid.onion">TOR</a>
-        - <a href=
-        "http://poy7mv4bgjnjgxq73hck72x5lnspvev4pnsiea2gdyegt7xpeg3q.b32.i2p">
+        "https://handbook.uhden.dev">Clearnet</a> - <a href=
+        "http://5u6pytvslmtzmlheqsno2wt3vpyd7nggxhdgn533spyy2euaqwvpfbid.onion">
+          TOR</a> - <a href=
+          "http://poy7mv4bgjnjgxq73hck72x5lnspvev4pnsiea2gdyegt7xpeg3q.b32.i2p">
           I2P</a>)
         </li>
       </ul>
@@ -89,80 +91,100 @@
     <section id="contact">
       <h2>Información de contacto</h2>
 
-      <p><img src="./images/email.png" alt="Correo" class="icon">Correo
-      electrónico: <a href="mailto:david@uhden.dev">david@uhden.dev</a></p>
+      <address>
+        <p><img src="./images/email.png" alt="Correo" class="icon">Correo
+        electrónico: <a href="mailto:david@uhden.dev">david@uhden.dev</a></p>
 
-      <p><em>Siempre que sea posible, se deben enviar los correos electrónicos
-      en <a href="https://useplaintext.email/es/">formato de texto plano</a> en
-      lugar de HTML.</em>
-      </p>
+        <p><em>Siempre que sea posible, se deben enviar los correos
+        electrónicos en <a href="https://useplaintext.email/es/">formato de
+        texto plano</a> en lugar de HTML.</em>
+        </p>
 
-      <p><img src="./images/gnupg.png" alt="PGP" class="icon">Clave PGP pública
-      (RSA4096):</p>
+        <p><img src="./images/gnupg.png" alt="PGP" class="icon">Clave PGP
+        pública (RSA4096):</p>
 
-      <p><a href=
-      "./pgp_public_key_rsa4096.asc">1BCF104C8C6527E449743E4C1A47E8A7D51FB3DA</a>
-      </p>
+        <p><a href=
+        "./pgp_public_key_rsa4096.asc">1BCF104C8C6527E449743E4C1A47E8A7D51FB3DA</a>
+        </p>
 
-      <p><img src="./images/signal.png" alt="Signal" class="icon"><a href=
-      "https://signal.me/#eu/yi-6GYdrvs0PkexhZwCF86hc39bRBblo3x9H2_chqjIBdjCeYhlC3pZEZZORBIbZ">Signal</a>
-      </p>
+        <p><img src="./images/signal.png" alt="Signal" class="icon"><a href=
+        "https://signal.me/#eu/yi-6GYdrvs0PkexhZwCF86hc39bRBblo3x9H2_chqjIBdjCeYhlC3pZEZZORBIbZ">Signal</a>
+        </p>
 
-      <p><img src="./images/simplex.png" alt="SimpleX" class="icon"><a href=
-      "https://smp9.simplex.im/a#Wgo0CP8IZqj7oHflV7COIRapYTZizhKtwMx608wlEEo">SimpleX
-      Chat</a>
-      </p>
+        <p><img src="./images/simplex.png" alt="SimpleX" class="icon"><a href=
+        "https://smp9.simplex.im/a#Wgo0CP8IZqj7oHflV7COIRapYTZizhKtwMx608wlEEo">SimpleX
+        Chat</a>
+        </p>
+      </address>
     </section>
 
     <section id="domains">
       <h2>Dominios</h2>
 
-      <p><img src="./images/www.png" alt="WWW" class="icon"><a href=
-      "https://uhden.dev">Red clara</a>
-      </p>
+      <ul>
+        <li>
+          <img src="./images/www.png" alt="WWW" class="icon"><a href=
+          "https://uhden.dev">Red clara</a>
+        </li>
 
-      <p><img src="./images/tor.png" alt="TOR" class="icon"><a href=
-      "http://nr3yj3bouucqw3omwlst5qmeon4djbn4mdlcrrw6xmc7v42sh5ajdpyd.onion">Red
-      Tor</a>
-      </p>
+        <li>
+          <img src="./images/tor.png" alt="TOR" class="icon"><a href=
+          "http://nr3yj3bouucqw3omwlst5qmeon4djbn4mdlcrrw6xmc7v42sh5ajdpyd.onion">Red
+          Tor</a>
+        </li>
 
-      <p><img src="./images/i2p.png" alt="I2P" class="icon"><a href=
-      "http://uhden.i2p">Red I2P (dirección corta)</a>
-      </p>
+        <li>
+          <img src="./images/i2p.png" alt="I2P" class="icon"><a href=
+          "http://uhden.i2p">Red I2P (dirección corta)</a>
+        </li>
 
-      <p><img src="./images/i2p.png" alt="I2P" class="icon"><a href=
-      "http://cp7wkyweud5cuqqhuugyzzpym5izbhwj3mch77nqk4hylc5fftpq.b32.i2p">Red
-      I2P (dirección base32 completa)</a>
-      </p>
+        <li>
+          <img src="./images/i2p.png" alt="I2P" class="icon"><a href=
+          "http://cp7wkyweud5cuqqhuugyzzpym5izbhwj3mch77nqk4hylc5fftpq.b32.i2p">Red
+          I2P (dirección base32 completa)</a>
+        </li>
+      </ul>
     </section>
 
     <section id="fuente">
       <h3>Código Fuente</h3>
 
-      <p><img class="icon" src="./images/github.png" alt="GitHub"><a href=
-      "https://github.com/daviduhden/daviduhden-website">Repositorio del sitio
-      web</a>
-      </p>
+      <ul>
+        <li>
+          <img class="icon" src="./images/github.png" alt="GitHub"><a href=
+          "https://github.com/daviduhden/daviduhden-website">Repositorio del
+          sitio web</a>
+        </li>
 
-      <p><img class="icon" src="./images/archive.png" alt="Archivo"><a href=
-      "./archive/daviduhden-website.tar.gz">Archivo del sitio web</a>
-      </p>
+        <li>
+          <img class="icon" src="./images/archive.png" alt="Archivo"><a href=
+          "./archive/daviduhden-website.tar.gz">Archivo del sitio web</a>
+        </li>
+      </ul>
     </section>
 
     <section id="donate">
       <h2>Donaciones</h2>
 
-      <p><strong><img src="./images/bitcoin.png" alt="BTC" class="icon">Bitcoin
-      (BTC)</strong><br>
-      <a href=
-      "bitcoin:btc.uhden.dev">bc1qeyyk9cn4rm44qhrdwsvhx50t46lejmysgj3jp5</a>
-      </p>
+      <dl>
+        <dt><strong><img src="./images/bitcoin.png" alt="BTC" class=
+        "icon">Bitcoin (BTC)</strong>
+        </dt>
 
-      <p><strong><img src="./images/monero.png" alt="XMR" class="icon">Monero
-      (XMR)</strong><br>
-      <a href=
-      "monero:xmr.uhden.dev">4AscQ2Y5aaz8huxvEj6a8Q2ucAszYgMfMeHjeH2bBYZijn71LgXJnDodgRZbdpuMnM1DEK9DESBXNM1WgX1YwSzc3QHki7X</a>
-      </p>
+        <dd>
+          <a href=
+          "bitcoin:btc.uhden.dev">bc1qeyyk9cn4rm44qhrdwsvhx50t46lejmysgj3jp5</a>
+        </dd>
+
+        <dt><strong><img src="./images/monero.png" alt="XMR" class=
+        "icon">Monero (XMR)</strong>
+        </dt>
+
+        <dd>
+          <a href=
+          "monero:xmr.uhden.dev">4AscQ2Y5aaz8huxvEj6a8Q2ucAszYgMfMeHjeH2bBYZijn71LgXJnDodgRZbdpuMnM1DEK9DESBXNM1WgX1YwSzc3QHki7X</a>
+        </dd>
+      </dl>
     </section>
 
     <section id="powered">
@@ -177,7 +199,7 @@
   <footer id="site-footer">
     <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
 
-    <p><strong><a href="./licencia.html">LICENCIA</a></strong>
+    <p><strong><a href="./licencia.html" rel="license">LICENCIA</a></strong>
     </p>
     <img src="./images/anarchy.png" alt="libertad" class="icon">
     <h4 class="motto">VIVE ET SINE ALIOS VIVERE</h4>

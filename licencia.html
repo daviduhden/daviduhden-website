@@ -9,44 +9,46 @@
   <script src="./redirect.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#site-main">Saltar al contenido principal</a>
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Términos del sitio</h2>
 
-    <nav id="site-nav">
+    <nav id="site-nav" aria-label="Navegación principal">
       <ul>
         <li>
-          <a href="./index-es.html">Inicio</a>
+          <a href="./index-es.html" rel="home">Inicio</a>
         </li>
 
         <li>
-          <a href="./blog-es.html">Blog</a>
+          <a href="./blog-es.html" rel="contents">Blog</a>
         </li>
 
         <li>
-          <a class="lang-switch" href="./license.html"><img src=
-          "./images/en.png" alt="EN" class="icon">English</a>
+          <a class="lang-switch" href="./license.html" rel="alternate"
+          hreflang="en"><img src="./images/en.png" alt="EN" class=
+          "icon">English</a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main id="site-main">
+  <main id="site-main" tabindex="-1">
     <section>
       <p>&copy; 2024-2026 David Uhden Collado. Todos los derechos
       reservados.</p>
 
-      <p>Se otorga autorización perpetua y gratuita a cualquier persona que
-      adquiera una copia del contenido de este sitio web, dentro de los
-      dominios respectivos listados en la página principal, para su uso sin
-      restricciones. Esta autorización incluye, entre otros derechos, el uso,
-      copia, modificación, combinación, publicación, distribución, sublicencia
-      y venta de copias del contenido, así como el derecho a permitir el acceso
-      al contenido proporcionado a terceros. El contenido se proporciona sin
-      garantía de ningún tipo, ya sea expresa o implícita. No obstante, los
-      autores confían en que la información brindada en el contenido de este
-      sitio web es precisa y beneficiosa para el público objetivo.</p>
+      <p>Se concede autorización perpetua y gratuita a cualquier persona que
+      obtenga una copia del contenido de este sitio web, dentro de los dominios
+      listados en la página principal, para usarlo sin restricciones. Esta
+      autorización incluye, entre otros derechos, usar, copiar, modificar,
+      combinar, publicar, distribuir, sublicenciar y vender copias del
+      contenido, así como permitir el acceso al contenido a terceros. El
+      contenido se proporciona sin garantía de ningún tipo, expresa o
+      implícita. No obstante, los autores consideran que la información
+      ofrecida en este sitio web es precisa y útil para el público
+      objetivo.</p>
 
       <h3>Archivos con Términos Diferentes</h3>
 
@@ -93,7 +95,7 @@
   <footer id="site-footer">
     <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
 
-    <p><strong><a href="./licencia.html">LICENCIA</a></strong>
+    <p><strong><a href="./licencia.html" rel="license">LICENCIA</a></strong>
     </p>
     <img src="./images/anarchy.png" alt="libertad" class="icon">
     <h4 class="motto">VIVE ET SINE ALIOS VIVERE</h4>

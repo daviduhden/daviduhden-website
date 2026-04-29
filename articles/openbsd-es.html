@@ -11,30 +11,32 @@
   href="./../feeds/blog-es.xml">
 </head>
 <body>
+  <a class="skip-link" href="#site-main">Saltar al contenido principal</a>
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Artículo</h2>
 
-    <nav id="site-nav">
+    <nav id="site-nav" aria-label="Navegación principal">
       <ul>
         <li>
-          <a href="./../index-es.html">Inicio</a>
+          <a href="./../index-es.html" rel="home">Inicio</a>
         </li>
 
         <li>
-          <a href="./../blog-es.html">Blog</a>
+          <a href="./../blog-es.html" rel="contents">Blog</a>
         </li>
 
         <li>
-          <a class="lang-switch" href="./openbsd.html"><img src=
-          "./../images/en.png" alt="EN" class="icon">English</a>
+          <a class="lang-switch" href="./openbsd.html" rel="alternate"
+          hreflang="en"><img src="./../images/en.png" alt="EN" class=
+          "icon">English</a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main id="site-main">
+  <main id="site-main" tabindex="-1">
     <article>
       <header id="article-header">
         <p class="kicker">Sistemas operativos</p>
@@ -49,15 +51,75 @@
         clara para configurar sin exponer el sistema.</p>
       </header>
 
+      <nav class="toc" aria-label="Índice">
+        <h2>Índice</h2>
+
+        <ol>
+          <li>
+            <a href="#openbsd-es-filosofia">Una filosofía de seguridad y
+            simplicidad</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-es-innovaciones">Innovaciones en seguridad que
+            marcan la diferencia</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-es-defaults">Valores por defecto y herramientas
+            orientadas a la seguridad</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-es-refuerzo">Refuerzo adicional: aleatorización y
+            seguridad de memoria</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-es-servicios">Servicios y utilidades con valores
+            seguros por defecto</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-es-cripto">Criptografía, red e integridad</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-es-privacidad">Privacidad operativa y reducción
+            de superficie de ataque</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-es-integracion">Integración, licencias y cultura
+            de documentación</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-es-virtualizacion">Virtualización y entorno
+            gráfico</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-es-comunidad">Más que un sistema operativo: una
+            comunidad comprometida</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-es-conclusiones">Conclusiones</a>
+          </li>
+        </ol>
+      </nav>
+
       <section>
-        <p>OpenBSD es una opción ideal tanto para entornos profesionales como
-        para el uso personal, ofreciendo una plataforma en la que cada línea de
-        código y cada configuración se desarrollan con una meticulosa atención
-        al detalle.</p>
+        <p>OpenBSD es una opción sólida tanto para entornos profesionales como
+        para uso personal. Ofrece una plataforma en la que cada línea de código
+        y cada configuración se desarrollan con meticulosa atención al
+        detalle.</p>
       </section>
 
       <section>
-        <h2>Una filosofía de seguridad y simplicidad</h2>
+        <h2 id="openbsd-es-filosofia">Una filosofía de seguridad y
+        simplicidad</h2>
 
         <p>OpenBSD sigue a rajatabla la filosofía de Unix, lo que se traduce en
         un sistema sencillo de instalar y configurar, pero sin perder de vista
@@ -78,7 +140,8 @@
       </section>
 
       <section>
-        <h2>Innovaciones en seguridad que marcan la diferencia</h2>
+        <h2 id="openbsd-es-innovaciones">Innovaciones en seguridad que marcan
+        la diferencia</h2>
 
         <p>Lo que realmente distingue a OpenBSD es su enfoque en la seguridad
         desde el núcleo del sistema. Cada componente, desde el kernel hasta las
@@ -113,7 +176,8 @@
       </section>
 
       <section>
-        <h2>Valores por defecto y herramientas orientadas a la seguridad</h2>
+        <h2 id="openbsd-es-defaults">Valores por defecto y herramientas
+        orientadas a la seguridad</h2>
 
         <p>El enfoque de OpenBSD no se limita a mitigaciones contra técnicas de
         explotación. También prioriza valores por defecto conservadores,
@@ -164,7 +228,8 @@
       </section>
 
       <section>
-        <h2>Refuerzo adicional: aleatorización y seguridad de memoria</h2>
+        <h2 id="openbsd-es-refuerzo">Refuerzo adicional: aleatorización y
+        seguridad de memoria</h2>
 
         <p>Además de mitigaciones ampliamente conocidas, OpenBSD ha invertido
         durante años en técnicas que reducen la predictibilidad tanto en el
@@ -189,7 +254,7 @@
 
           <li><strong>Primitivas más seguras en libc:</strong> Funciones como
           <code>freezero(3)</code> y <code>recallocarray(3)</code> están
-          diseñadas para ayudar a manejar datos sensibles y patrones de
+          diseñadas para ayudar a gestionar datos sensibles y patrones de
           asignación con mayor seguridad.</li>
 
           <li><strong>Asignador de memoria reforzado y diagnóstico:</strong> La
@@ -205,7 +270,8 @@
       </section>
 
       <section>
-        <h2>Servicios y utilidades con valores seguros por defecto</h2>
+        <h2 id="openbsd-es-servicios">Servicios y utilidades con valores
+        seguros por defecto</h2>
 
         <p>Muchas decisiones de diseño buscan que operar de forma segura sea el
         camino natural. Esto se aprecia no solo en el kernel, sino también en
@@ -235,7 +301,7 @@
       </section>
 
       <section>
-        <h2>Criptografía, red e integridad</h2>
+        <h2 id="openbsd-es-cripto">Criptografía, red e integridad</h2>
 
         <p>El ecosistema de OpenBSD incluye componentes de seguridad de red y
         criptografía que forman parte del sistema base o están estrechamente
@@ -272,7 +338,8 @@
       </section>
 
       <section>
-        <h2>Privacidad operativa y reducción de superficie de ataque</h2>
+        <h2 id="openbsd-es-privacidad">Privacidad operativa y reducción de
+        superficie de ataque</h2>
 
         <p>OpenBSD expone palancas prácticas para reducir superficie de ataque
         y limitar lo que aplicaciones y servicios pueden hacer, incluso tras un
@@ -306,7 +373,8 @@
       </section>
 
       <section>
-        <h2>Integración, licencias y cultura de documentación</h2>
+        <h2 id="openbsd-es-integracion">Integración, licencias y cultura de
+        documentación</h2>
 
         <p>Un tema recurrente es la coherencia: el kernel, el entorno base de
         usuario y el modelo de administración evolucionan de forma coordinada.
@@ -333,7 +401,8 @@
       </section>
 
       <section>
-        <h2>Virtualización y entorno gráfico</h2>
+        <h2 id="openbsd-es-virtualizacion">Virtualización y entorno
+        gráfico</h2>
 
         <p>No todos los entornos son sin interfaz gráfica. OpenBSD incluye
         componentes para virtualización y gráficos con foco en reducir
@@ -352,7 +421,8 @@
       </section>
 
       <section>
-        <h2>Más que un sistema operativo: una comunidad comprometida</h2>
+        <h2 id="openbsd-es-comunidad">Más que un sistema operativo: una
+        comunidad comprometida</h2>
 
         <p>Además de su robusta arquitectura, OpenBSD es el hogar de una
         comunidad activa y comprometida que trabaja incansablemente en la
@@ -369,7 +439,7 @@
       </section>
 
       <section>
-        <h2>Conclusiones</h2>
+        <h2 id="openbsd-es-conclusiones">Conclusiones</h2>
 
         <p>Si buscas un sistema operativo que combine simplicidad, seguridad y
         un diseño coherente, OpenBSD es una opción que merece la pena explorar.

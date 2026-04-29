@@ -9,40 +9,42 @@
   <script src="./redirect.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#site-main">Skip to main content</a>
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Personal website</h2>
 
-    <nav id="site-nav">
+    <nav id="site-nav" aria-label="Primary navigation">
       <ul>
         <li>
-          <a href="./index.html">Home</a>
+          <a href="./index.html" rel="home">Home</a>
         </li>
 
         <li>
-          <a href="./blog.html">Blog</a>
+          <a href="./blog.html" rel="contents">Blog</a>
         </li>
 
         <li>
-          <a class="lang-switch" href="./index-es.html"><img src=
-          "./images/es.png" alt="ES" class="icon">Español</a>
+          <a class="lang-switch" href="./index-es.html" rel="alternate"
+          hreflang="es"><img src="./images/es.png" alt="ES" class=
+          "icon">Español</a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main id="site-main">
+  <main id="site-main" tabindex="-1">
     <section id="bio">
       <h3>About Me</h3>
       <img src="./images/me.png" alt="David Uhden Collado" class=
       "home-portrait">
-      <p>Self-taught technician; aiming to become a programmer soon and an
-      engineer in the medium term.</p>
+      <p>I am a self-taught technician, aiming to become a programmer in the
+      short term and an engineer in the medium term.</p>
 
-      <p>I stand for individual sovereignty over collectivism and apply that to
-      technology by advocating only free and open-source software that gives
-      users control without compromising security, privacy or anonymity.</p>
+      <p>I stand for individual sovereignty over collectivism. In technology,
+      this means advocating free and open-source software that gives users
+      control without compromising security, privacy, or anonymity.</p>
     </section>
 
     <section id="links">
@@ -57,9 +59,10 @@
         </li>
 
         <li>The Cypherpunk Handbook (<a href=
-        "http://5u6pytvslmtzmlheqsno2wt3vpyd7nggxhdgn533spyy2euaqwvpfbid.onion">TOR</a>
-        - <a href=
-        "http://poy7mv4bgjnjgxq73hck72x5lnspvev4pnsiea2gdyegt7xpeg3q.b32.i2p">
+        "https://handbook.uhden.dev">Clearnet</a> - <a href=
+        "http://5u6pytvslmtzmlheqsno2wt3vpyd7nggxhdgn533spyy2euaqwvpfbid.onion">
+          TOR</a> - <a href=
+          "http://poy7mv4bgjnjgxq73hck72x5lnspvev4pnsiea2gdyegt7xpeg3q.b32.i2p">
           I2P</a>)
         </li>
       </ul>
@@ -86,78 +89,100 @@
     <section id="contact">
       <h3>Contact Information</h3>
 
-      <p><img src="./images/email.png" alt="Email" class="icon">E-mail address:
-      <a href="mailto:david@uhden.dev">david@uhden.dev</a></p>
+      <address>
+        <p><img src="./images/email.png" alt="Email" class="icon">E-mail
+        address: <a href="mailto:david@uhden.dev">david@uhden.dev</a></p>
 
-      <p><em>Whenever possible, emails should be sent in <a href=
-      "https://useplaintext.email">plain text format</a> rather than HTML.</em>
-      </p>
+        <p><em>Whenever possible, emails should be sent in <a href=
+        "https://useplaintext.email">plain text format</a> rather than
+        HTML.</em>
+        </p>
 
-      <p><img src="./images/gnupg.png" alt="PGP" class="icon">Public PGP key
-      (RSA4096):</p>
+        <p><img src="./images/gnupg.png" alt="PGP" class="icon">Public PGP key
+        (RSA4096):</p>
 
-      <p><a href=
-      "./pgp_public_key_rsa4096.asc">1BCF104C8C6527E449743E4C1A47E8A7D51FB3DA</a>
-      </p>
+        <p><a href=
+        "./pgp_public_key_rsa4096.asc">1BCF104C8C6527E449743E4C1A47E8A7D51FB3DA</a>
+        </p>
 
-      <p><img src="./images/signal.png" alt="Signal" class="icon"><a href=
-      "https://signal.me/#eu/yi-6GYdrvs0PkexhZwCF86hc39bRBblo3x9H2_chqjIBdjCeYhlC3pZEZZORBIbZ">Signal</a>
-      </p>
+        <p><img src="./images/signal.png" alt="Signal" class="icon"><a href=
+        "https://signal.me/#eu/yi-6GYdrvs0PkexhZwCF86hc39bRBblo3x9H2_chqjIBdjCeYhlC3pZEZZORBIbZ">Signal</a>
+        </p>
 
-      <p><img src="./images/simplex.png" alt="SimpleX" class="icon"><a href=
-      "https://smp9.simplex.im/a#Wgo0CP8IZqj7oHflV7COIRapYTZizhKtwMx608wlEEo">SimpleX
-      Chat</a>
-      </p>
+        <p><img src="./images/simplex.png" alt="SimpleX" class="icon"><a href=
+        "https://smp9.simplex.im/a#Wgo0CP8IZqj7oHflV7COIRapYTZizhKtwMx608wlEEo">SimpleX
+        Chat</a>
+        </p>
+      </address>
     </section>
 
     <section id="domains">
       <h3>Domains</h3>
 
-      <p><img src="./images/www.png" alt="WWW" class="icon"><a href=
-      "https://uhden.dev">Clear network</a>
-      </p>
+      <ul>
+        <li>
+          <img src="./images/www.png" alt="WWW" class="icon"><a href=
+          "https://uhden.dev">Clear network</a>
+        </li>
 
-      <p><img src="./images/tor.png" alt="TOR" class="icon"><a href=
-      "http://nr3yj3bouucqw3omwlst5qmeon4djbn4mdlcrrw6xmc7v42sh5ajdpyd.onion">Tor
-      network</a>
-      </p>
+        <li>
+          <img src="./images/tor.png" alt="TOR" class="icon"><a href=
+          "http://nr3yj3bouucqw3omwlst5qmeon4djbn4mdlcrrw6xmc7v42sh5ajdpyd.onion">Tor
+          network</a>
+        </li>
 
-      <p><img src="./images/i2p.png" alt="I2P" class="icon"><a href=
-      "http://uhden.i2p">I2P network (short address)</a>
-      </p>
+        <li>
+          <img src="./images/i2p.png" alt="I2P" class="icon"><a href=
+          "http://uhden.i2p">I2P network (short address)</a>
+        </li>
 
-      <p><img src="./images/i2p.png" alt="I2P" class="icon"><a href=
-      "http://cp7wkyweud5cuqqhuugyzzpym5izbhwj3mch77nqk4hylc5fftpq.b32.i2p">I2P
-      network (full base32 address)</a>
-      </p>
+        <li>
+          <img src="./images/i2p.png" alt="I2P" class="icon"><a href=
+          "http://cp7wkyweud5cuqqhuugyzzpym5izbhwj3mch77nqk4hylc5fftpq.b32.i2p">I2P
+          network (full base32 address)</a>
+        </li>
+      </ul>
     </section>
 
     <section id="source">
       <h3>Source Code</h3>
 
-      <p><img class="icon" src="./images/github.png" alt="GitHub"><a href=
-      "https://github.com/daviduhden/daviduhden-website">Website repository</a>
-      </p>
+      <ul>
+        <li>
+          <img class="icon" src="./images/github.png" alt="GitHub"><a href=
+          "https://github.com/daviduhden/daviduhden-website">Website
+          repository</a>
+        </li>
 
-      <p><img class="icon" src="./images/github.png" alt="Archive"><a href=
-      "./archive/daviduhden-website.tar.gz">Website archive</a>
-      </p>
+        <li>
+          <img class="icon" src="./images/github.png" alt="Archive"><a href=
+          "./archive/daviduhden-website.tar.gz">Website archive</a>
+        </li>
+      </ul>
     </section>
 
     <section id="donate">
       <h3>Donations</h3>
 
-      <p><strong><img src="./images/bitcoin.png" alt="BTC" class="icon">Bitcoin
-      (BTC)</strong><br>
-      <a href=
-      "bitcoin:btc.uhden.dev">bc1qeyyk9cn4rm44qhrdwsvhx50t46lejmysgj3jp5</a>
-      </p>
+      <dl>
+        <dt><strong><img src="./images/bitcoin.png" alt="BTC" class=
+        "icon">Bitcoin (BTC)</strong>
+        </dt>
 
-      <p><strong><img src="./images/monero.png" alt="XMR" class="icon">Monero
-      (XMR)</strong><br>
-      <a href=
-      "monero:xmr.uhden.dev">4AscQ2Y5aaz8huxvEj6a8Q2ucAszYgMfMeHjeH2bBYZijn71LgXJnDodgRZbdpuMnM1DEK9DESBXNM1WgX1YwSzc3QHki7X</a>
-      </p>
+        <dd>
+          <a href=
+          "bitcoin:btc.uhden.dev">bc1qeyyk9cn4rm44qhrdwsvhx50t46lejmysgj3jp5</a>
+        </dd>
+
+        <dt><strong><img src="./images/monero.png" alt="XMR" class=
+        "icon">Monero (XMR)</strong>
+        </dt>
+
+        <dd>
+          <a href=
+          "monero:xmr.uhden.dev">4AscQ2Y5aaz8huxvEj6a8Q2ucAszYgMfMeHjeH2bBYZijn71LgXJnDodgRZbdpuMnM1DEK9DESBXNM1WgX1YwSzc3QHki7X</a>
+        </dd>
+      </dl>
     </section>
 
     <section id="powered">
@@ -170,11 +195,11 @@
   </main>
 
   <footer id="site-footer">
-    <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
+    <p>&copy; 2024-2025 David Uhden Collado. All rights reserved.</p>
 
-    <p><strong><a href="./license.html">LICENSE</a></strong>
+    <p><strong><a href="./license.html" rel="license">LICENSE</a></strong>
     </p>
-    <img src="./images/anarchy.png" alt="libertad" class="icon">
+    <img src="./images/anarchy.png" alt="freedom" class="icon">
     <h4 class="motto">VIVE ET SINE ALIOS VIVERE</h4>
     <img src="./images/anarchy.png" alt="freedom" class="icon">
   </footer>

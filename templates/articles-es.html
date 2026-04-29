@@ -11,30 +11,32 @@
   href="./../feeds/blog-es.xml">
 </head>
 <body>
+  <a class="skip-link" href="#site-main">Saltar al contenido principal</a>
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Artículo</h2>
 
-    <nav id="site-nav">
+    <nav id="site-nav" aria-label="Navegación principal">
       <ul>
         <li>
-          <a href="./../index-es.html">Inicio</a>
+          <a href="./../index-es.html" rel="home">Inicio</a>
         </li>
 
         <li>
-          <a href="./../blog-es.html">Blog</a>
+          <a href="./../blog-es.html" rel="contents">Blog</a>
         </li>
 
         <li>
-          <a class="lang-switch" href="./../index.html"><img src=
-          "./../images/en.png" alt="EN" class="icon">English</a>
+          <a class="lang-switch" href="./../index.html" rel="alternate"
+          hreflang="en"><img src="./../images/en.png" alt="EN" class=
+          "icon">English</a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main id="site-main">
+  <main id="site-main" tabindex="-1">
     <article>
       <header id="article-header">
         <p class="kicker">CATEGORÍA O ETIQUETA</p>
@@ -44,8 +46,8 @@
         <p class="meta">Por AUTOR - Actualizado <time datetime=
         "2025-01-01">FECHA</time></p>
 
-        <p class="lede">Una o dos frases que expliquen qué aporta el artículo y
-        qué puede esperar la persona que lo lee.</p>
+        <p class="lede">Una o dos frases que expliquen el valor del artículo y
+        qué puede esperar quien lo lea.</p>
 
         <section>
           <h2>Resumen</h2>
@@ -60,15 +62,33 @@
         </section>
       </header>
 
+      <nav class="toc" aria-label="Índice">
+        <h2>Índice</h2>
+
+        <ol>
+          <li>
+            <a href="#contexto">Contexto</a>
+          </li>
+
+          <li>
+            <a href="#contenido-principal">Contenido principal</a>
+          </li>
+
+          <li>
+            <a href="#referencias">Referencias</a>
+          </li>
+        </ol>
+      </nav>
+
       <section>
-        <h2>Contexto</h2>
+        <h2 id="contexto">Contexto</h2>
 
         <p>Describe el público objetivo, las suposiciones y el alcance. Indica
         claramente qué queda fuera.</p>
       </section>
 
       <section>
-        <h2>Contenido principal</h2>
+        <h2 id="contenido-principal">Contenido principal</h2>
 
         <p>Desarrolla el argumento, la guía o el tutorial. Prefiere párrafos
         breves y pasos accionables.</p>
@@ -92,7 +112,7 @@ console.log("Hola mundo");
       </section>
 
       <section>
-        <h2>Referencias</h2>
+        <h2 id="referencias">Referencias</h2>
 
         <ul>
           <li>

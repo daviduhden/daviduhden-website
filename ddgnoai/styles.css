@@ -28,6 +28,25 @@ body {
   text-align: center;
 }
 
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -9999px;
+  z-index: 1000;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 0.75rem;
+}
+
 html, body, p, li, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -77,6 +96,30 @@ ol, ul {
 
 li {
   margin: 0.25rem 0;
+}
+
+a {
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+@media print, (forced-colors: active) {
+  body {
+    display: block;
+    min-height: auto;
+    padding: 1rem;
+    background: #fff;
+    color: #000;
+    text-align: start;
+  }
+
+  .card {
+    max-width: 76ch;
+    border-color: currentcolor;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 1rem;
+  }
 }
 
 .meta {
