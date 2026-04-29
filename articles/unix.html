@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,30 +11,32 @@
   "./../feeds/blog.xml">
 </head>
 <body>
+  <a class="skip-link" href="#site-main">Skip to main content</a>
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Article</h2>
 
-    <nav id="site-nav">
+    <nav id="site-nav" aria-label="Primary navigation">
       <ul>
         <li>
-          <a href="./../index.html">Home</a>
+          <a href="./../index.html" rel="home">Home</a>
         </li>
 
         <li>
-          <a href="./../blog.html">Blog</a>
+          <a href="./../blog.html" rel="contents">Blog</a>
         </li>
 
         <li>
-          <a class="lang-switch" href="./unix-es.html"><img src=
-          "./../images/es.png" alt="ES" class="icon">Español</a>
+          <a class="lang-switch" href="./unix-es.html" rel="alternate"
+          hreflang="es"><img src="./../images/es.png" alt="ES" class=
+          "icon">Español</a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main id="site-main">
+  <main id="site-main" tabindex="-1">
     <article>
       <header id="article-header">
         <p class="kicker">Philosophy</p>
@@ -50,18 +52,40 @@
         for microservices.</p>
       </header>
 
+      <nav class="toc" aria-label="Table of contents">
+        <h2>Contents</h2>
+
+        <ol>
+          <li>
+            <a href="#unix-essence">The Essence of the UNIX Philosophy</a>
+          </li>
+
+          <li>
+            <a href="#unix-misunderstandings">Misunderstandings in the Age of
+            Microservices</a>
+          </li>
+
+          <li>
+            <a href="#unix-beyond-os">Beyond the Operating System</a>
+          </li>
+
+          <li>
+            <a href="#unix-conclusions">Conclusions</a>
+          </li>
+        </ol>
+      </nav>
+
       <section>
-        <p>The UNIX philosophy has long been championed as a paradigm that
-        promotes building systems from small, specialized tools. However, over
-        time, there has been a tendency to oversimplify and misinterpret its
-        foundations, reducing it to the notion that all you need is to assemble
-        small programs that communicate via pipes<sup><a href="#fn-1" id=
-        "ref-1">[1]</a></sup> or even erroneously equating it with modern
-        concepts like microservices.</p>
+        <p>The UNIX philosophy has long been presented as a paradigm for
+        building systems from small, specialized tools. Over time, however, its
+        foundations have often been oversimplified and misinterpreted. It is
+        frequently reduced to the idea that you only need to connect small
+        programs through pipes<sup><a href="#fn-1" id="ref-1">[1]</a></sup>, or
+        even incorrectly equated with modern concepts like microservices.</p>
       </section>
 
       <section>
-        <h2>The Essence of the UNIX Philosophy</h2>
+        <h2 id="unix-essence">The Essence of the UNIX Philosophy</h2>
 
         <p>At its core, UNIX was not conceived merely as a collection of small
         programs but as an environment where <strong>composability</strong> is
@@ -82,7 +106,8 @@
       </section>
 
       <section>
-        <h2>Misunderstandings in the Age of Microservices</h2>
+        <h2 id="unix-misunderstandings">Misunderstandings in the Age of
+        Microservices</h2>
 
         <p>With the advent of modern architectures like microservices, the
         erroneous notion has emerged that these systems are a natural extension
@@ -102,7 +127,7 @@
       </section>
 
       <section>
-        <h2>Beyond the Operating System</h2>
+        <h2 id="unix-beyond-os">Beyond the Operating System</h2>
 
         <p>Another crucial aspect in understanding the true UNIX philosophy is
         distinguishing between the ideas that inspired its development and the
@@ -121,7 +146,7 @@
       </section>
 
       <section>
-        <h2>Conclusions</h2>
+        <h2 id="unix-conclusions">Conclusions</h2>
 
         <p>The UNIX philosophy, in its purest form, is an invitation to rethink
         how we design and assemble systems. Far from being limited to a recipe
@@ -152,7 +177,7 @@
   </footer>
 
   <footer id="site-footer">
-    <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
+    <p>&copy; 2024-2025 David Uhden Collado. All rights reserved.</p>
 
     <p><strong><a href="./../license.html">LICENSE</a></strong>
     </p>

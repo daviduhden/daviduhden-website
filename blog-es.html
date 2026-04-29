@@ -11,36 +11,38 @@
   "./feeds/blog-es.xml">
 </head>
 <body>
+  <a class="skip-link" href="#site-main">Saltar al contenido principal</a>
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Blog personal</h2>
 
-    <nav id="site-nav">
+    <nav id="site-nav" aria-label="Navegación principal">
       <ul>
         <li>
-          <a href="./index-es.html">Inicio</a>
+          <a href="./index-es.html" rel="home">Inicio</a>
         </li>
 
         <li>
-          <a href="./blog-es.html">Blog</a>
+          <a href="./blog-es.html" rel="contents">Blog</a>
         </li>
 
         <li>
-          <a class="lang-switch" href="./blog.html"><img src="./images/en.png"
-          alt="EN" class="icon">English</a>
+          <a class="lang-switch" href="./blog.html" rel="alternate" hreflang=
+          "en"><img src="./images/en.png" alt="EN" class="icon">English</a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main id="site-main">
+  <main id="site-main" tabindex="-1">
     <section id="article-4">
       <h2><a href="./articles/gpl-es.html">La GPL: Una Herramienta con
       Paradojas en el Mundo del Software Libre</a>
       </h2>
 
-      <p>8 de Marzo de 2025</p>
+      <p><time datetime="2025-03-08">8 de marzo de 2025</time>
+      </p>
     </section>
 
     <section id="article-3">
@@ -48,7 +50,8 @@
       robusto y seguro para el futuro</a>
       </h2>
 
-      <p>6 de Marzo de 2025</p>
+      <p><time datetime="2025-03-06">6 de marzo de 2025</time>
+      </p>
     </section>
 
     <section id="article-2">
@@ -56,7 +59,8 @@
       Allá de la Simplicidad de los Pequeños Programas</a>
       </h2>
 
-      <p>5 de Marzo de 2025</p>
+      <p><time datetime="2025-03-05">5 de marzo de 2025</time>
+      </p>
     </section>
 
     <section id="article-1">
@@ -64,20 +68,21 @@
       Operativos: Lecciones de OpenBSD y Más Allá</a>
       </h2>
 
-      <p>4 de Marzo de 2025</p>
+      <p><time datetime="2025-03-04">4 de marzo de 2025</time>
+      </p>
     </section>
   </main>
 
   <footer id="rss">
     <p><a href="./feeds/blog-es.xml"><img src="./images/feed.png" alt="RSS"
-    class="icon"> Suscríbase a nuestro Feed RSS</a>
+    class="icon"> Suscríbete al feed RSS</a>
     </p>
   </footer>
 
   <footer id="site-footer">
     <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
 
-    <p><strong><a href="./licencia.html">LICENCIA</a></strong>
+    <p><strong><a href="./licencia.html" rel="license">LICENCIA</a></strong>
     </p>
     <img src="./images/anarchy.png" alt="libertad" class="icon">
     <h4 class="motto">VIVE ET SINE ALIOS VIVERE</h4>

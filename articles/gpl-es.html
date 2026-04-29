@@ -11,30 +11,31 @@
   href="./../feeds/blog-es.xml">
 </head>
 <body>
+  <a class="skip-link" href="#site-main">Saltar al contenido principal</a>
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Artículo</h2>
 
-    <nav id="site-nav">
+    <nav id="site-nav" aria-label="Navegación principal">
       <ul>
         <li>
-          <a href="./../index-es.html">Inicio</a>
+          <a href="./../index-es.html" rel="home">Inicio</a>
         </li>
 
         <li>
-          <a href="./../blog-es.html">Blog</a>
+          <a href="./../blog-es.html" rel="contents">Blog</a>
         </li>
 
         <li>
-          <a class="lang-switch" href="./gpl.html"><img src=
-          "./../images/en.png" alt="EN" class="icon">English</a>
+          <a class="lang-switch" href="./gpl.html" rel="alternate" hreflang=
+          "en"><img src="./../images/en.png" alt="EN" class="icon">English</a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main id="site-main">
+  <main id="site-main" tabindex="-1">
     <article>
       <header id="article-header">
         <p class="kicker">Licencias</p>
@@ -50,17 +51,48 @@
         tensiones con los modelos permisivos.</p>
       </header>
 
+      <nav class="toc" aria-label="Índice">
+        <h2>Índice</h2>
+
+        <ol>
+          <li>
+            <a href="#gpl-es-restricciones">Un Diseño con Restricciones
+            Contradictorias</a>
+          </li>
+
+          <li>
+            <a href="#gpl-es-dicotomia">La Dicotomía Entre Filosofía y
+            Práctica</a>
+          </li>
+
+          <li>
+            <a href="#gpl-es-impacto">El Impacto en la Colaboración y el
+            Desarrollo Empresarial</a>
+          </li>
+
+          <li>
+            <a href="#gpl-es-etica">Hacia una Ética de Compartir sin
+            Coacciones</a>
+          </li>
+
+          <li>
+            <a href="#gpl-es-conclusiones">Conclusiones</a>
+          </li>
+        </ol>
+      </nav>
+
       <section>
-        <p>La Licencia Pública General de GNU (GPL) nació con la noble
-        intención de contrarrestar el modelo de software propietario,
-        garantizando las cuatro libertades esenciales: ejecutar, estudiar,
-        compartir y modificar el software. Sin embargo, la GPL encierra
-        contradicciones y efectos colaterales que pueden socavar el espíritu de
-        cooperación y libertad que se desea fomentar en la comunidad.</p>
+        <p>La Licencia Pública General de GNU (GPL) nació con el objetivo de
+        contrarrestar el modelo de software propietario, garantizando cuatro
+        libertades esenciales: ejecutar, estudiar, compartir y modificar el
+        software. Sin embargo, la GPL también contiene contradicciones y
+        efectos colaterales que pueden debilitar el espíritu de cooperación y
+        libertad que se busca fomentar en la comunidad.</p>
       </section>
 
       <section>
-        <h2>Un Diseño con Restricciones Contradictorias</h2>
+        <h2 id="gpl-es-restricciones">Un Diseño con Restricciones
+        Contradictorias</h2>
 
         <p>La GPL fue diseñada para evitar que el software bajo su licencia se
         incorporase en proyectos propietarios. Esto implica que, si un programa
@@ -71,7 +103,7 @@
         más libremente en sistemas heterogéneos.</p>
 
         <p>Por ejemplo, en el ámbito del desarrollo del núcleo de Linux, la
-        licencia obliga a que cualquier componente enlazado está sujeto a las
+        licencia obliga a que cualquier componente enlazado esté sujeto a las
         mismas restricciones, lo que obliga a desarrolladores y empresas a
         adoptar soluciones complejas, como la vinculación dinámica frente a la
         estática, para evitar comprometer sus propios modelos de negocio. Esta
@@ -81,7 +113,7 @@
       </section>
 
       <section>
-        <h2>La Dicotomía Entre Filosofía y Práctica</h2>
+        <h2 id="gpl-es-dicotomia">La Dicotomía Entre Filosofía y Práctica</h2>
 
         <p>En teoría, la GPL defiende la idea de que compartir es sinónimo de
         libertad. Sin embargo, imponer restricciones legales para forzar la
@@ -100,7 +132,8 @@
       </section>
 
       <section>
-        <h2>El Impacto en la Colaboración y el Desarrollo Empresarial</h2>
+        <h2 id="gpl-es-impacto">El Impacto en la Colaboración y el Desarrollo
+        Empresarial</h2>
 
         <p>Otro aspecto polémico es la relación de la GPL con el mundo
         empresarial. Grandes corporaciones han encontrado en las licencias
@@ -121,7 +154,7 @@
       </section>
 
       <section>
-        <h2>Hacia una Ética de Compartir sin Coacciones</h2>
+        <h2 id="gpl-es-etica">Hacia una Ética de Compartir sin Coacciones</h2>
 
         <p>La crítica central es que la libertad no debe ser impuesta mediante
         restricciones legales que, paradójicamente, limitan el uso del
@@ -140,7 +173,7 @@
       </section>
 
       <section>
-        <h2>Conclusiones</h2>
+        <h2 id="gpl-es-conclusiones">Conclusiones</h2>
 
         <p>La GPL, a pesar de sus buenas intenciones, presenta limitaciones que
         entorpecen el verdadero espíritu del software libre: la colaboración y

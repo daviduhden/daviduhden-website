@@ -11,30 +11,31 @@
   href="./../feeds/blog-es.xml">
 </head>
 <body>
+  <a class="skip-link" href="#site-main">Saltar al contenido principal</a>
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Artículo</h2>
 
-    <nav id="site-nav">
+    <nav id="site-nav" aria-label="Navegación principal">
       <ul>
         <li>
-          <a href="./../index-es.html">Inicio</a>
+          <a href="./../index-es.html" rel="home">Inicio</a>
         </li>
 
         <li>
-          <a href="./../blog-es.html">Blog</a>
+          <a href="./../blog-es.html" rel="contents">Blog</a>
         </li>
 
         <li>
-          <a class="lang-switch" href="./unix.html"><img src=
-          "./../images/en.png" alt="EN" class="icon">English</a>
+          <a class="lang-switch" href="./unix.html" rel="alternate" hreflang=
+          "en"><img src="./../images/en.png" alt="EN" class="icon">English</a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main id="site-main">
+  <main id="site-main" tabindex="-1">
     <article>
       <header id="article-header">
         <p class="kicker">Filosofía</p>
@@ -50,19 +51,42 @@
         analogía simple con microservicios.</p>
       </header>
 
+      <nav class="toc" aria-label="Índice">
+        <h2>Índice</h2>
+
+        <ol>
+          <li>
+            <a href="#unix-es-esencia">La Esencia de la Filosofía UNIX</a>
+          </li>
+
+          <li>
+            <a href="#unix-es-malentendidos">Malentendidos en la Era de los
+            Microservicios</a>
+          </li>
+
+          <li>
+            <a href="#unix-es-mas-alla">Más Allá del Sistema Operativo</a>
+          </li>
+
+          <li>
+            <a href="#unix-es-conclusiones">Conclusiones</a>
+          </li>
+        </ol>
+      </nav>
+
       <section>
-        <p>La filosofía UNIX ha sido enarbolada durante décadas como un
-        paradigma que promueve la construcción de sistemas a partir de pequeñas
-        herramientas especializadas. Sin embargo, con el tiempo se ha observado
-        una tendencia a simplificar y malinterpretar sus fundamentos,
-        reduciéndola a la idea de que basta con ensamblar pequeños programas
-        que se comunican a través de pipes<sup><a href="#fn-1" id=
-        "ref-1">[1]</a></sup> o, incluso, asociándola erróneamente con
-        conceptos modernos como los microservicios.</p>
+        <p>Durante décadas, la filosofía UNIX se ha presentado como un
+        paradigma para construir sistemas a partir de herramientas pequeñas y
+        especializadas. Sin embargo, con el tiempo, sus fundamentos se han
+        simplificado y se han malinterpretado con frecuencia. A menudo se
+        reduce a la idea de que basta con ensamblar programas pequeños que se
+        comunican mediante pipes<sup><a href="#fn-1" id="ref-1">[1]</a></sup>
+        o, incluso, se asocia de forma errónea con conceptos modernos como los
+        microservicios.</p>
       </section>
 
       <section>
-        <h2>La Esencia de la Filosofía UNIX</h2>
+        <h2 id="unix-es-esencia">La Esencia de la Filosofía UNIX</h2>
 
         <p>En su origen, UNIX no fue concebido simplemente para ser una
         colección de programas pequeños, sino para construir un ambiente en el
@@ -85,7 +109,8 @@
       </section>
 
       <section>
-        <h2>Malentendidos en la Era de los Microservicios</h2>
+        <h2 id="unix-es-malentendidos">Malentendidos en la Era de los
+        Microservicios</h2>
 
         <p>Con el advenimiento de arquitecturas modernas, como los
         microservicios, ha surgido la idea errónea de que dichos sistemas son
@@ -106,7 +131,7 @@
       </section>
 
       <section>
-        <h2>Más Allá del Sistema Operativo</h2>
+        <h2 id="unix-es-mas-alla">Más Allá del Sistema Operativo</h2>
 
         <p>Otro aspecto crucial para comprender la verdadera filosofía UNIX es
         distinguir entre las ideas que inspiraron su desarrollo y las
@@ -126,7 +151,7 @@
       </section>
 
       <section>
-        <h2>Conclusiones</h2>
+        <h2 id="unix-es-conclusiones">Conclusiones</h2>
 
         <p>La filosofía UNIX, en su forma más pura, es una invitación a
         repensar cómo diseñamos y ensamblamos sistemas. Lejos de limitarse a

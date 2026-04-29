@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,30 +11,31 @@
   "./../feeds/blog.xml">
 </head>
 <body>
+  <a class="skip-link" href="#site-main">Skip to main content</a>
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Article</h2>
 
-    <nav id="site-nav">
+    <nav id="site-nav" aria-label="Primary navigation">
       <ul>
         <li>
-          <a href="./../index.html">Home</a>
+          <a href="./../index.html" rel="home">Home</a>
         </li>
 
         <li>
-          <a href="./../blog.html">Blog</a>
+          <a href="./../blog.html" rel="contents">Blog</a>
         </li>
 
         <li>
-          <a class="lang-switch" href="./gpl-es.html"><img src=
-          "./../images/es.png" alt="ES" class="icon">Español</a>
+          <a class="lang-switch" href="./gpl-es.html" rel="alternate" hreflang=
+          "es"><img src="./../images/es.png" alt="ES" class="icon">Español</a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main id="site-main">
+  <main id="site-main" tabindex="-1">
     <article>
       <header id="article-header">
         <p class="kicker">Licensing</p>
@@ -49,17 +50,47 @@
         between open and permissive models.</p>
       </header>
 
+      <nav class="toc" aria-label="Table of contents">
+        <h2>Contents</h2>
+
+        <ol>
+          <li>
+            <a href="#gpl-restrictions">A Design with Contradictory
+            Restrictions</a>
+          </li>
+
+          <li>
+            <a href="#gpl-dichotomy">The Dichotomy Between Philosophy and
+            Practice</a>
+          </li>
+
+          <li>
+            <a href="#gpl-impact">The Impact on Collaboration and Business
+            Development</a>
+          </li>
+
+          <li>
+            <a href="#gpl-ethic">Toward an Ethic of Sharing Without
+            Coercion</a>
+          </li>
+
+          <li>
+            <a href="#gpl-conclusions">Conclusions</a>
+          </li>
+        </ol>
+      </nav>
+
       <section>
-        <p>The GNU General Public License (GPL) was born with the noble
-        intention of countering the proprietary software model by guaranteeing
-        the four essential freedoms: to run, study, share, and modify the
-        software. However, the GPL contains contradictions and side effects
-        that can undermine the spirit of cooperation and freedom that the
-        community seeks to foster.</p>
+        <p>The GNU General Public License (GPL) was created with the goal of
+        countering the proprietary software model by guaranteeing four
+        essential freedoms: running, studying, sharing, and modifying software.
+        However, the GPL also includes contradictions and side effects that can
+        undermine the spirit of cooperation and freedom the community aims to
+        foster.</p>
       </section>
 
       <section>
-        <h2>A Design with Contradictory Restrictions</h2>
+        <h2 id="gpl-restrictions">A Design with Contradictory Restrictions</h2>
 
         <p>The GPL was designed to prevent software under its license from
         being incorporated into proprietary projects. This means that if a
@@ -79,7 +110,8 @@
       </section>
 
       <section>
-        <h2>The Dichotomy Between Philosophy and Practice</h2>
+        <h2 id="gpl-dichotomy">The Dichotomy Between Philosophy and
+        Practice</h2>
 
         <p>In theory, the GPL defends the idea that sharing is synonymous with
         freedom. However, imposing legal restrictions to force code
@@ -97,7 +129,8 @@
       </section>
 
       <section>
-        <h2>The Impact on Collaboration and Business Development</h2>
+        <h2 id="gpl-impact">The Impact on Collaboration and Business
+        Development</h2>
 
         <p>Another controversial aspect is the GPL's relationship with the
         business world. Large corporations have found permissive licenses to be
@@ -116,7 +149,7 @@
       </section>
 
       <section>
-        <h2>Toward an Ethic of Sharing Without Coercion</h2>
+        <h2 id="gpl-ethic">Toward an Ethic of Sharing Without Coercion</h2>
 
         <p>The central critique is that freedom should not be imposed through
         legal restrictions that, paradoxically, limit the use of the software.
@@ -134,7 +167,7 @@
       </section>
 
       <section>
-        <h2>Conclusions</h2>
+        <h2 id="gpl-conclusions">Conclusions</h2>
 
         <p>Despite its noble intentions, the GPL presents limitations that
         hinder the true spirit of free software: open collaboration and sharing
@@ -151,7 +184,7 @@
   </main>
 
   <footer id="site-footer">
-    <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
+    <p>&copy; 2024-2025 David Uhden Collado. All rights reserved.</p>
 
     <p><strong><a href="./../license.html">LICENSE</a></strong>
     </p>

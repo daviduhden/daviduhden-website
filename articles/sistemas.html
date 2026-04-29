@@ -11,30 +11,32 @@
   href="./../feeds/blog-es.xml">
 </head>
 <body>
+  <a class="skip-link" href="#site-main">Saltar al contenido principal</a>
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
     <h2>Artículo</h2>
 
-    <nav id="site-nav">
+    <nav id="site-nav" aria-label="Navegación principal">
       <ul>
         <li>
-          <a href="./../index-es.html">Inicio</a>
+          <a href="./../index-es.html" rel="home">Inicio</a>
         </li>
 
         <li>
-          <a href="./../blog-es.html">Blog</a>
+          <a href="./../blog-es.html" rel="contents">Blog</a>
         </li>
 
         <li>
-          <a class="lang-switch" href="./systems.html"><img src=
-          "./../images/en.png" alt="EN" class="icon">English</a>
+          <a class="lang-switch" href="./systems.html" rel="alternate"
+          hreflang="en"><img src="./../images/en.png" alt="EN" class=
+          "icon">English</a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main id="site-main">
+  <main id="site-main" tabindex="-1">
     <article>
       <header id="article-header">
         <p class="kicker">Sistemas operativos</p>
@@ -51,19 +53,48 @@
         distintos.</p>
       </header>
 
+      <nav class="toc" aria-label="Índice">
+        <h2>Índice</h2>
+
+        <ol>
+          <li>
+            <a href="#sistemas-empresarial">El Paradigma Empresarial y su
+            Legado</a>
+          </li>
+
+          <li>
+            <a href="#sistemas-compatibilidad">Las Consecuencias de la
+            Compatibilidad Retroactiva</a>
+          </li>
+
+          <li>
+            <a href="#sistemas-enfoque">Un Enfoque Renovado: La Filosofía de
+            OpenBSD y Apple</a>
+          </li>
+
+          <li>
+            <a href="#sistemas-innovacion">Impacto en la Innovación y el Futuro
+            de la Computación</a>
+          </li>
+
+          <li>
+            <a href="#sistemas-conclusiones">Conclusiones</a>
+          </li>
+        </ol>
+      </nav>
+
       <section>
-        <p>La evolución de los sistemas operativos se ha visto, en gran parte,
-        condicionada por las demandas del mercado empresarial. Durante décadas,
-        fabricantes como Microsoft han priorizado la compatibilidad hacia
-        atrás, mientras que proyectos como OpenBSD y Apple han apostado por una
-        ruptura más agresiva con el pasado para avanzar en seguridad,
-        rendimiento y arquitectura. Este artículo explora cómo estos enfoques
-        tan distintos moldean la innovación y la seguridad de nuestros
-        sistemas.</p>
+        <p>La evolución de los sistemas operativos ha estado condicionada, en
+        gran parte, por las demandas del mercado empresarial. Durante décadas,
+        fabricantes como Microsoft priorizaron la compatibilidad hacia atrás,
+        mientras que proyectos como OpenBSD y Apple apostaron por una ruptura
+        más agresiva con el pasado para mejorar seguridad, rendimiento y
+        arquitectura. Este artículo analiza cómo estos enfoques, tan distintos,
+        moldean la innovación y la seguridad de nuestros sistemas.</p>
       </section>
 
       <section>
-        <h2>El Paradigma Empresarial y su Legado</h2>
+        <h2 id="sistemas-empresarial">El Paradigma Empresarial y su Legado</h2>
 
         <p>En el mundo corporativo, la estabilidad es sinónimo de confianza.
         Empresas que invierten en software a medida para sus operaciones, desde
@@ -83,7 +114,8 @@
       </section>
 
       <section>
-        <h2>Las Consecuencias de la Compatibilidad Retroactiva</h2>
+        <h2 id="sistemas-compatibilidad">Las Consecuencias de la Compatibilidad
+        Retroactiva</h2>
 
         <p>La insistencia en mantener APIs<sup><a href="#fn-2" id=
         "ref-2">[2]</a></sup> y ABIs antiguos tiene un costo considerable. Por
@@ -102,7 +134,8 @@
       </section>
 
       <section>
-        <h2>Un Enfoque Renovado: La Filosofía de OpenBSD y Apple</h2>
+        <h2 id="sistemas-enfoque">Un Enfoque Renovado: La Filosofía de OpenBSD
+        y Apple</h2>
 
         <p>Contrario al modelo empresarial, proyectos como OpenBSD y la línea
         de sistemas operativos de Apple adoptan un enfoque radicalmente
@@ -133,7 +166,8 @@
       </section>
 
       <section>
-        <h2>Impacto en la Innovación y el Futuro de la Computación</h2>
+        <h2 id="sistemas-innovacion">Impacto en la Innovación y el Futuro de la
+        Computación</h2>
 
         <p>La tensión entre mantener la compatibilidad y empujar la innovación
         es el dilema central en el desarrollo de sistemas operativos. Mientras
@@ -153,7 +187,7 @@
       </section>
 
       <section>
-        <h2>Conclusiones</h2>
+        <h2 id="sistemas-conclusiones">Conclusiones</h2>
 
         <p>El debate sobre compatibilidad versus innovación no es nuevo, pero
         se vuelve cada vez más relevante en un mundo donde la seguridad y la
