@@ -41,7 +41,7 @@
       <header id="article-header">
         <p class="kicker">Operating Systems</p>
 
-        <h1>OpenBSD: A Robust and Secure Operating System for the Future</h1>
+        <h1>OpenBSD: A Secure, Robust Operating System for the Future</h1>
 
         <p class="meta">By David Uhden Collado - Updated <time datetime=
         "2025-12-12">December 12, 2025</time></p>
@@ -113,31 +113,29 @@
 
       <section>
         <p>Since its inception, OpenBSD has stood out as a UNIX-like operating
-        system based on 4.4BSD, known for both security and minimalist design.
-        Over the years, it has proven to be a strong choice for professional
-        and personal use alike, offering a platform where code and
-        configuration are developed with meticulous attention to detail.</p>
+        system based on 4.4BSD, known for security and minimalist design. Over
+        the years, it has proven to be a strong choice for professional and
+        personal use alike, offering a platform where code and configuration
+        are developed with meticulous attention to detail.</p>
       </section>
 
       <section>
         <h2 id="openbsd-philosophy">A Philosophy of Security and
         Simplicity</h2>
 
-        <p>OpenBSD adheres strictly to the Unix philosophy, resulting in a
-        system that is simple to install and configure without compromising
-        security. The system includes a large number of built-in applications
-        in the base package, all designed to be used as-is, without default
-        configurations that could jeopardize security. This "less is more"
-        approach forces the user to enable only the services that are truly
-        needed, thereby minimizing risks associated with misconfigurations or
-        vulnerabilities.</p>
+        <p>OpenBSD adheres closely to the Unix philosophy, resulting in a
+        system that is straightforward to install and configure without
+        compromising security. It includes many built-in base applications
+        designed to work as shipped, without insecure defaults. This "less is
+        more" approach requires users to enable only the services they truly
+        need, minimizing risks tied to misconfiguration and unnecessary
+        exposure.</p>
 
-        <p>Every configuration file in OpenBSD uses a clear and readable
-        syntax, which makes understanding and modifying them straightforward.
-        Additionally, documentation is an absolute priority: each option is
-        explained in detail in the manual pages. The premise is simple yet
-        powerful: lacking or incorrect documentation is considered a flaw,
-        since proper configuration is essential to maintaining system
+        <p>OpenBSD configuration files use clear, readable syntax, making them
+        easier to understand and modify. Documentation is also a first-class
+        priority: each option is explained in detail in the manual pages. The
+        premise is simple but powerful—missing or incorrect documentation is a
+        defect, because correct configuration is essential to system
         security.</p>
       </section>
 
@@ -145,10 +143,10 @@
         <h2 id="openbsd-innovations">Security Innovations That Make a
         Difference</h2>
 
-        <p>What truly sets OpenBSD apart is its focus on security at the very
-        core of the system. Every component—from the kernel to the userland
-        applications—is subjected to rigorous audits to identify and eliminate
-        potential security flaws. Some of the key innovations include:</p>
+        <p>What truly sets OpenBSD apart is its focus on security at the system
+        core. Every component—from kernel to userland—is subjected to rigorous
+        audits to identify and eliminate potential security flaws. Key
+        innovations include:</p>
 
         <ul>
           <li><strong>W^X Policy:</strong> The mandatory enforcement of W^X in
@@ -170,8 +168,8 @@
           service is compromised.</li>
         </ul>
 
-        <p>These features have inspired other operating systems to adopt
-        similar measures, establishing OpenBSD as a benchmark in security and
+        <p>These features have influenced other operating systems to adopt
+        similar measures, establishing OpenBSD as a benchmark for security and
         stability.</p>
       </section>
 
@@ -179,10 +177,10 @@
         <h2 id="openbsd-defaults">Secure Defaults and Tooling in Practice</h2>
 
         <p>OpenBSD's security posture is not limited to exploit mitigations. It
-        also emphasizes secure defaults, small and auditable system utilities,
-        and tight integration between the kernel and the base userland. The
-        practical result is a system that tends to be safer without requiring
-        extensive post-install hardening.</p>
+        also emphasizes secure defaults, small auditable utilities, and tight
+        integration between the kernel and base userland. In practice, this
+        tends to produce a safer system without extensive post-install
+        hardening.</p>
 
         <p>Several mechanisms and base tools commonly cited in security
         discussions include:</p>
@@ -215,23 +213,23 @@
           daemon is compromised.</li>
         </ul>
 
-        <p>Finally, OpenBSD's culture of continuous auditing, as well as its
+        <p>Finally, OpenBSD's culture of continuous auditing, together with its
         insistence on high-quality manual pages, plays an outsized role in
         real-world security: configuration is explicit, defaults are
-        intentional, and administration is meant to be done from documented
-        primitives rather than opaque layers.</p>
+        intentional, and administration relies on documented primitives rather
+        than opaque layers.</p>
       </section>
 
       <section>
         <h2 id="openbsd-hardening">Hardening Beyond the Obvious: Randomization
         and Memory Safety</h2>
 
-        <p>In addition to well-known mitigations, OpenBSD has historically
-        invested in techniques that make exploitation less reliable by reducing
-        predictability in both userland and the kernel. These measures are most
-        effective when combined: even when an attacker gains partial
-        information, each additional layer raises the cost of building a
-        reliable chain.</p>
+        <p>In addition to well-known mitigations, OpenBSD has long invested in
+        techniques that make exploitation less reliable by reducing
+        predictability in both userland and kernel space. These measures are
+        most effective in combination: even when attackers gain partial
+        information, each extra layer raises the cost of building a reliable
+        exploit chain.</p>
 
         <ul>
           <li><strong>Address-space and layout randomization:</strong> Multiple
@@ -268,10 +266,9 @@
         <h2 id="openbsd-services">Secure-by-Default Services and System
         Utilities</h2>
 
-        <p>Many OpenBSD design decisions aim to make secure operation the path
-        of least resistance. This is often visible not only in the kernel, but
-        in defaults for daemons and in small, purpose-built administration
-        tools.</p>
+        <p>Many OpenBSD design decisions make secure operation the path of
+        least resistance. This is visible not only in the kernel, but also in
+        daemon defaults and in small, purpose-built administration tools.</p>
 
         <ul>
           <li><strong>Chrooted web serving:</strong> The base
@@ -299,7 +296,7 @@
         <h2 id="openbsd-crypto">Cryptography, Network Security, and
         Integrity</h2>
 
-        <p>OpenBSD's ecosystem includes a set of security-focused network and
+        <p>OpenBSD's ecosystem includes security-focused networking and
         cryptographic components that are either part of the base system or
         closely associated with the project. While many of these tools are used
         far beyond OpenBSD, their development culture emphasizes reviewability,
@@ -336,11 +333,10 @@
         <h2 id="openbsd-privacy">Operational Privacy and Reduced Attack
         Surface</h2>
 
-        <p>OpenBSD also exposes a number of practical levers that help
-        operators reduce the attack surface and tighten what applications and
-        services can do, even after compromise. The goal is rarely "perfect
-        security"; instead, it is to keep failures contained and
-        observable.</p>
+        <p>OpenBSD also provides practical levers that help operators reduce
+        attack surface and restrict what applications and services can do, even
+        after compromise. The goal is rarely "perfect security"; instead, it is
+        to keep failures contained and observable.</p>
 
         <ul>
           <li><strong>Process sandboxing:</strong> <code>pledge(2)</code> and
@@ -371,10 +367,10 @@
         <h2 id="openbsd-integration">Subsystem Integration, Licensing, and
         Documentation Culture</h2>
 
-        <p>A recurring theme in OpenBSD is that security depends on coherence:
-        the kernel, the base userland, and the administrative model evolve
-        together. This makes it feasible to roll out cross-cutting security
-        mechanisms broadly, and to document them in a consistent way.</p>
+        <p>A recurring OpenBSD theme is that security depends on coherence: the
+        kernel, base userland, and administrative model evolve together. This
+        makes it feasible to roll out cross-cutting security mechanisms broadly
+        and document them consistently.</p>
 
         <ul>
           <li><strong>Kernel and base userland developed together:</strong>
@@ -419,28 +415,26 @@
         <h2 id="openbsd-community">More Than an Operating System: A Committed
         Community</h2>
 
-        <p>Beyond its robust architecture, OpenBSD is home to an active and
-        dedicated community that tirelessly works on the continuous improvement
-        of the system. Complementary projects like LibreSSL, OpenBGPD,
-        OpenNTPD, OpenSMTPD, and OpenSSH, among others, are an integral part of
-        the ecosystem, offering secure, high-quality tools that seamlessly
-        integrate into the base distribution.</p>
+        <p>Beyond its robust architecture, OpenBSD has an active and dedicated
+        community that works continuously to improve the system. Complementary
+        projects such as LibreSSL, OpenBGPD, OpenNTPD, OpenSMTPD, and OpenSSH
+        are integral to the ecosystem, providing secure, high-quality tools
+        that integrate cleanly with the base distribution.</p>
 
-        <p>This close integration among system components, combined with the
-        developers' commitment to security, allows users to have a reliable
-        platform capable of supporting everything from critical servers to
-        workstations for web development.</p>
+        <p>This close integration across system components, combined with the
+        developers' commitment to security, gives users a reliable platform
+        that can support everything from critical servers to web development
+        workstations.</p>
       </section>
 
       <section>
         <h2 id="openbsd-conclusions">Conclusions</h2>
 
         <p>If you are looking for an operating system that combines simplicity,
-        security, and coherent design, OpenBSD is an option well worth
-        exploring. Its focus on security by design, the quality of its
-        documentation, and its constant innovation in attack mitigation
-        techniques make it an indispensable tool for those who value stability
-        and system integrity.</p>
+        security, and coherent design, OpenBSD is well worth exploring. Its
+        security-by-design approach, documentation quality, and ongoing
+        innovation in mitigation techniques make it a strong choice for people
+        who value stability and system integrity.</p>
       </section>
     </article>
   </main>
@@ -450,7 +444,7 @@
 
     <ul>
       <li>
-        <a href="https://www.openbsd.org">OpenBSD</a>
+        <a href="https://www.openbsd.org/">OpenBSD</a>
       </li>
 
       <li>
@@ -459,7 +453,7 @@
       </li>
 
       <li>
-        <a href="https://man.openbsd.org">OpenBSD Documentation</a>
+        <a href="https://man.openbsd.org/">OpenBSD Documentation</a>
       </li>
     </ul>
   </footer>

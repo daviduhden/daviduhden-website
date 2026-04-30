@@ -1,85 +1,31 @@
 #!/usr/bin/perl
 
-# Copyright (c) 2025-2026 David Uhden Collado
-#
-# Permission to use, copy, modify, and distribute this software for any
-# purpose with or without fee is hereby granted, provided that the above
-# copyright notice and this permission notice appear in all copies.
-#
-# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-#
-# This script updates:
-#   - feeds/blog.xml and feeds/blog-es.xml (adds a new <item>)
-#   - data/articles.json (used by redirect.js to map en/es article filenames)
-# -------------------------
-# Usage: update-feeds.pl
-# Prompts for article info (slug, title, description, pubDate).
-#-------------------------
-# Outputs to feeds/blog.xml, feeds/blog-es.xml, and data/articles.json
-#-------------------------
-# Generates RFC2822 pubDate timestamps in GMT.
-# Requires Perl with JSON::PP
-# Requires UTF-8 support
-# Requires POSIX for strftime
-# Requires Cwd and File::Basename for path handling
-# Requires File::Spec for path handling
-# Requires strict and warnings
-#-------------------------
-# Note: redirect.js reads data/articles.json at runtime.
-
 use strict;
 use warnings;
-use POSIX qw(strftime);
+
 use File::Spec;
 use Getopt::Long;
-use JSON::PP;
+use POSIX       qw(strftime);
 use Time::Local qw(timegm);
-
-# -------------------------
-# Logging
-# -------------------------
-my $no_color  = 0;
-my $is_tty    = ( -t STDOUT )             ? 1 : 0;
-my $use_color = ( !$no_color && $is_tty ) ? 1 : 0;
-
-my ( $GREEN, $YELLOW, $RED, $RESET ) = ( "", "", "", "" );
-if ($use_color) {
-    $GREEN  = "\e[32m";
-    $YELLOW = "\e[33m";
-    $RED    = "\e[31m";
-    $RESET  = "\e[0m";
-}
-
-sub logi { print "${GREEN}✅ [INFO]${RESET} $_[0]\n"; }
-sub logw { print STDERR "${YELLOW}⚠️ [WARN]${RESET} $_[0]\n"; }
-sub loge { print STDERR "${RED}❌ [ERROR]${RESET} $_[0]\n"; }
-
-sub die_tool {
-    my ($msg) = @_;
-    loge($msg);
-    exit 1;
-}
 
 my $replace_existing = 0;
 GetOptions( 'replace' => \$replace_existing );
 
 my $root_dir =
   File::Spec->catdir( ( File::Spec->splitpath($0) )[1] || '.', '..' );
-my $feed_en = File::Spec->catfile( $root_dir, 'feeds', 'blog.xml' );
-my $feed_es = File::Spec->catfile( $root_dir, 'feeds', 'blog-es.xml' );
+my $feeds_dir    = File::Spec->catdir( $root_dir, 'feeds' );
+my $articles_dir = File::Spec->catdir( $root_dir, 'articles' );
+
+sub logi     { print "✅ [INFO] $_[0]\n"; }
+sub logw     { print STDERR "⚠️ [WARN] $_[0]\n"; }
+sub die_tool { die "❌ [ERROR] $_[0]\n"; }
 
 sub prompt {
     my ( $message, $default ) = @_;
     my $suffix = defined $default && length $default ? " [$default]" : '';
     print "$message$suffix: ";
     my $input = <STDIN>;
-    defined $input or loge("Could not read input.");
+    defined $input or die_tool("Could not read input.");
     chomp $input;
     return length $input ? $input : $default;
 }
@@ -87,7 +33,7 @@ sub prompt {
 sub read_file {
     my ($path) = @_;
     open my $fh, '<:encoding(UTF-8)', $path
-      or loge("Could not open $path for reading: $!");
+      or die_tool("Could not read $path: $!");
     local $/;
     my $content = <$fh>;
     close $fh;
@@ -97,7 +43,7 @@ sub read_file {
 sub write_file {
     my ( $path, $content ) = @_;
     open my $fh, '>:encoding(UTF-8)', $path
-      or loge("Could not open $path for writing: $!");
+      or die_tool("Could not write $path: $!");
     print {$fh} $content;
     close $fh;
 }
@@ -111,7 +57,36 @@ sub xml_escape {
     return $text;
 }
 
-# Locale-aware RFC2822 formatter (en/es)
+sub normalize_slug {
+    my ($s) = @_;
+    $s //= '';
+    $s =~ s/^\s+|\s+$//g;
+    $s = lc $s;
+    return $s;
+}
+
+sub iso_to_epoch {
+    my ($s) = @_;
+    return undef unless defined $s;
+    if ( $s =~
+/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})(Z|([+-])(\d{2}):(\d{2}))?$/
+      )
+    {
+        my ( $Y, $M, $D, $h, $m, $sec, undef, $sign, $oh, $om ) =
+          ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10 );
+        my $epoch = timegm( $sec, $m, $h, $D, $M - 1, $Y );
+        if ( defined $sign && defined $oh ) {
+            my $ofs = $oh * 3600 + $om * 60;
+            $epoch -= ( $sign eq '+' ) ? $ofs : -$ofs;
+        }
+        return $epoch;
+    }
+    if ( $s =~ /^(\d{4})-(\d{2})-(\d{2})$/ ) {
+        return timegm( 0, 0, 0, $3, $2 - 1, $1 );
+    }
+    return undef;
+}
+
 sub rfc2822_from_ts_locale {
     my ( $t, $lang ) = @_;
     $lang ||= 'en';
@@ -123,320 +98,150 @@ sub rfc2822_from_ts_locale {
     $year += 1900;
 
     if ( $lang eq 'es' ) {
-        my $wd = $wday_es[$wday] || 'dom';
-        my $mn = $mon_es[$mon]   || 'ene';
-        return sprintf( '%s, %02d %s %d %02d:%02d:%02d GMT',
-            lc($wd), $mday, lc($mn), $year, $hour, $min, $sec );
+        return sprintf(
+            '%s, %02d %s %d %02d:%02d:%02d GMT',
+            lc( $wday_es[$wday] ),
+            $mday, lc( $mon_es[$mon] ),
+            $year, $hour, $min, $sec
+        );
     }
-    else {
-        my $wd = $wday_en[$wday] || 'Sun';
-        my $mn = $mon_en[$mon]   || 'Jan';
-        return sprintf( '%s, %02d %s %d %02d:%02d:%02d GMT',
-            $wd, $mday, $mn, $year, $hour, $min, $sec );
-    }
-}
-
-sub iso_to_epoch {
-    my ($s) = @_;
-    return undef unless defined $s;
-    if ( $s =~
-/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})(Z|([+-])(\d{2}):(\d{2}))?$/
-      )
-    {
-        my ( $Y, $M, $D, $h, $m, $sec, $z, $sign, $oh, $om ) =
-          ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10 );
-        $Y   -= 0;
-        $M   -= 1;
-        $D   -= 0;
-        $h   -= 0;
-        $m   -= 0;
-        $sec -= 0;
-        my $epoch = timegm( $sec, $m, $h, $D, $M, $Y );
-
-        if ( defined $sign && defined $oh ) {
-            my $ofs = $oh * 3600 + $om * 60;
-            $epoch -= ( $sign eq '+' ) ? $ofs : -$ofs;
-        }
-        return $epoch;
-    }
-    if ( $s =~ /^(\d{4})-(\d{2})-(\d{2})$/ ) {
-        my ( $Y, $M, $D ) = ( $1, $2, $3 );
-        return timegm( 0, 0, 0, $D, $M - 1, $Y );
-    }
-    return undef;
-}
-
-sub epoch_to_iso {
-    my ($t) = @_;
-    $t ||= time();
-    my ( $sec, $min, $hour, $mday, $mon, $year ) = gmtime($t);
-    $year += 1900;
-    $mon  += 1;
-    return sprintf( '%04d-%02d-%02dT%02d:%02d:%02dZ',
-        $year, $mon, $mday, $hour, $min, $sec );
+    return sprintf( '%s, %02d %s %d %02d:%02d:%02d GMT',
+        $wday_en[$wday], $mday, $mon_en[$mon], $year, $hour, $min, $sec );
 }
 
 sub extract_datetime_from_article {
     my ($path) = @_;
     return undef unless -e $path;
-    my $html = read_file($path) || '';
-    if ( $html =~ /<time[^>]*\sdatetime\s*=\s*"([^"]+)"/i ) {
-        return $1;
-    }
-    if ( $html =~ /<time[^>]*\sdatetime\s*=\s*'([^']+)'/i ) {
-        return $1;
-    }
+    my $html = read_file($path);
+    return $1 if $html =~ /<time[^>]*\sdatetime\s*=\s*"([^"]+)"/i;
+    return $1 if $html =~ /<time[^>]*\sdatetime\s*=\s*'([^']+)'/i;
     return undef;
 }
 
-sub normalize_slug {
-    my ($s) = @_;
-    $s //= '';
-    $s =~ s/^\s+|\s+$//g;
-    $s = lc $s;
-    return $s;
-}
+sub detect_feeds {
+    my %out;
+    my $blog_en = File::Spec->catfile( $feeds_dir, 'blog.xml' );
+    my $blog_es = File::Spec->catfile( $feeds_dir, 'blog-es.xml' );
+    my $art_en  = File::Spec->catfile( $feeds_dir, 'articles.xml' );
+    my $art_es  = File::Spec->catfile( $feeds_dir, 'articles-es.xml' );
 
-sub validate_key {
-    my ($key) = @_;
-
-   # JSON key used by redirect.js (via articles.json). Allow typical slug chars.
-    $key =~ /^[a-z0-9_-]+$/
-      or loge("Key '$key' is invalid. Use only [a-z0-9_-].");
+    if ( -f $blog_en ) {
+        $out{en} = $blog_en;
+        $out{es} = $blog_es if -f $blog_es;
+        return \%out;
+    }
+    if ( -f $art_en ) {
+        $out{en} = $art_en;
+        $out{es} = $art_es if -f $art_es;
+        return \%out;
+    }
+    die_tool("No supported feed file found under $feeds_dir");
 }
 
 sub update_feed {
-    my (%args)  = @_;
-    my $path    = $args{path};
-    my $title   = xml_escape( $args{title} );
-    my $slug    = $args{slug};
-    my $desc    = xml_escape( $args{description} );
-    my $lang    = $args{lang}    // 'en';
-    my $replace = $args{replace} // 0;
-
-    # Use provided RFC pubdate if passed, otherwise current GMT time
-    my $pub = $args{pubdate_rfc} // rfc2822_from_ts_locale( time(), $lang );
-
-    # Keep existing feed link style
-    my $link = "./../articles/$slug.html";
-    my $guid = $link;
-
-    my $item =
-        "\t\t\t\t<item>\n"
-      . "\t\t\t\t\t\t<title>$title</title>\n"
-      . "\t\t\t\t\t\t<link>$link</link>\n"
-      . "\t\t\t\t\t\t<description>$desc</description>\n"
-      . "\t\t\t\t\t\t<pubDate>$pub</pubDate>\n"
-      . "\t\t\t\t\t\t<guid>$guid</guid>\n"
-      . "\t\t\t\t</item>\n\n";
+    my (%args) = @_;
+    my $path   = $args{path};
+    my $slug   = $args{slug};
+    my $pub    = $args{pub_rfc};
+    my $item   = join '',
+      "    <item>\n",
+      "      <title>", xml_escape( $args{title} ), "</title>\n",
+      "      <link>./../articles/$slug.html</link>\n",
+      "      <description>", xml_escape( $args{description} ),
+      "</description>\n",
+      "      <pubDate>$pub</pubDate>\n",
+      "      <guid>./../articles/$slug.html</guid>\n",
+      "    </item>\n\n";
 
     my $content = read_file($path);
+    my $link    = "./../articles/$slug.html";
 
     if ( $content =~ /\Q$link\E/ ) {
-        if ( $replace || $replace_existing ) {
-
-            # remove existing <item> blocks that reference this link
-            my $before = $content;
-            $content =~ s{<item>.*?<link>\Q$link\E.*?</item>\s*}{}gs;
-            if ( $content ne $before ) {
-                logi("Removed existing item(s) for $link from $path");
-            }
-        }
-        else {
-            logw("Feed $path already contains a link to $link. Skipping insert."
-            );
+        if ( !$replace_existing ) {
+            logw("Feed already has $link in $path (use --replace to replace)");
             return;
         }
+        $content =~ s{<item>.*?<link>\Q$link\E.*?</item>\s*}{}gs;
     }
 
-    # Validate pubdate roughly (RFC2822): day, dd Mon yyyy hh:mm:ss GMT
-    unless ( defined $pub
-        && $pub =~
-/^[A-Za-z]{3},\s+\d{1,2}\s+[A-Za-z]{3}\s+\d{4}\s+\d{2}:\d{2}:\d{2}\s+GMT$/
-      )
-    {
-        logw(
-"Provided pubDate '$pub' doesn't look like RFC2822; using current date."
-        );
-        $pub = strftime( '%a, %d %b %Y %H:%M:%S GMT', gmtime() );
-
-        # also update pub variable in item string
-        $item =~ s{<pubDate>.*?</pubDate>}{<pubDate>$pub</pubDate>}s;
-    }
-
-# Update channel dates (assumes channel-level <pubDate> and <lastBuildDate> exist)
     $content =~ s{<pubDate>[^<]*</pubDate>}{<pubDate>$pub</pubDate>}m;
     $content =~
 s{<lastBuildDate>[^<]*</lastBuildDate>}{<lastBuildDate>$pub</lastBuildDate>}m;
 
-    # Insert new item right after </lastBuildDate> when possible
     my $inserted =
       $content =~ s{(<lastBuildDate>[^<]*</lastBuildDate>\s*\n)}{$1\n$item}m;
-    if ( !$inserted ) {
-        $inserted = $content =~ s{(<channel>\s*\n)}{$1$item}m;
-    }
-    if ( !$inserted ) {
-        $inserted = $content =~ s{(</channel>)}{$item$1}m;
-    }
-
-    loge("Could not insert the new item into $path.") unless $inserted;
+    $inserted ||= $content =~ s{(<channel>\s*\n)}{$1$item}m;
+    $inserted ||= $content =~ s{(</channel>)}{$item$1}m;
+    $inserted or die_tool("Could not insert item into $path");
 
     write_file( $path, $content );
     logi("Updated feed: $path");
 }
 
-sub update_articles_json {
-    my (%args)   = @_;
-    my $key      = $args{key};
-    my $slug_en  = $args{slug_en};
-    my $slug_es  = $args{slug_es};
-    my $title_en = $args{title_en} // '';
-    my $title_es = $args{title_es} // '';
-    my $pubdate  = $args{pubdate};
+sub main {
+    my $feeds  = detect_feeds();
+    my $has_es = exists $feeds->{es} ? 1 : 0;
 
-    my $data_dir  = File::Spec->catdir( $root_dir, 'data' );
-    my $json_file = File::Spec->catfile( $data_dir, 'articles.json' );
-
-    # Ensure data directory exists
-    unless ( -d $data_dir ) {
-        mkdir $data_dir or loge("Could not create $data_dir: $!");
-    }
-
-    my $articles = {};
-    if ( -e $json_file ) {
-        my $jcontent = read_file($json_file);
-        eval {
-            $articles = JSON::PP->new->utf8->decode($jcontent);
-            1;
-        } or do {
-            logw("Could not parse existing $json_file, overwriting.");
-            $articles = {};
-        };
-    }
-
-# redirect.js expects filenames (not paths); it builds URLs relative to /articles/
-    $articles->{$key} = {
-        en       => "$slug_en.html",
-        es       => "$slug_es.html",
-        title_en => $title_en,
-        title_es => $title_es,
-        ( defined $pubdate ? ( pubdate => $pubdate ) : () ),
-    };
-
-    # Stable output: canonical sorts keys
-    my $json_out = JSON::PP->new->utf8->canonical->pretty->encode($articles);
-
-    # Write as UTF-8 (no need to escape non-ASCII titles)
-    open my $fh, '>:encoding(UTF-8)', $json_file
-      or loge("Could not open $json_file for writing: $!");
-    print {$fh} $json_out;
-    close $fh;
-
-    logi("Updated mapping: $json_file");
-}
-
-sub run_update {
     my $slug_en =
-      normalize_slug( prompt( 'English slug (without .html, e.g., gpl)', '' ) );
-    length $slug_en or loge('English slug is required.');
-
+      normalize_slug( prompt( 'English slug (without .html)', '' ) );
+    length $slug_en or die_tool('English slug is required.');
     my $slug_es =
-      normalize_slug(
-        prompt( 'Spanish slug (without .html)', $slug_en . '-es' ) );
-
-    my $key = normalize_slug(
-        prompt( 'Key for data/articles.json (used by redirect.js)', $slug_en )
-    );
-    validate_key($key);
+      $has_es
+      ? normalize_slug(
+        prompt( 'Spanish slug (without .html)', "$slug_en-es" ) )
+      : undef;
 
     my $title_en = prompt( 'Title (English)',       '' );
-    my $title_es = prompt( 'Title (Spanish)',       '' );
     my $desc_en  = prompt( 'Description (English)', '' );
-    my $desc_es  = prompt( 'Description (Spanish)', '' );
-
-    my $articles_dir = File::Spec->catdir( $root_dir, 'articles' );
-    my $article_en_path =
-      File::Spec->catfile( $articles_dir, $slug_en . '.html' );
-    my $article_es_path =
-      File::Spec->catfile( $articles_dir, $slug_es . '.html' );
-    my $found_iso = extract_datetime_from_article($article_en_path)
-      || extract_datetime_from_article($article_es_path);
-
-    my $pubdate_input = '';
-    if ($found_iso) {
-        $pubdate_input = $found_iso;
-        logi("Found datetime in article header: $found_iso");
+    my ( $title_es, $desc_es ) = ( undef, undef );
+    if ($has_es) {
+        $title_es = prompt( 'Title (Spanish)',       '' );
+        $desc_es  = prompt( 'Description (Spanish)', '' );
     }
-    else {
-        $pubdate_input = prompt(
-'Publication date ISO (e.g., 2025-03-06T10:00:00Z) or leave blank for now',
-            ''
+
+    my $article_en_path = File::Spec->catfile( $articles_dir, "$slug_en.html" );
+    my $article_es_path =
+      $has_es ? File::Spec->catfile( $articles_dir, "$slug_es.html" ) : undef;
+
+    my $found_iso = extract_datetime_from_article($article_en_path);
+    $found_iso ||= extract_datetime_from_article($article_es_path) if $has_es;
+
+    my $pub_input = $found_iso
+      // prompt( 'Publication date ISO (e.g., 2025-03-06T10:00:00Z) or blank',
+        '' );
+    my $pub_epoch = iso_to_epoch($pub_input);
+    if ( !defined $pub_epoch ) {
+        $pub_epoch = time();
+        logw("Invalid/empty ISO date, using current time.");
+    }
+
+    my $pub_rfc_en = rfc2822_from_ts_locale( $pub_epoch, 'en' );
+    update_feed(
+        path        => $feeds->{en},
+        slug        => $slug_en,
+        title       => $title_en,
+        description => $desc_en,
+        pub_rfc     => $pub_rfc_en,
+    );
+
+    if ($has_es) {
+        my $pub_rfc_es = rfc2822_from_ts_locale( $pub_epoch, 'es' );
+        update_feed(
+            path        => $feeds->{es},
+            slug        => $slug_es,
+            title       => $title_es,
+            description => $desc_es,
+            pub_rfc     => $pub_rfc_es,
         );
     }
-
-    my $pub_epoch = iso_to_epoch($pubdate_input);
-    unless ( defined $pub_epoch ) {
-        if ($pubdate_input) {
-            logw(
-"Could not parse provided pubdate '$pubdate_input' as ISO; falling back to current time"
-            );
-        }
-        $pub_epoch = time();
-    }
-
-    my $pub_iso    = epoch_to_iso($pub_epoch);
-    my $pub_rfc_en = rfc2822_from_ts_locale( $pub_epoch, 'en' );
-    my $pub_rfc_es = rfc2822_from_ts_locale( $pub_epoch, 'es' );
-
-    update_feed(
-        path        => $feed_en,
-        title       => $title_en,
-        slug        => $slug_en,
-        description => $desc_en,
-        lang        => 'en',
-        replace     => $replace_existing,
-        pubdate_rfc => $pub_rfc_en,
-    );
-
-    update_feed(
-        path        => $feed_es,
-        title       => $title_es,
-        slug        => $slug_es,
-        description => $desc_es,
-        lang        => 'es',
-        replace     => $replace_existing,
-        pubdate_rfc => $pub_rfc_es,
-    );
-
-    update_articles_json(
-        key      => $key,
-        slug_en  => $slug_en,
-        slug_es  => $slug_es,
-        title_en => $title_en,
-        title_es => $title_es,
-        pubdate  => $pub_iso,
-    );
 
     my $rebuild_script =
       File::Spec->catfile( $root_dir, 'scripts', 'rebuild-feeds.pl' );
     if ( -x $rebuild_script ) {
-        logi("Running rebuild script: $rebuild_script");
         my $rc = system( $^X, $rebuild_script );
-        if ( $rc != 0 ) {
-            logw("Rebuild script exited with code $rc");
-        }
+        logw("Rebuild script exited with code $rc") if $rc != 0;
     }
-    else {
-        logw("Rebuild script not found or not executable: $rebuild_script");
-    }
-
-    logi(
-'Done. Review changes in feeds and data/articles.json (redirect.js loads it).'
-    );
-}
-
-sub main {
-    run_update();
 }
 
 main();
+
