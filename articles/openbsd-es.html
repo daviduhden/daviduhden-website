@@ -41,7 +41,7 @@
       <header id="article-header">
         <p class="kicker">Sistemas operativos</p>
 
-        <h1>OpenBSD: un sistema operativo robusto y seguro para el futuro</h1>
+        <h1>OpenBSD: un sistema operativo seguro y robusto para el futuro</h1>
 
         <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
         "2025-12-12">12 de diciembre de 2025</time></p>
@@ -113,30 +113,29 @@
       <section>
         <p>OpenBSD es una opción sólida tanto para entornos profesionales como
         para uso personal. Ofrece una plataforma en la que cada línea de código
-        y cada configuración se desarrollan con meticulosa atención al
-        detalle.</p>
+        y cada ajuste de configuración se desarrollan con meticulosa atención
+        al detalle.</p>
       </section>
 
       <section>
         <h2 id="openbsd-es-filosofia">Una filosofía de seguridad y
         simplicidad</h2>
 
-        <p>OpenBSD sigue a rajatabla la filosofía de Unix, lo que se traduce en
-        un sistema sencillo de instalar y configurar, pero sin perder de vista
-        la importancia de la seguridad. El sistema incluye una gran cantidad de
-        aplicaciones integradas en el paquete base, todas ellas diseñadas para
-        ser utilizadas tal cual, sin configuraciones predeterminadas que puedan
-        comprometer la seguridad. Este enfoque "menos es más" obliga al usuario
-        a habilitar solo los servicios que realmente necesita, minimizando así
-        los riesgos de configuraciones erróneas o vulnerabilidades.</p>
+        <p>OpenBSD sigue de cerca la filosofía Unix, lo que se traduce en un
+        sistema sencillo de instalar y configurar sin perder de vista la
+        seguridad. Incluye numerosas aplicaciones en el paquete base, diseñadas
+        para usarse tal cual y sin configuraciones predeterminadas inseguras.
+        Este enfoque de "menos es más" obliga a habilitar solo los servicios
+        realmente necesarios, minimizando riesgos por errores de configuración
+        o exposición innecesaria.</p>
 
-        <p>Cada archivo de configuración en OpenBSD utiliza una sintaxis clara
-        y legible, lo que facilita su comprensión y modificación. Además, la
-        documentación es una prioridad absoluta: cada opción viene explicada en
+        <p>Los archivos de configuración de OpenBSD usan una sintaxis clara y
+        legible, lo que facilita su comprensión y modificación. Además, la
+        documentación es una prioridad absoluta: cada opción se explica en
         detalle en las páginas de manual. La premisa es simple, pero poderosa:
-        la falta de documentación o documentación incorrecta se considera un
-        fallo, puesto que la correcta configuración es esencial para mantener
-        la seguridad del sistema.</p>
+        la documentación ausente o incorrecta se considera un fallo, porque una
+        configuración correcta es esencial para mantener la seguridad del
+        sistema.</p>
       </section>
 
       <section>
@@ -145,9 +144,9 @@
 
         <p>Lo que realmente distingue a OpenBSD es su enfoque en la seguridad
         desde el núcleo del sistema. Cada componente, desde el kernel hasta las
-        aplicaciones en el entorno de usuario, es sometido a auditorías
-        rigurosas para identificar y eliminar posibles fallos de seguridad.
-        Algunas de las innovaciones destacadas son:</p>
+        aplicaciones de espacio de usuario, se somete a auditorías rigurosas
+        para identificar y eliminar posibles fallos de seguridad. Algunas de
+        las innovaciones más destacadas son:</p>
 
         <ul>
           <li><strong>Política W^X:</strong> La aplicación obligatoria de W^X
@@ -171,20 +170,20 @@
         </ul>
 
         <p>Estas características han inspirado a otros sistemas operativos a
-        adoptar medidas similares, consolidando a OpenBSD como un referente en
-        cuanto a seguridad y estabilidad.</p>
+        adoptar medidas similares y consolidan a OpenBSD como un referente en
+        seguridad y estabilidad.</p>
       </section>
 
       <section>
         <h2 id="openbsd-es-defaults">Valores por defecto y herramientas
         orientadas a la seguridad</h2>
 
-        <p>El enfoque de OpenBSD no se limita a mitigaciones contra técnicas de
+        <p>El enfoque de OpenBSD no se limita a mitigar técnicas de
         explotación. También prioriza valores por defecto conservadores,
-        utilidades pequeñas y auditables, e integración estrecha entre el
-        kernel y el entorno base de usuario. En la práctica, esto se traduce en
-        un sistema que tiende a ser más seguro sin depender de un proceso de
-        refuerzo posterior especialmente complejo.</p>
+        utilidades pequeñas y auditables, e integración estrecha entre kernel y
+        entorno base de usuario. En la práctica, esto se traduce en un sistema
+        que tiende a ser más seguro sin depender de un endurecimiento posterior
+        especialmente complejo.</p>
 
         <p>Entre los mecanismos y herramientas del sistema base que suelen
         destacarse en este contexto se incluyen:</p>
@@ -221,9 +220,9 @@
         </ul>
 
         <p>Por último, la cultura de auditoría continua y la insistencia en
-        páginas de manual de alta calidad contribuyen de manera decisiva a la
+        páginas de manual de alta calidad contribuyen de forma decisiva a la
         seguridad operativa: la configuración es explícita, los valores por
-        defecto son intencionales y la administración se apoya en primitivas
+        defecto son intencionados y la administración se apoya en primitivas
         documentadas.</p>
       </section>
 
@@ -232,7 +231,7 @@
         seguridad de memoria</h2>
 
         <p>Además de mitigaciones ampliamente conocidas, OpenBSD ha invertido
-        durante años en técnicas que reducen la predictibilidad tanto en el
+        durante años en técnicas que reducen la predictibilidad tanto en
         espacio de usuario como en el kernel, dificultando la explotación
         fiable. Estas medidas suelen ser más efectivas cuando se combinan:
         incluso con fugas parciales de información, cada capa adicional
@@ -275,8 +274,8 @@
 
         <p>Muchas decisiones de diseño buscan que operar de forma segura sea el
         camino natural. Esto se aprecia no solo en el kernel, sino también en
-        valores por defecto de demonios y en herramientas de administración
-        pequeñas y específicas.</p>
+        los valores por defecto de los demonios y en herramientas de
+        administración pequeñas y específicas.</p>
 
         <ul>
           <li><strong>Servidor web confinado:</strong> El <code>httpd(8)</code>
@@ -341,10 +340,10 @@
         <h2 id="openbsd-es-privacidad">Privacidad operativa y reducción de
         superficie de ataque</h2>
 
-        <p>OpenBSD expone palancas prácticas para reducir superficie de ataque
-        y limitar lo que aplicaciones y servicios pueden hacer, incluso tras un
-        compromiso. El objetivo no suele ser la "seguridad perfecta", sino
-        mantener fallos contenidos y observables.</p>
+        <p>OpenBSD ofrece mecanismos prácticos para reducir la superficie de
+        ataque y limitar lo que aplicaciones y servicios pueden hacer, incluso
+        tras un compromiso. El objetivo no suele ser la "seguridad perfecta",
+        sino mantener los fallos contenidos y observables.</p>
 
         <ul>
           <li><strong>Confinamiento de procesos:</strong>
@@ -379,7 +378,7 @@
         <p>Un tema recurrente es la coherencia: el kernel, el entorno base de
         usuario y el modelo de administración evolucionan de forma coordinada.
         Esto facilita desplegar mecanismos de seguridad de manera transversal y
-        documentarlos con consistencia.</p>
+        documentarlos de forma consistente.</p>
 
         <ul>
           <li><strong>Kernel y entorno base de usuario desarrollados
@@ -424,29 +423,27 @@
         <h2 id="openbsd-es-comunidad">Más que un sistema operativo: una
         comunidad comprometida</h2>
 
-        <p>Además de su robusta arquitectura, OpenBSD es el hogar de una
-        comunidad activa y comprometida que trabaja incansablemente en la
-        mejora continua del sistema. Proyectos complementarios como LibreSSL,
-        OpenBGPD, OpenNTPD, OpenSMTPD, y OpenSSH, entre otros, forman parte
-        integral del ecosistema, ofreciendo herramientas seguras y de alta
-        calidad que se integran de manera natural en la distribución base.</p>
+        <p>Además de su robusta arquitectura, OpenBSD cuenta con una comunidad
+        activa y comprometida que trabaja de forma continua en la mejora del
+        sistema. Proyectos complementarios como LibreSSL, OpenBGPD, OpenNTPD,
+        OpenSMTPD y OpenSSH, entre otros, forman parte integral del ecosistema
+        y ofrecen herramientas seguras y de alta calidad que se integran de
+        manera natural en la distribución base.</p>
 
-        <p>Esta estrecha integración entre los componentes del sistema y el
-        compromiso de sus desarrolladores con la seguridad permiten a los
-        usuarios disponer de una plataforma confiable, capaz de soportar desde
-        servidores críticos hasta estaciones de trabajo para el desarrollo
-        web.</p>
+        <p>Esta integración estrecha entre componentes, junto con el compromiso
+        de sus desarrolladores con la seguridad, permite a los usuarios
+        disponer de una plataforma fiable, capaz de sostener desde servidores
+        críticos hasta estaciones de trabajo para desarrollo web.</p>
       </section>
 
       <section>
         <h2 id="openbsd-es-conclusiones">Conclusiones</h2>
 
         <p>Si buscas un sistema operativo que combine simplicidad, seguridad y
-        un diseño coherente, OpenBSD es una opción que merece la pena explorar.
-        Su enfoque en la seguridad desde el diseño, la calidad de su
-        documentación y la constante innovación en técnicas de mitigación de
-        ataques hacen de él una herramienta indispensable para quienes valoran
-        la estabilidad y la integridad en sus sistemas.</p>
+        diseño coherente, OpenBSD merece la pena. Su enfoque de seguridad desde
+        el diseño, la calidad de su documentación y la innovación constante en
+        técnicas de mitigación lo convierten en una opción sólida para quienes
+        valoran la estabilidad y la integridad de sus sistemas.</p>
       </section>
     </article>
   </main>
@@ -456,7 +453,7 @@
 
     <ul>
       <li>
-        <a href="https://www.openbsd.org">OpenBSD</a>
+        <a href="https://www.openbsd.org/">OpenBSD</a>
       </li>
 
       <li>
@@ -465,7 +462,7 @@
       </li>
 
       <li>
-        <a href="https://man.openbsd.org">Documentación de OpenBSD</a>
+        <a href="https://man.openbsd.org/">Documentación de OpenBSD</a>
       </li>
     </ul>
   </footer>

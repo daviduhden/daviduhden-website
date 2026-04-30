@@ -2,25 +2,25 @@
   "gpl": {
     "en": "gpl.html",
     "es": "gpl-es.html",
-    "title_en": "The GPL: A Tool with Paradoxes in the World of Free Software",
-    "title_es": "La GPL: Una Herramienta con Paradojas en el Mundo del Software Libre"
+    "title_en": "The GPL: Paradoxes in Free Software",
+    "title_es": "La GPL: paradojas en el software libre"
   },
   "openbsd": {
     "en": "openbsd.html",
     "es": "openbsd-es.html",
-    "title_en": "OpenBSD: A Robust and Secure Operating System for the Future",
-    "title_es": "OpenBSD: Un sistema operativo robusto y seguro para el futuro"
+    "title_en": "OpenBSD: A Secure, Robust Operating System for the Future",
+    "title_es": "OpenBSD: un sistema operativo seguro y robusto para el futuro"
   },
   "unix": {
     "en": "unix.html",
     "es": "unix-es.html",
-    "title_en": "Rethinking the UNIX Philosophy: Beyond the Simplicity of Small Programs",
-    "title_es": "Repensando la Filosofía UNIX: Más Allá de la Simplicidad de los Pequeños Programas"
+    "title_en": "Rethinking the UNIX Philosophy: Beyond Small Programs",
+    "title_es": "Repensando la filosofía UNIX: más allá de los programas pequeños"
   },
   "systems": {
     "en": "systems.html",
     "es": "sistemas.html",
     "title_en": "Reinventing Operating Systems: Lessons from OpenBSD and Beyond",
-    "title_es": "Reinventando los Sistemas Operativos: Lecciones de OpenBSD y Más Allá"
+    "title_es": "Reinventando los sistemas operativos: lecciones de OpenBSD y más allá"
   }
 }

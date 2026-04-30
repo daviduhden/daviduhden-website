@@ -20,7 +20,7 @@
 #   - dprint     : CSS/JS format + parse/format check (as supported by dprint)
 #
 # Usage:
-#   validate-website.pl [--root DIR] [--apply|--check] [--no-color] [--verbose]
+#   validate-website.pl [--root DIR] [--apply|--check] [--check-links] [--no-color] [--verbose]
 #
 # Modes:
 #   --apply   Format in place; also validate as tools support
@@ -54,15 +54,16 @@ use Symbol       qw(gensym);
 my $script_dir   = dirname( abs_path($0) );
 my $default_root = File::Spec->catdir( $script_dir, '..' );
 
-my $root_dir   = $default_root;
-my $mode_apply = 1;               # default: apply formatting
-my $no_color   = 0;
-my $verbose    = 0;
+my $root_dir    = $default_root;
+my $mode_apply  = 1;               # default: apply formatting
+my $check_links = 0;               # optional: check/fix internal+external links
+my $no_color    = 0;
+my $verbose     = 0;
 
 sub usage {
     print STDERR <<"USAGE";
 Usage:
-  $0 [--root DIR] [--apply|--check] [--no-color] [--verbose]
+  $0 [--root DIR] [--apply|--check] [--check-links] [--no-color] [--verbose]
 
 Modes:
   --apply         Format in place and validate (default)
@@ -70,6 +71,9 @@ Modes:
 
 Options:
   --root DIR      Root directory to scan (default: ../ relative to this script)
+  --check-links   Check internal/external links, write a temporary report and
+                  (in --apply) try to auto-fix links. External fixes prefer
+                  final official URL after redirects; if unavailable, Wayback.
   --no-color      Disable colored output
   --verbose       Print extra info
 
@@ -77,6 +81,7 @@ Dependencies (compiled binaries):
   tidy            HTML formatting + validation (as supported by tidy)
   xmllint         XML/SVG formatting + well-formedness validation
   dprint          CSS/JS formatting + parse/check (as supported by dprint)
+  curl            External link checking/fixing when --check-links is used
 
 Exit codes:
   0  OK
@@ -87,11 +92,12 @@ USAGE
 }
 
 GetOptions(
-    "root=s"    => \$root_dir,
-    "apply!"    => sub { $mode_apply = 1 },
-    "check!"    => sub { $mode_apply = 0 },
-    "no-color!" => \$no_color,
-    "verbose!"  => \$verbose,
+    "root=s"       => \$root_dir,
+    "apply!"       => sub { $mode_apply = 1 },
+    "check!"       => sub { $mode_apply = 0 },
+    "check-links!" => \$check_links,
+    "no-color!"    => \$no_color,
+    "verbose!"     => \$verbose,
 ) or usage();
 
 # Normalize the root directory to a canonical absolute path where possible.
@@ -226,6 +232,233 @@ sub make_tmp_file_in_tmp {
     return $path;
 }
 
+sub trim {
+    my ($v) = @_;
+    $v = "" unless defined $v;
+    $v =~ s/^\s+//;
+    $v =~ s/\s+$//;
+    return $v;
+}
+
+sub should_skip_link {
+    my ($link) = @_;
+    return 1 if !defined $link || $link eq "";
+    return 1 if $link =~ /^\s*#/;    # in-page anchors
+    return 1 if $link =~ /^\s*(?:mailto|tel|javascript|data):/i;
+    return 0;
+}
+
+sub is_external_link {
+    my ($link) = @_;
+    return 1 if $link =~ m{^\s*https?://}i;
+    return 1 if $link =~ m{^\s*//[^/]};       # protocol-relative URL
+    return 0;
+}
+
+sub strip_query_fragment {
+    my ($link) = @_;
+    $link =~ s/[?#].*$// if defined $link;
+    return $link;
+}
+
+sub url_percent_encode {
+    my ($v) = @_;
+    $v //= "";
+    $v =~ s/([^A-Za-z0-9\-\._~])/sprintf("%%%02X", ord($1))/ge;
+    return $v;
+}
+
+sub extract_links_from_content {
+    my ($content) = @_;
+    my @found;
+    my %seen;
+
+    while ( $content =~ /\b(?:href|src)\s*=\s*(['"])(.*?)\1/ig ) {
+        my $link = trim($2);
+        next if should_skip_link($link);
+        next if $seen{$link}++;
+        push @found, $link;
+    }
+
+    while ( $content =~ /\burl\(\s*(['"]?)([^'")]+)\1\s*\)/ig ) {
+        my $link = trim($2);
+        next if should_skip_link($link);
+        next if $seen{$link}++;
+        push @found, $link;
+    }
+
+    return @found;
+}
+
+sub internal_candidates {
+    my ($link) = @_;
+    my @candidates = ($link);
+
+    my $base = $link;
+    my $frag = "";
+    if ( $base =~ s/(#[^#]*)$// ) {
+        $frag = $1;
+    }
+    my $query = "";
+    if ( $base =~ s/(\?[^?]*)$// ) {
+        $query = $1;
+    }
+
+    my @path_variants = ($base);
+    if ( $base !~ m{/$} ) {
+        push @path_variants, "${base}.html"       if $base !~ /\.html?$/i;
+        push @path_variants, "${base}/index.html" if $base ne "";
+    }
+    else {
+        push @path_variants, "${base}index.html";
+    }
+
+    my %seen;
+    for my $p (@path_variants) {
+        my $cand = "${p}${query}${frag}";
+        next if $seen{$cand}++;
+        push @candidates, $cand;
+    }
+
+    my @uniq;
+    %seen = ();
+    for my $c (@candidates) {
+        next if !defined($c) || $c eq "";
+        next if $seen{$c}++;
+        push @uniq, $c;
+    }
+    return @uniq;
+}
+
+sub resolve_internal_link {
+    my ( $source_file, $raw_link ) = @_;
+    my $target = strip_query_fragment($raw_link);
+    $target = trim($target);
+    return ( 1, $source_file, "empty/anchor" ) if $target eq "";
+
+    $target =~ s{^file://}{};
+    my $absolute;
+    if ( $target =~ m{^/} ) {
+        my $rel = $target;
+        $rel =~ s{^/+}{};
+        $absolute = File::Spec->catfile( $root_dir, split m{/+}, $rel );
+    }
+    else {
+        my $src_dir = dirname($source_file);
+        $absolute = File::Spec->catfile( $src_dir, split m{/+}, $target );
+    }
+
+    my $canon = abs_path($absolute);
+    if ( defined($canon) && index( $canon, $root_dir ) == 0 && -f $canon ) {
+        return ( 1, $canon, "ok" );
+    }
+
+    # Support links to directories by checking index.html as fallback.
+    my $with_index  = File::Spec->catfile( $absolute, "index.html" );
+    my $canon_index = abs_path($with_index);
+    if (   defined($canon_index)
+        && index( $canon_index, $root_dir ) == 0
+        && -f $canon_index )
+    {
+        return ( 1, $canon_index, "ok-index" );
+    }
+
+    return ( 0, $absolute, "missing" );
+}
+
+my %external_status_cache;
+
+sub check_external_link {
+    my ($url) = @_;
+    return $external_status_cache{$url} if exists $external_status_cache{$url};
+
+    my ( $rc, $out, $err ) = run_capture(
+        'curl',                              '-L',
+        '-sS',                               '--connect-timeout',
+        '8',                                 '--max-time',
+        '20',                                '-A',
+        'validate-website-link-checker/1.0', '-o',
+        '/dev/null',                         '-w',
+        '%{http_code}\t%{url_effective}',    $url
+    );
+
+    my ( $code, $effective ) = ( "000", $url );
+    if ( defined $out && $out =~ /^(\d{3})\t(.*)$/s ) {
+        $code      = $1;
+        $effective = trim($2);
+    }
+    my $ok     = ( $rc == 0 && $code =~ /^[23]\d\d$/ ) ? 1 : 0;
+    my $status = {
+        ok        => $ok,
+        code      => $code,
+        effective => $effective,
+        err       => ( $err // "" ),
+    };
+    $external_status_cache{$url} = $status;
+    return $status;
+}
+
+sub find_wayback_url {
+    my ($url) = @_;
+    my $api =
+      "https://archive.org/wayback/available?url=" . url_percent_encode($url);
+    my ( $rc, $out, $err ) =
+      run_capture( 'curl', '-L', '-sS', '--connect-timeout', '8', '--max-time',
+        '20', $api );
+    return undef if $rc != 0 || !defined($out) || $out eq "";
+
+    if ( $out =~ /"available"\s*:\s*true.*?"url"\s*:\s*"([^"]+)"/s ) {
+        my $wb = $1;
+        $wb               =~ s{\\\/}{/}g;
+        $wb               =~ s/\\"/"/g;
+        return $wb if $wb =~ m{^https?://};
+    }
+
+    return undef;
+}
+
+sub propose_external_fix {
+    my ($url) = @_;
+    my $status = check_external_link($url);
+    return ( undef, "ok" ) if $status->{ok} && $status->{effective} eq $url;
+
+    if ( $status->{ok} && $status->{effective} ne $url ) {
+        return ( $status->{effective}, "redirect-final" );
+    }
+
+    my @candidates;
+    if ( $url =~ m{^http://}i ) {
+        ( my $https = $url ) =~ s{^http://}{https://}i;
+        push @candidates, $https;
+    }
+    if ( $url =~ m{^https://}i ) {
+        ( my $http = $url ) =~ s{^https://}{http://}i;
+        push @candidates, $http;
+    }
+    if ( $url =~ m{^https?://www\.}i ) {
+        ( my $no_www = $url ) =~ s{^(https?://)www\.}{$1}i;
+        push @candidates, $no_www;
+    }
+    elsif ( $url =~ m{^https?://[^/]+}i ) {
+        ( my $with_www = $url ) =~ s{^(https?://)}{$1www.}i;
+        push @candidates, $with_www;
+    }
+
+    my %seen;
+    for my $cand (@candidates) {
+        next if $seen{$cand}++;
+        my $cand_status = check_external_link($cand);
+        if ( $cand_status->{ok} ) {
+            return ( $cand_status->{effective}, "official-candidate" );
+        }
+    }
+
+    my $wayback = find_wayback_url($url);
+    return ( $wayback, "wayback" ) if defined $wayback;
+
+    return ( undef, "unresolved" );
+}
+
 # -------------------------
 # Collect files
 # -------------------------
@@ -290,7 +523,8 @@ require_cmd( $tidy,    "HTML formatting/validation" )    if @html;
 require_cmd( $xmllint, "XML/SVG formatting/validation" ) if ( @xml || @svg );
 require_cmd( $dprint,  "CSS/JS/JSON formatting/validation" )
   if ( ( @css || @js || @json ) && !$is_openbsd );
-require_cmd( 'jq', "JSON formatting/validation (jq)" ) if @json;
+require_cmd( 'jq',   "JSON formatting/validation (jq)" )      if @json;
+require_cmd( 'curl', "link checking/fixing (--check-links)" ) if $check_links;
 
 $ENV{XMLLINT_INDENT} = "  ";
 
@@ -340,8 +574,10 @@ END { unlink $_ for @tmp_paths; }
 # -------------------------
 # Tracking
 # -------------------------
-my %format_needed;      # file => 1 (only meaningful in --check)
-my %validate_failed;    # file => 1
+my %format_needed;        # file => 1 (only meaningful in --check)
+my %validate_failed;      # file => 1
+my %link_replacements;    # file => { old_link => new_link }
+my $link_report_file = "";
 
 sub mark_format_needed {
     $format_needed{ $_[0] } = 1 if defined $_[0] && length $_[0];
@@ -349,6 +585,175 @@ sub mark_format_needed {
 
 sub mark_validate_failed {
     $validate_failed{ $_[0] } = 1 if defined $_[0] && length $_[0];
+}
+
+sub register_link_replacement {
+    my ( $file, $old, $new ) = @_;
+    return if !defined($file) || !defined($old) || !defined($new);
+    return if $old eq ""      || $new eq ""     || $old eq $new;
+    $link_replacements{$file} ||= {};
+    $link_replacements{$file}{$old} = $new;
+}
+
+sub apply_link_replacements {
+    return if !%link_replacements;
+    return if !$mode_apply;
+
+    my @files = sort keys %link_replacements;
+    for my $file (@files) {
+        my $content = read_all($file);
+        if ( !defined $content ) {
+            loge("Could not read file to apply link fixes: $file");
+            mark_validate_failed($file);
+            next;
+        }
+
+        my @pairs =
+          sort { length( $b->[0] ) <=> length( $a->[0] ) }
+          map  { [ $_, $link_replacements{$file}{$_} ] }
+          keys %{ $link_replacements{$file} };
+
+        my $changed = 0;
+        for my $pair (@pairs) {
+            my ( $old, $new ) = @$pair;
+            my $quoted = quotemeta($old);
+            my $count  = ( $content =~ s/$quoted/$new/g );
+            $changed += $count;
+        }
+
+        if ($changed) {
+            write_all( $file, $content ) or do {
+                loge("Failed to write link fixes to file: $file");
+                mark_validate_failed($file);
+                next;
+            };
+            logi("Applied $changed link fix(es) in: $file");
+        }
+    }
+}
+
+sub run_link_checks {
+    my @scan_files = ( @html, @xml, @svg, @css, @js );
+    return if !@scan_files;
+
+    logi("Checking internal/external links and preparing temporary report...");
+
+    my @local_rows;
+    my @external_rows;
+
+    for my $file (@scan_files) {
+        my $content = read_all($file);
+        if ( !defined $content ) {
+            loge("Could not read file for link check: $file");
+            mark_validate_failed($file);
+            next;
+        }
+
+        my @links = extract_links_from_content($content);
+        next if !@links;
+
+        for my $link (@links) {
+            if ( is_external_link($link) ) {
+                my $status = check_external_link($link);
+                my $row    = {
+                    file     => $file,
+                    link     => $link,
+                    status   => ( $status->{ok} ? "ok" : "broken" ),
+                    detail   => ( "http=" . $status->{code} ),
+                    proposed => "",
+                    reason   => "",
+                };
+
+                if ( !$status->{ok} || $status->{effective} ne $link ) {
+                    my ( $fix, $reason ) = propose_external_fix($link);
+                    if ( defined $fix && $fix ne $link ) {
+                        $row->{proposed} = $fix;
+                        $row->{reason}   = $reason;
+                        register_link_replacement( $file, $link, $fix )
+                          if $mode_apply;
+                    }
+                }
+
+                if ( !$status->{ok} && !$row->{proposed} ) {
+                    mark_validate_failed($file);
+                }
+                push @external_rows, $row;
+                next;
+            }
+
+            my ( $ok, $resolved, $why ) = resolve_internal_link( $file, $link );
+            my $row = {
+                file     => $file,
+                link     => $link,
+                status   => ( $ok ? "ok" : "broken" ),
+                detail   => $resolved,
+                proposed => "",
+                reason   => "",
+            };
+
+            if ( !$ok ) {
+                my $fixed = "";
+                for my $cand ( internal_candidates($link) ) {
+                    my ( $cand_ok, undef, undef ) =
+                      resolve_internal_link( $file, $cand );
+                    if ($cand_ok) {
+                        $fixed = $cand;
+                        last;
+                    }
+                }
+
+                if ( $fixed ne "" && $fixed ne $link ) {
+                    $row->{proposed} = $fixed;
+                    $row->{reason}   = "internal-candidate";
+                    register_link_replacement( $file, $link, $fixed )
+                      if $mode_apply;
+                }
+                else {
+                    mark_validate_failed($file);
+                }
+            }
+
+            push @local_rows, $row;
+        }
+    }
+
+    apply_link_replacements();
+
+    my $report = "";
+    $report .= "validate-website.pl --check-links report\n";
+    $report .= "Root: $root_dir\n";
+    $report .= "Mode: " . ( $mode_apply ? "apply" : "check" ) . "\n\n";
+
+    $report .= "=== LOCAL LINKS ===\n";
+    if (@local_rows) {
+        for my $r (@local_rows) {
+            $report .= join( " | ",
+                $r->{status}, $r->{file}, $r->{link},
+                ( $r->{detail}   // "" ),
+                ( $r->{proposed} // "" ),
+                ( $r->{reason}   // "" ) ) . "\n";
+        }
+    }
+    else {
+        $report .= "(none)\n";
+    }
+
+    $report .= "\n=== EXTERNAL LINKS ===\n";
+    if (@external_rows) {
+        for my $r (@external_rows) {
+            $report .= join( " | ",
+                $r->{status}, $r->{file}, $r->{link},
+                ( $r->{detail}   // "" ),
+                ( $r->{proposed} // "" ),
+                ( $r->{reason}   // "" ) ) . "\n";
+        }
+    }
+    else {
+        $report .= "(none)\n";
+    }
+
+    $link_report_file = make_tmp_file_in_tmp( ".links-report.txt", $report );
+    logi("Temporary link report written to: $link_report_file");
 }
 
 # -------------------------
@@ -623,12 +1028,15 @@ sub summarize_and_exit {
         ? "Done. Formatting applied and validation passed."
         : "Done. Formatting clean and validation passed."
     );
+    logi("Link report: $link_report_file")
+      if $check_links && $link_report_file ne "";
 
     exit 0;
 }
 
 sub main {
     run_validations();
+    run_link_checks() if $check_links;
     summarize_and_exit();
 }
 
