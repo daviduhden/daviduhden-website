@@ -4,53 +4,34 @@
     <title>David Uhden Collado's Blog</title>
     <link>./../blog.html</link>
     <description>Latest articles and updates from David Uhden Collado's blog.</description>
-    <language>en-us</language>
-    <pubDate>Thu, 30 Apr 2026 17:50:40 GMT</pubDate>
-    <lastBuildDate>Thu, 30 Apr 2026 17:50:40 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 12 Dec 2025 00:00:00 GMT</lastBuildDate>
     <item>
-      <title>David Uhden Collado</title>
-      <link>./../articles/gpl.html</link>
-      <description>The GNU General Public License (GPL) was created to counter the proprietary 
-        software model by guaranteeing four essential freedoms: running, studying, 
-        sharing, and modifying software. However, the GPL also introduces contradictions
-         and side effects that can undermine the spirit of cooperation and freedom the 
-        community seeks to foster.</description>
-      <pubDate>Thu, 30 Apr 2026 17:43:53 GMT</pubDate>
-      <guid>./../articles/gpl.html</guid>
-    </item>
-    <item>
-      <title>David Uhden Collado</title>
+      <title>OpenBSD: A Secure, Robust Operating System for the Future</title>
       <link>./../articles/openbsd.html</link>
-      <description>Since its inception, OpenBSD has stood out as a UNIX-like operating system based
-         on 4.4BSD, known for security and minimalist design. Over the years, it has 
-        proven to be a strong choice for professional and personal use alike, offering a
-         platform where code and configuration are developed with meticulous attention 
-        to detail.</description>
-      <pubDate>Thu, 30 Apr 2026 17:43:53 GMT</pubDate>
+      <description>OpenBSD pairs security-by-design with simplicity, offering a rigorously audited system whose built-in tools and documentation favor safety over convenience.</description>
+      <pubDate>Fri, 12 Dec 2025 00:00:00 GMT</pubDate>
       <guid>./../articles/openbsd.html</guid>
     </item>
     <item>
-      <title>David Uhden Collado</title>
-      <link>./../articles/systems.html</link>
-      <description>The evolution of operating systems has been shaped largely by enterprise 
-        demands. For decades, vendors such as Microsoft prioritized backward 
-        compatibility, while projects such as OpenBSD and Apple chose to break more 
-        aggressively with the past to improve security, performance, and architecture. 
-        This article examines how those contrasting approaches shape innovation and 
-        system security.</description>
-      <pubDate>Thu, 30 Apr 2026 17:43:53 GMT</pubDate>
-      <guid>./../articles/systems.html</guid>
+      <title>The GPL: Paradoxes in Free Software</title>
+      <link>./../articles/gpl.html</link>
+      <description>The GPL set out to secure software freedom, but its reciprocal restrictions can limit collaboration and create friction between open and permissive models.</description>
+      <pubDate>Thu, 06 Mar 2025 00:00:00 GMT</pubDate>
+      <guid>./../articles/gpl.html</guid>
     </item>
     <item>
-      <title>David Uhden Collado</title>
+      <title>Rethinking the UNIX Philosophy: Beyond Small Programs</title>
       <link>./../articles/unix.html</link>
-      <description>The UNIX philosophy has long been presented as a paradigm for building systems 
-        from small, specialized tools. Over time, however, its foundations have often 
-        been oversimplified and misread. It is frequently reduced to the idea that one 
-        only needs to connect small programs through pipes[1], or even 
-        equated—incorrectly—with modern concepts such as microservices.</description>
-      <pubDate>Thu, 30 Apr 2026 17:43:53 GMT</pubDate>
+      <description>UNIX is more than tiny tools and pipes; its real power is composability and thoughtful integration, not a simplistic blueprint for microservices.</description>
+      <pubDate>Wed, 05 Mar 2025 00:00:00 GMT</pubDate>
       <guid>./../articles/unix.html</guid>
+    </item>
+    <item>
+      <title>Reinventing Operating Systems: Lessons from OpenBSD and Beyond</title>
+      <link>./../articles/systems.html</link>
+      <description>Enterprise OSs often cling to compatibility, while OpenBSD and Apple embrace breaking changes for security and simplicity—two paths with very different trade-offs.</description>
+      <pubDate>Tue, 04 Mar 2025 00:00:00 GMT</pubDate>
+      <guid>./../articles/systems.html</guid>
     </item>
   </channel>
 </rss>

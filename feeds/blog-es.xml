@@ -4,51 +4,33 @@
     <title>Blog de David Uhden Collado</title>
     <link>./../blog-es.html</link>
     <description>Últimos artículos y actualizaciones del blog de David Uhden Collado.</description>
-    <language>es-es</language>
-    <pubDate>jue, 30 abr 2026 17:50:41 GMT</pubDate>
-    <lastBuildDate>jue, 30 abr 2026 17:50:41 GMT</lastBuildDate>
+    <lastBuildDate>vie, 12 dic 2025 00:00:00 GMT</lastBuildDate>
     <item>
-      <title>David Uhden Collado</title>
-      <link>./../articles/gpl-es.html</link>
-      <description>La Licencia Pública General de GNU (GPL) nació para contrarrestar el modelo de 
-        software propietario, garantizando cuatro libertades esenciales: ejecutar, 
-        estudiar, compartir y modificar el software. Sin embargo, también introduce 
-        contradicciones y efectos colaterales que pueden debilitar el espíritu de 
-        cooperación y libertad que la comunidad intenta fomentar.</description>
-      <pubDate>jue, 30 abr 2026 17:43:53 GMT</pubDate>
-      <guid>./../articles/gpl-es.html</guid>
-    </item>
-    <item>
-      <title>David Uhden Collado</title>
+      <title>OpenBSD: un sistema operativo seguro y robusto para el futuro</title>
       <link>./../articles/openbsd-es.html</link>
-      <description>OpenBSD es una opción sólida tanto para entornos profesionales como para uso 
-        personal. Ofrece una plataforma en la que cada línea de código y cada ajuste de 
-        configuración se desarrollan con meticulosa atención al detalle.</description>
-      <pubDate>jue, 30 abr 2026 17:43:53 GMT</pubDate>
+      <description>OpenBSD privilegia la simplicidad y la seguridad: auditado a fondo, con servicios mínimos por defecto y documentación clara para configurar sin exponer el sistema.</description>
+      <pubDate>vie, 12 dic 2025 00:00:00 GMT</pubDate>
       <guid>./../articles/openbsd-es.html</guid>
     </item>
     <item>
-      <title>David Uhden Collado</title>
+      <title>La GPL: paradojas en el software libre</title>
+      <link>./../articles/gpl-es.html</link>
+      <description>La GPL busca proteger la libertad del software, pero sus cláusulas recíprocas pueden frenar la colaboración y generar tensiones con los modelos permisivos.</description>
+      <pubDate>sáb, 08 mar 2025 00:00:00 GMT</pubDate>
+      <guid>./../articles/gpl-es.html</guid>
+    </item>
+    <item>
+      <title>Reinventando los sistemas operativos: lecciones de OpenBSD y más allá</title>
       <link>./../articles/sistemas.html</link>
-      <description>La evolución de los sistemas operativos ha estado condicionada, en gran medida, 
-        por las demandas del mercado empresarial. Durante décadas, fabricantes como 
-        Microsoft priorizaron la compatibilidad hacia atrás, mientras que proyectos como
-         OpenBSD y Apple apostaron por una ruptura más agresiva con el pasado para 
-        mejorar seguridad, rendimiento y arquitectura. Este artículo analiza cómo estos 
-        enfoques, tan distintos, moldean la innovación y la seguridad de los sistemas.</description>
-      <pubDate>jue, 30 abr 2026 17:43:53 GMT</pubDate>
+      <description>Mientras el enfoque empresarial prioriza compatibilidad, OpenBSD y Apple rompen con el pasado para ganar seguridad y simplicidad: dos rutas con costos y beneficios distintos.</description>
+      <pubDate>mar, 04 mar 2025 00:00:00 GMT</pubDate>
       <guid>./../articles/sistemas.html</guid>
     </item>
     <item>
-      <title>David Uhden Collado</title>
+      <title>Repensando la filosofía UNIX: más allá de los programas pequeños</title>
       <link>./../articles/unix-es.html</link>
-      <description>Durante décadas, la filosofía UNIX se ha presentado como un paradigma para 
-        construir sistemas a partir de herramientas pequeñas y especializadas. Sin 
-        embargo, con el tiempo, sus fundamentos se han simplificado y malinterpretado 
-        con frecuencia. A menudo se reduce a la idea de enlazar programas pequeños 
-        mediante pipes[1] o, incluso, se asocia erróneamente con conceptos modernos como
-         los microservicios.</description>
-      <pubDate>jue, 30 abr 2026 17:43:53 GMT</pubDate>
+      <description>La filosofía UNIX no es solo "programas pequeños"; su fuerza está en la composabilidad y el diseño deliberado, no en una analogía simple con microservicios.</description>
+      <pubDate>mar, 04 mar 2025 00:00:00 GMT</pubDate>
       <guid>./../articles/unix-es.html</guid>
     </item>
   </channel>
