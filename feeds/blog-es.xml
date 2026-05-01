@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Blog de David Uhden Collado</title>
-    <link>./../blog-es.html</link>
+    <link>/blog-es.html</link>
     <description>Últimos artículos y actualizaciones del blog de David Uhden Collado.</description>
-    <lastBuildDate>vie, 12 dic 2025 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 12 Dec 2025 00:00:00 GMT</lastBuildDate>
+    <atom:link href="/feeds/blog-es.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>OpenBSD: un sistema operativo seguro y robusto para el futuro</title>
-      <link>./../articles/openbsd-es.html</link>
+      <link>/articles/openbsd-es.html</link>
       <description>OpenBSD privilegia la simplicidad y la seguridad: auditado a fondo, con servicios mínimos por defecto y documentación clara para configurar sin exponer el sistema.</description>
-      <pubDate>vie, 12 dic 2025 00:00:00 GMT</pubDate>
-      <guid>./../articles/openbsd-es.html</guid>
+      <pubDate>Fri, 12 Dec 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">/articles/openbsd-es.html</guid>
     </item>
     <item>
       <title>La GPL: paradojas en el software libre</title>
-      <link>./../articles/gpl-es.html</link>
+      <link>/articles/gpl-es.html</link>
       <description>La GPL busca proteger la libertad del software, pero sus cláusulas recíprocas pueden frenar la colaboración y generar tensiones con los modelos permisivos.</description>
-      <pubDate>sáb, 08 mar 2025 00:00:00 GMT</pubDate>
-      <guid>./../articles/gpl-es.html</guid>
+      <pubDate>Sat, 08 Mar 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">/articles/gpl-es.html</guid>
     </item>
     <item>
       <title>Reinventando los sistemas operativos: lecciones de OpenBSD y más allá</title>
-      <link>./../articles/sistemas.html</link>
+      <link>/articles/sistemas.html</link>
       <description>Mientras el enfoque empresarial prioriza compatibilidad, OpenBSD y Apple rompen con el pasado para ganar seguridad y simplicidad: dos rutas con costos y beneficios distintos.</description>
-      <pubDate>mar, 04 mar 2025 00:00:00 GMT</pubDate>
-      <guid>./../articles/sistemas.html</guid>
+      <pubDate>Tue, 04 Mar 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">/articles/sistemas.html</guid>
     </item>
     <item>
       <title>Repensando la filosofía UNIX: más allá de los programas pequeños</title>
-      <link>./../articles/unix-es.html</link>
+      <link>/articles/unix-es.html</link>
       <description>La filosofía UNIX no es solo "programas pequeños"; su fuerza está en la composabilidad y el diseño deliberado, no en una analogía simple con microservicios.</description>
-      <pubDate>mar, 04 mar 2025 00:00:00 GMT</pubDate>
-      <guid>./../articles/unix-es.html</guid>
+      <pubDate>Tue, 04 Mar 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">/articles/unix-es.html</guid>
     </item>
   </channel>
 </rss>
