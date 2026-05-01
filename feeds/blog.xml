@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>David Uhden Collado's Blog</title>
-    <link>./../blog.html</link>
+    <link>/blog.html</link>
     <description>Latest articles and updates from David Uhden Collado's blog.</description>
     <lastBuildDate>Fri, 12 Dec 2025 00:00:00 GMT</lastBuildDate>
+    <atom:link href="/feeds/blog.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>OpenBSD: A Secure, Robust Operating System for the Future</title>
-      <link>./../articles/openbsd.html</link>
+      <link>/articles/openbsd.html</link>
       <description>OpenBSD pairs security-by-design with simplicity, offering a rigorously audited system whose built-in tools and documentation favor safety over convenience.</description>
       <pubDate>Fri, 12 Dec 2025 00:00:00 GMT</pubDate>
-      <guid>./../articles/openbsd.html</guid>
+      <guid isPermaLink="false">/articles/openbsd.html</guid>
     </item>
     <item>
       <title>The GPL: Paradoxes in Free Software</title>
-      <link>./../articles/gpl.html</link>
+      <link>/articles/gpl.html</link>
       <description>The GPL set out to secure software freedom, but its reciprocal restrictions can limit collaboration and create friction between open and permissive models.</description>
       <pubDate>Thu, 06 Mar 2025 00:00:00 GMT</pubDate>
-      <guid>./../articles/gpl.html</guid>
+      <guid isPermaLink="false">/articles/gpl.html</guid>
     </item>
     <item>
       <title>Rethinking the UNIX Philosophy: Beyond Small Programs</title>
-      <link>./../articles/unix.html</link>
+      <link>/articles/unix.html</link>
       <description>UNIX is more than tiny tools and pipes; its real power is composability and thoughtful integration, not a simplistic blueprint for microservices.</description>
       <pubDate>Wed, 05 Mar 2025 00:00:00 GMT</pubDate>
-      <guid>./../articles/unix.html</guid>
+      <guid isPermaLink="false">/articles/unix.html</guid>
     </item>
     <item>
       <title>Reinventing Operating Systems: Lessons from OpenBSD and Beyond</title>
-      <link>./../articles/systems.html</link>
+      <link>/articles/systems.html</link>
       <description>Enterprise OSs often cling to compatibility, while OpenBSD and Apple embrace breaking changes for security and simplicity—two paths with very different trade-offs.</description>
       <pubDate>Tue, 04 Mar 2025 00:00:00 GMT</pubDate>
-      <guid>./../articles/systems.html</guid>
+      <guid isPermaLink="false">/articles/systems.html</guid>
     </item>
   </channel>
 </rss>

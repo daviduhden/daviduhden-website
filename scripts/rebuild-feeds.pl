@@ -31,6 +31,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Cwd            qw(abs_path);
+use File::Basename qw(basename);
 use File::Find;
 use File::Spec;
 use POSIX       qw(strftime);
@@ -40,6 +42,11 @@ my $script_dir   = ( File::Spec->splitpath($0) )[1];
 my $root_dir     = File::Spec->catdir( $script_dir, '..' );
 my $feeds_dir    = File::Spec->catdir( $root_dir,   'feeds' );
 my $articles_dir = File::Spec->catdir( $root_dir,   'articles' );
+
+my $abs_root = abs_path($root_dir);
+$root_dir     = $abs_root if defined $abs_root && length $abs_root;
+$feeds_dir    = File::Spec->catdir( $root_dir, 'feeds' );
+$articles_dir = File::Spec->catdir( $root_dir, 'articles' );
 
 binmode STDOUT, ':encoding(UTF-8)';
 binmode STDERR, ':encoding(UTF-8)';
@@ -97,24 +104,28 @@ sub iso_to_epoch {
 }
 
 sub format_pubdate {
-    my ( $epoch, $lang ) = @_;
+    my ($epoch) = @_;
     my @wday_en = qw(Sun Mon Tue Wed Thu Fri Sat);
     my @mon_en  = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
-    my @wday_es = qw(dom lun mar mié jue vie sáb);
-    my @mon_es  = qw(ene feb mar abr may jun jul ago sep oct nov dic);
 
     my ( $sec, $min, $hour, $mday, $mon, $year, $wday ) = gmtime($epoch);
     $year += 1900;
-    if ( $lang eq 'es' ) {
-        return sprintf(
-            '%s, %02d %s %d %02d:%02d:%02d GMT',
-            lc( $wday_es[$wday] ),
-            $mday, lc( $mon_es[$mon] ),
-            $year, $hour, $min, $sec
-        );
-    }
     return sprintf( '%s, %02d %s %d %02d:%02d:%02d GMT',
         $wday_en[$wday], $mday, $mon_en[$mon], $year, $hour, $min, $sec );
+}
+
+sub normalize_root_relative {
+    my ($href) = @_;
+    $href //= '';
+    $href =~ s/^\s+|\s+$//g;
+    return '/' unless length $href;
+    if ( $href =~ m{^https?://[^/]+(?:(/.*))?$}i ) {
+        return defined $1 && length $1 ? $1 : '/';
+    }
+    return $href if $href =~ m{^/};
+    $href                 =~ s{^\./+}{};
+    $href                 =~ s{^\.\./+}{};
+    return "/$href";
 }
 
 sub detect_feeds {
@@ -218,21 +229,23 @@ sub rebuild_feed_file {
     my ($channel_title) = $xml =~ m{<title>(.*?)</title>}s;
     $channel_title //= 'RSS Feed';
     my ($channel_link) = $xml =~ m{<link>(.*?)</link>}s;
-    $channel_link //= '../';
+    $channel_link = normalize_root_relative($channel_link);
     my ($channel_desc) = $xml =~ m{<description>(.*?)</description>}s;
     $channel_desc //= '';
+    my $feed_name = basename($feed_path);
+    my $feed_self = "/feeds/$feed_name";
 
     my $items = '';
     for my $r (@$rows) {
         next if $r->{lang} ne $lang;
-        my $pub = format_pubdate( $r->{epoch}, $lang );
+        my $pub = format_pubdate( $r->{epoch} );
         $items .= join '',
           "    <item>\n",
           "      <title>", xml_escape( $r->{title} ), "</title>\n",
-          "      <link>./../articles/$r->{slug}.html</link>\n",
+          "      <link>/articles/$r->{slug}.html</link>\n",
           "      <description>", xml_escape( $r->{desc} ), "</description>\n",
           "      <pubDate>$pub</pubDate>\n",
-          "      <guid>./../articles/$r->{slug}.html</guid>\n",
+"      <guid isPermaLink=\"false\">/articles/$r->{slug}.html</guid>\n",
           "    </item>\n\n";
     }
 
@@ -242,16 +255,17 @@ sub rebuild_feed_file {
         $last_epoch = $r->{epoch};
         last;
     }
-    my $last_build = format_pubdate( $last_epoch, $lang );
+    my $last_build = format_pubdate($last_epoch);
 
     my $new_xml = join '',
       qq(<?xml version="1.0" encoding="UTF-8"?>\n),
-      qq(<rss version="2.0">\n),
+      qq(<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">\n),
       qq(  <channel>\n),
       qq(    <title>$channel_title</title>\n),
       qq(    <link>$channel_link</link>\n),
       qq(    <description>$channel_desc</description>\n),
-      qq(    <lastBuildDate>$last_build</lastBuildDate>\n\n),
+      qq(    <lastBuildDate>$last_build</lastBuildDate>\n),
+qq(    <atom:link href="$feed_self" rel="self" type="application/rss+xml"/>\n\n),
       $items,
       qq(  </channel>\n),
       qq(</rss>\n);
