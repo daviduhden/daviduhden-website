@@ -74,6 +74,10 @@ create_temp_wav() {
 	TMP_WAV=
 	i=0
 	while :; do
+		if [ "$i" -ge 100 ]; then
+			echo "❌ Could not create temporary WAV file"
+			exit 1
+		fi
 		TMP_WAV=${TMPDIR:-/tmp}/voice$$-$i.wav
 		if (umask 077 && : >"$TMP_WAV") 2>/dev/null; then
 			break

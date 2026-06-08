@@ -225,8 +225,14 @@ sub make_tmp_file_in_tmp {
     # Place extension via SUFFIX to keep TEMPLATE ending in Xs.
     my $template = "validate-website${base}-XXXXXX";
 
+    my $tmp_dir = $ENV{TMPDIR};
+    if ( !defined($tmp_dir) || $tmp_dir eq '' || !-d $tmp_dir || !-w $tmp_dir )
+    {
+        $tmp_dir = $root_dir;
+    }
+
     my ( $fh, $path ) =
-      tempfile( $template, DIR => "/tmp", SUFFIX => $ext, UNLINK => 0 );
+      tempfile( $template, DIR => $tmp_dir, SUFFIX => $ext, UNLINK => 0 );
     print {$fh} $content;
     close $fh;
     return $path;
@@ -564,7 +570,7 @@ if ( @css || @js || @json ) {
               . "}\n" );
         push @tmp_paths, $dprint_cfg;
         dprint_config_update($dprint_cfg);
-        logi("Created temporary dprint config in /tmp: $dprint_cfg")
+        logi("Created temporary dprint config at: $dprint_cfg")
           if $verbose;
     }
 }
