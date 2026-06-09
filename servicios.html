@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servicios públicos | D.U.C.</title>
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#site-main">Saltar al contenido principal</a>
+  <header id="site-header">
+    <h1>David Uhden Collado</h1>
+
+    <h2>Servicios públicos</h2>
+
+    <nav id="site-nav" aria-label="Navegación principal">
+      <ul>
+        <li>
+          <a href="./index-es.html" rel="home">Inicio</a>
+        </li>
+
+        <li>
+          <a href="./blog-es.html" rel="contents">Blog</a>
+        </li>
+
+        <li>
+          <a href="./servicios.html">Servicios públicos</a>
+        </li>
+
+        <li>
+          <a class="lang-switch" href="./services.html" rel="alternate"
+          hreflang="en"><img src="./images/en.png" alt="EN" class=
+          "icon">English</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="site-main" tabindex="-1">
+    <section>
+      <h2>Informe de servicios públicos</h2>
+
+      <p><strong>Servidor:</strong> <code>uhden.dev</code></p>
+
+      <table>
+        <caption>
+          Servicios públicos expuestos
+        </caption>
+
+        <thead>
+          <tr>
+            <th scope="col">Red</th>
+            <th scope="col">Servicio</th>
+            <th scope="col">Host / dirección</th>
+            <th scope="col">Puerto(s)</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Clearnet</td>
+            <td>Monero P2P</td>
+            <td>uhden.dev</td>
+            <td>18080/tcp</td>
+          </tr>
+
+          <tr>
+            <td>Clearnet</td>
+            <td>Monero RPC</td>
+            <td>uhden.dev</td>
+            <td>18081/tcp</td>
+          </tr>
+
+          <tr>
+            <td>Clearnet</td>
+            <td>Monero LWS</td>
+            <td>uhden.dev</td>
+            <td>8443/tcp</td>
+          </tr>
+
+          <tr>
+            <td>Tor</td>
+            <td>Monero / LWS</td>
+            <td>
+            <code>e2peqi5qubruqepucf7cvtbbgo6hjeo3b5puz2zesonujqdfhcw7m4ad.onion</code>
+            </td>
+            <td>8443, 18080, 18081</td>
+          </tr>
+
+          <tr>
+            <td>I2P</td>
+            <td>Monero P2P</td>
+            <td>
+            <code>wbjp4sngc4d3y5yf7ty464z7xyghisrcpkjbxr5ly3c64e7bpjjq.b32.i2p</code>
+            </td>
+            <td>18080</td>
+          </tr>
+
+          <tr>
+            <td>I2P</td>
+            <td>Monero RPC</td>
+            <td>
+            <code>wodpx62tsejzh4ewd6kk2waoyggcb7jppenhfydudmf7f2cx2g7q.b32.i2p</code>
+            </td>
+            <td>18081</td>
+          </tr>
+
+          <tr>
+            <td>I2P</td>
+            <td>Monero LWS</td>
+            <td>
+            <code>pifqig6m2ic4gnccyhuclm25nvpbqw3oj7gra3jwocshfd5ai3xa.b32.i2p</code>
+            </td>
+            <td>8443</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Notas</h2>
+
+      <ul>
+        <li>El correo es privado y no se incluye.</li>
+
+        <li>El servidor CardDAV es privado y no se incluye.</li>
+
+        <li>i2pd está configurado para intentar anunciar IPv6 aunque este host
+        no tenga una IPv6 global asignada.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer id="site-footer">
+    <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
+
+    <p><strong><a href="./licencia.html" rel="license">LICENCIA</a></strong>
+    </p>
+    <img src="./images/anarchy.png" alt="libertad" class="motto">
+    <p class="motto">VIVE ET SINE ALIOS VIVERE</p>
+    <img src="./images/anarchy.png" alt="libertad" class="motto">
+  </footer>
+</body>
+</html>
