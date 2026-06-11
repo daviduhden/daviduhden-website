@@ -41,8 +41,6 @@
     <section>
       <h2>Public services report</h2>
 
-      <p><strong>Server:</strong> <code>uhden.dev</code></p>
-
       <table>
         <caption>
           Exposed public services
@@ -60,59 +58,27 @@
         <tbody>
           <tr>
             <td>Clearnet</td>
-            <td>Monero P2P</td>
-            <td>uhden.dev</td>
-            <td>18080/tcp</td>
-          </tr>
-
-          <tr>
-            <td>Clearnet</td>
-            <td>Monero RPC</td>
-            <td>uhden.dev</td>
-            <td>18081/tcp</td>
-          </tr>
-
-          <tr>
-            <td>Clearnet</td>
-            <td>Monero LWS</td>
-            <td>uhden.dev</td>
-            <td>8443/tcp</td>
+            <td>Monero P2P / RPC / LWS</td>
+            <td><code>uhden.dev</code></td>
+            <td>18080/tcp, 18081/tcp, 8443/tcp</td>
           </tr>
 
           <tr>
             <td>Tor</td>
-            <td>Monero / LWS</td>
+            <td>Monero P2P / RPC / LWS</td>
             <td>
             <code>e2peqi5qubruqepucf7cvtbbgo6hjeo3b5puz2zesonujqdfhcw7m4ad.onion</code>
             </td>
-            <td>8443, 18080, 18081</td>
+            <td>18080/tcp, 18081/tcp, 8443/tcp</td>
           </tr>
 
           <tr>
             <td>I2P</td>
-            <td>Monero P2P</td>
+            <td>Monero P2P / RPC / LWS</td>
             <td>
-            <code>wbjp4sngc4d3y5yf7ty464z7xyghisrcpkjbxr5ly3c64e7bpjjq.b32.i2p</code>
+            <code>wbjp4sngc4d3y5yf7ty464z7xyghisrcpkjbxr5ly3c64e7bpjjq.b32.i2p</code> / <code>wodpx62tsejzh4ewd6kk2waoyggcb7jppenhfydudmf7f2cx2g7q.b32.i2p</code> / <code>pifqig6m2ic4gnccyhuclm25nvpbqw3oj7gra3jwocshfd5ai3xa.b32.i2p</code>
             </td>
-            <td>18080</td>
-          </tr>
-
-          <tr>
-            <td>I2P</td>
-            <td>Monero RPC</td>
-            <td>
-            <code>wodpx62tsejzh4ewd6kk2waoyggcb7jppenhfydudmf7f2cx2g7q.b32.i2p</code>
-            </td>
-            <td>18081</td>
-          </tr>
-
-          <tr>
-            <td>I2P</td>
-            <td>Monero LWS</td>
-            <td>
-            <code>pifqig6m2ic4gnccyhuclm25nvpbqw3oj7gra3jwocshfd5ai3xa.b32.i2p</code>
-            </td>
-            <td>8443</td>
+            <td>18080/tcp, 18081/tcp, 8443/tcp</td>
           </tr>
         </tbody>
       </table>
@@ -122,18 +88,14 @@
       <h2>Notes</h2>
 
       <ul>
-        <li>Email is private and is not included.</li>
-
-        <li>The CardDAV server is private and is not included.</li>
-
-        <li>i2pd is configured to try advertising IPv6 even when this host has
-        no globally assigned IPv6 address.</li>
+        <li>The SMTPD/IMAP server is private and is not included.</li>
+        <li>The CalDAV/CardDAV server is private and is not included.</li>
       </ul>
     </section>
   </main>
 
   <footer id="site-footer">
-    <p>&copy; 2024-2025 David Uhden Collado. All rights reserved.</p>
+    <p>&copy; 2024-2026 David Uhden Collado. All rights reserved.</p>
 
     <p><strong><a href="./license.html" rel="license">LICENSE</a></strong>
     </p>

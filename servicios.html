@@ -41,8 +41,6 @@
     <section>
       <h2>Informe de servicios públicos</h2>
 
-      <p><strong>Servidor:</strong> <code>uhden.dev</code></p>
-
       <table>
         <caption>
           Servicios públicos expuestos
@@ -59,60 +57,28 @@
 
         <tbody>
           <tr>
-            <td>Clearnet</td>
-            <td>Monero P2P</td>
-            <td>uhden.dev</td>
-            <td>18080/tcp</td>
+            <td>Red clara</td>
+            <td>Monero P2P / RPC / LWS</td>
+            <td><code>uhden.dev</code></td>
+            <td>18080/tcp, 18081/tcp, 8443/tcp</td>
           </tr>
 
           <tr>
-            <td>Clearnet</td>
-            <td>Monero RPC</td>
-            <td>uhden.dev</td>
-            <td>18081/tcp</td>
-          </tr>
-
-          <tr>
-            <td>Clearnet</td>
-            <td>Monero LWS</td>
-            <td>uhden.dev</td>
-            <td>8443/tcp</td>
-          </tr>
-
-          <tr>
-            <td>Tor</td>
-            <td>Monero / LWS</td>
+            <td>Red Tor</td>
+            <td>Monero P2P / RPC / LWS</td>
             <td>
             <code>e2peqi5qubruqepucf7cvtbbgo6hjeo3b5puz2zesonujqdfhcw7m4ad.onion</code>
             </td>
-            <td>8443, 18080, 18081</td>
+            <td>18080/tcp, 18081/tcp, 8443/tcp</td>
           </tr>
 
           <tr>
-            <td>I2P</td>
-            <td>Monero P2P</td>
+            <td>Red I2P</td>
+            <td>Monero P2P / RPC / LWS</td>
             <td>
-            <code>wbjp4sngc4d3y5yf7ty464z7xyghisrcpkjbxr5ly3c64e7bpjjq.b32.i2p</code>
+            <code>wbjp4sngc4d3y5yf7ty464z7xyghisrcpkjbxr5ly3c64e7bpjjq.b32.i2p</code> / <code>wodpx62tsejzh4ewd6kk2waoyggcb7jppenhfydudmf7f2cx2g7q.b32.i2p</code> / <code>pifqig6m2ic4gnccyhuclm25nvpbqw3oj7gra3jwocshfd5ai3xa.b32.i2p</code>
             </td>
-            <td>18080</td>
-          </tr>
-
-          <tr>
-            <td>I2P</td>
-            <td>Monero RPC</td>
-            <td>
-            <code>wodpx62tsejzh4ewd6kk2waoyggcb7jppenhfydudmf7f2cx2g7q.b32.i2p</code>
-            </td>
-            <td>18081</td>
-          </tr>
-
-          <tr>
-            <td>I2P</td>
-            <td>Monero LWS</td>
-            <td>
-            <code>pifqig6m2ic4gnccyhuclm25nvpbqw3oj7gra3jwocshfd5ai3xa.b32.i2p</code>
-            </td>
-            <td>8443</td>
+            <td>18080/tcp, 18081/tcp, 8443/tcp</td>
           </tr>
         </tbody>
       </table>
@@ -122,18 +88,14 @@
       <h2>Notas</h2>
 
       <ul>
-        <li>El correo es privado y no se incluye.</li>
-
-        <li>El servidor CardDAV es privado y no se incluye.</li>
-
-        <li>i2pd está configurado para intentar anunciar IPv6 aunque este host
-        no tenga una IPv6 global asignada.</li>
+        <li>El servidor SMTPD/IMAP es privado y no se incluye.</li>
+        <li>El servidor CalDAV/CardDAV es privado y no se incluye.</li>
       </ul>
     </section>
   </main>
 
   <footer id="site-footer">
-    <p>&copy; 2024-2025 David Uhden Collado. Todos los derechos reservados.</p>
+    <p>&copy; 2024-2026 David Uhden Collado. Todos los derechos reservados.</p>
 
     <p><strong><a href="./licencia.html" rel="license">LICENCIA</a></strong>
     </p>
