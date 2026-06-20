@@ -1,7 +1,10 @@
 /*!
+ * @licstart The following is the entire license notice for the JavaScript code in this page.
+ *
  * Language Switch Helper
  *
  * Copyright (c) 2024-2026 David David Uhden Collado <david@uhden.dev>
+ * SPDX-License-Identifier: ISC
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,6 +17,8 @@
  * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * @licend The above is the entire license notice for the JavaScript code in this page.
  */
 
 (() => {
