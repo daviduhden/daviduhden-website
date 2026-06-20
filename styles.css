@@ -409,8 +409,14 @@ pre {
   padding: 1em;
   overflow-x: auto;
   font-family:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-    "Courier New", monospace;
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
   margin: 1em 0;
   line-height: 1.5;
   tab-size: 2;
@@ -423,8 +429,14 @@ code {
   border-radius: 0.35em;
   background: var(--nav-bg, transparent);
   font-family:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-    "Courier New", monospace;
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
 }
 
 /* Ensure content inside pre has equal spacing top/bottom */
