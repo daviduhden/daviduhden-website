@@ -4,8 +4,15 @@
     <title>David Uhden Collado's Blog</title>
     <link>/blog.html</link>
     <description>Latest articles and updates from David Uhden Collado's blog.</description>
-    <lastBuildDate>Fri, 12 Dec 2025 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="/feeds/blog.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Critiquing GNU FSDG and RYF: Freedom, Firmware, and Hardware Reality</title>
+      <link>/articles/ryf-fsdg.html</link>
+      <description>In this article, I critique GNU's FSDG and FSF's RYF criteria, focusing on firmware exceptions, hardware constraints, and the gap between formal compliance and practical user control.</description>
+      <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">/articles/ryf-fsdg.html</guid>
+    </item>
     <item>
       <title>OpenBSD: A Secure, Robust Operating System for the Future</title>
       <link>/articles/openbsd.html</link>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D.U.C. - FSDG y RYF</title>
+  <link rel="icon" href="./../favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./../styles.css">
+  <script src="./../redirect.js"></script>
+  <link rel="alternate" type="application/rss+xml" title="RSS de Artículos"
+  href="./../feeds/blog-es.xml">
+</head>
+<body>
+  <a class="skip-link" href="#site-main">Saltar al contenido principal</a>
+  <header id="site-header">
+    <h1>David Uhden Collado</h1>
+
+    <h2>Artículo</h2>
+
+    <nav id="site-nav" aria-label="Navegación principal">
+      <ul>
+        <li>
+          <a href="./../index-es.html" rel="home">Inicio</a>
+        </li>
+
+        <li>
+          <a href="./../blog-es.html" rel="contents">Blog</a>
+        </li>
+
+        <li>
+          <a href="./../servicios.html">Servicios públicos</a>
+        </li>
+
+        <li>
+          <a class="lang-switch" href="./ryf-fsdg.html" rel="alternate"
+          hreflang="en"><img src="./../images/en.png" alt="EN" class=
+          "icon">English</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="site-main" tabindex="-1">
+    <article>
+      <header id="article-header">
+        <p class="kicker">Software libre</p>
+
+        <h1>Críticas a FSDG y RYF de GNU: libertad, firmware y realidad del
+        hardware</h1>
+
+        <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
+        "2026-07-01">1 de julio de 2026</time></p>
+
+        <p class="lede">FSDG de GNU y RYF de la FSF siguen siendo referencias en
+        libertad de software, pero sostengo que gestionan mal el firmware,
+        infravaloran las dependencias del hardware moderno y dejan una brecha
+        entre cumplimiento formal y control real del usuario.</p>
+      </header>
+
+      <nav class="toc" aria-label="Índice">
+        <h2>Índice</h2>
+
+        <ol>
+          <li>
+            <a href="#criterios-diseno">Qué Exigen Realmente los Criterios</a>
+          </li>
+
+          <li>
+            <a href="#criterios-firmware">Firmware: Donde la Teoría Choca con
+            los Dispositivos</a>
+          </li>
+
+          <li>
+            <a href="#criterios-practica">Presión de Adopción y Políticas de
+            Distribución</a>
+          </li>
+
+          <li>
+            <a href="#criterios-alcance">La Crítica de Alcance: Libertad de
+            Software frente a Libertad del Dispositivo</a>
+          </li>
+
+          <li>
+            <a href="#criterios-conclusiones">Conclusiones</a>
+          </li>
+        </ol>
+      </nav>
+
+      <section>
+        <p>Mi crítica a FSDG y RYF no consiste en rechazar la libertad de
+        software. Cuestiono sus fronteras de diseño: qué se considera libertad
+        suficiente hoy, cómo se aplican las excepciones y si el modelo actual
+        empuja a fabricantes y comunidades hacia una emancipación técnica real o
+        solo hacia alineamiento formal.</p>
+      </section>
+
+      <section>
+        <h2 id="criterios-diseno">Qué Exigen Realmente los Criterios</h2>
+
+        <p>Las Free System Distribution Guidelines (FSDG) de GNU exigen retirar
+        software no libre, incluidos blobs de firmware no libre, y evitar que la
+        distribución conduzca al usuario hacia repositorios o documentación no
+        libre. Es un listón alto centrado en curación estricta de software.</p>
+
+        <p>RYF aplica principios similares al hardware comercial: pide software
+        libre en el producto y capacidad práctica para instalar versiones
+        modificadas. Sin embargo, su texto público incluye una excepción para
+        cierto software en procesadores embebidos secundarios cuando no se prevé
+        instalación tras la compra<sup><a href="#fn-1" id=
+        "ref-1">[1]</a></sup>. Ese punto es uno de los más discutidos.</p>
+      </section>
+
+      <section>
+        <h2 id="criterios-firmware">Firmware: Donde la Teoría Choca con los
+        Dispositivos</h2>
+
+        <p>Portátiles, servidores y periféricos modernos dependen de múltiples
+        capas de firmware: chips Wi-Fi, controladores de almacenamiento, GPU,
+        controladores embebidos y microcódigo de plataforma. En muchos casos,
+        esos componentes son necesarios para la funcionalidad básica y sus
+        alternativas libres son inexistentes o aún inmaduras.</p>
+
+        <p>Sostengo que aquí aparece una tensión interna. FSDG rechaza con
+        fuerza firmware no libre en distribuciones, mientras RYF mantiene
+        excepciones en ciertas capas de hardware. Para quienes lo defienden, es
+        una distinción pragmática; para mí, es una asimetría: estricta en
+        empaquetado, más tolerante donde el poder técnico es más difícil de
+        auditar.</p>
+      </section>
+
+      <section>
+        <h2 id="criterios-practica">Presión de Adopción y Políticas de
+        Distribución</h2>
+
+        <p>La fricción se ve en la gobernanza de distribuciones. La Resolución
+        General de Debian de 2022 sobre firmware no libre y su implementación en
+        Debian 12 priorizaron instalabilidad en hardware común, con información
+        visible para el usuario y controles explícitos. GNU, en cambio, considera
+        esta dirección incompatible con sus condiciones de aval para distros
+        libres y la cita al explicar su no recomendación.</p>
+
+        <p>Mi objeción práctica es clara: si un estándar de libertad no puede
+        adoptarse en proyectos amplios sin recortes severos de compatibilidad,
+        corre el riesgo de quedar socialmente periférico. Reconozco que la
+        réplica ética también es sólida: bajar requisitos normaliza el bloqueo
+        privativo. Aun así, el conflicto sin resolver es cómo mantener presión
+        de liberación sin romper conexión con condiciones reales de
+        despliegue.</p>
+      </section>
+
+      <section>
+        <h2 id="criterios-alcance">La Crítica de Alcance: Libertad de Software
+        frente a Libertad del Dispositivo</h2>
+
+        <p>También cuestiono su alcance. FSDG y RYF están redactados, sobre
+        todo, alrededor de licencias y políticas de distribución de software.
+        Son más débiles al evaluar reparabilidad, apertura de diagnóstico,
+        mantenibilidad del hardware y presión legal anti-elusión que puede
+        bloquear reparación legítima e ingeniería inversa.</p>
+
+        <p>Esto importa porque la autonomía del usuario hoy depende tanto del
+        código como del control del ciclo de vida del dispositivo. El movimiento
+        de derecho a reparar ha mostrado cómo restricciones legales y técnicas en
+        software embebido pueden vaciar la propiedad material del equipo. Un marco
+        que no mida ese eje puede sobreestimar la libertad práctica.</p>
+      </section>
+
+      <section>
+        <h2 id="criterios-conclusiones">Conclusiones</h2>
+
+        <p>Mi crítica más fuerte a FSDG y RYF no es que sean demasiado exigentes
+        en teoría, sino que pueden ser desiguales en efecto: muy rigurosos donde
+        el proyecto controla paquetes y menos transformadores donde se concentra
+        el control real del hardware.</p>
+
+        <p>Una siguiente generación más robusta mantendría el suelo actual de
+        libertad, endurecería excepciones y añadiría métricas explícitas de
+        reparación, recuperabilidad, reemplazo de firmware y control verificable
+        por el usuario en toda la pila del dispositivo. Así, la política pasaría
+        de pureza simbólica a resultados medibles de libertad.</p>
+      </section>
+    </article>
+  </main>
+
+  <footer id="footnotes">
+    <p><strong>Notas:</strong>
+    </p>
+
+    <p id="fn-1"><sup>1</sup> Los criterios RYF describen una excepción para
+    software de ciertos procesadores embebidos secundarios cuando no se prevé
+    instalación tras la venta. <a href="#ref-1">↩</a></p>
+  </footer>
+
+  <footer id="links-footer">
+    <h3>Enlaces útiles</h3>
+
+    <ul>
+      <li>
+        <a href=
+        "https://www.gnu.org/distros/free-system-distribution-guidelines.html">
+        GNU: Free System Distribution Guidelines</a>
+      </li>
+
+      <li>
+        <a href="https://ryf.fsf.org/about/criteria">FSF: criterios RYF</a>
+      </li>
+
+      <li>
+        <a href="https://www.gnu.org/distros/common-distros.html">GNU: por qué
+        no avalamos otros sistemas</a>
+      </li>
+
+      <li>
+        <a href="https://www.debian.org/vote/2022/vote_003">Debian 2022:
+        Resolución General sobre firmware no libre</a>
+      </li>
+
+      <li>
+        <a href="https://wiki.debian.org/Firmware">Wiki de Debian: firmware</a>
+      </li>
+
+      <li>
+        <a href="https://www.fsfla.org/ikiwiki/selibre/linux-libre/">GNU
+        Linux-libre</a>
+      </li>
+
+      <li>
+        <a href="https://www.eff.org/issues/right-to-repair">EFF: derecho a
+        reparar</a>
+      </li>
+    </ul>
+  </footer>
+
+  <footer id="site-footer">
+    <p>&copy; 2024-2026 David Uhden Collado. Todos los derechos reservados.</p>
+
+    <p><strong><a href="./../licencia.html">LICENCIA</a></strong>
+    </p>
+    <img src="./../images/anarchy.png" alt="libertad" class="motto">
+    <p class="motto">VIVE ET SINE ALIOS VIVERE</p>
+    <img src="./../images/anarchy.png" alt="libertad" class="motto">
+  </footer>
+</body>
+</html>

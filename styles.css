@@ -346,8 +346,14 @@ section h3 {
 }
 
 main p {
-  text-align: start;
+  text-align: justify;
   margin: 0.45em 0 0.95em;
+}
+
+/* Keep utility/meta paragraphs un-justified */
+.kicker,
+.meta {
+  text-align: start;
 }
 
 /* Tables */
