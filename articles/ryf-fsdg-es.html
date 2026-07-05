@@ -50,10 +50,10 @@
         <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
         "2026-07-01">1 de julio de 2026</time></p>
 
-        <p class="lede">FSDG de GNU y RYF de la FSF siguen siendo referencias
-        en libertad de software, pero sostengo que gestionan mal el firmware,
-        infravaloran las dependencias del hardware moderno y dejan una brecha
-        entre cumplimiento formal y control real del usuario.</p>
+        <p class="lede">Las FSDG de GNU y el RYF de la FSF siguen siendo
+        referencias en libertad de software, pero sostengo que abordan mal el
+        firmware, infravaloran las dependencias del hardware moderno y dejan
+        una brecha entre cumplimiento formal y control real del usuario.</p>
       </header>
 
       <nav class="toc" aria-label="Índice">
@@ -86,11 +86,11 @@
       </nav>
 
       <section>
-        <p>Mi crítica a FSDG y RYF no consiste en rechazar la libertad de
-        software. Cuestiono sus fronteras de diseño: qué se considera libertad
+        <p>Mi crítica a FSDG y RYF no supone rechazar la libertad de software.
+        Lo que cuestiono son sus límites de diseño: qué se considera libertad
         suficiente hoy, cómo se aplican las excepciones y si el modelo actual
         empuja a fabricantes y comunidades hacia una emancipación técnica real
-        o solo hacia alineamiento formal.</p>
+        o solo hacia una alineación formal.</p>
       </section>
 
       <section>
@@ -98,16 +98,17 @@
 
         <p>Las Free System Distribution Guidelines (FSDG) de GNU exigen retirar
         software no libre, incluidos blobs de firmware no libre, y evitar que
-        la distribución conduzca al usuario hacia repositorios o documentación
-        no libre. Es un listón alto centrado en curación estricta de
+        la distribución dirija al usuario hacia repositorios o documentación no
+        libre. Es un listón alto, basado en una curación muy estricta del
         software.</p>
 
-        <p>RYF aplica principios similares al hardware comercial: pide software
-        libre en el producto y capacidad práctica para instalar versiones
-        modificadas. Sin embargo, su texto público incluye una excepción para
-        cierto software en procesadores embebidos secundarios cuando no se
-        prevé instalación tras la compra<sup><a href="#fn-1" id=
-        "ref-1">[1]</a></sup>. Ese punto es uno de los más discutidos.</p>
+        <p>RYF aplica principios similares al hardware comercial: exige
+        software libre en el producto y capacidad práctica para instalar
+        versiones modificadas. Sin embargo, su texto público incluye una
+        excepción para cierto software en procesadores embebidos secundarios
+        cuando no se prevé instalación tras la compra<sup><a href="#fn-1" id=
+        "ref-1">[1]</a></sup>. Ese punto sigue siendo uno de los más
+        discutidos.</p>
       </section>
 
       <section>
@@ -115,17 +116,17 @@
         Dispositivos</h2>
 
         <p>Portátiles, servidores y periféricos modernos dependen de múltiples
-        capas de firmware: chips Wi-Fi, controladores de almacenamiento, GPU,
+        capas de firmware: chips Wi-Fi, controladoras de almacenamiento, GPU,
         controladores embebidos y microcódigo de plataforma. En muchos casos,
-        esos componentes son necesarios para la funcionalidad básica y sus
-        alternativas libres son inexistentes o aún inmaduras.</p>
+        esos componentes son necesarios para la funcionalidad básica y las
+        alternativas libres son inexistentes o todavía inmaduras.</p>
 
         <p>Sostengo que aquí aparece una tensión interna. FSDG rechaza con
-        fuerza firmware no libre en distribuciones, mientras RYF mantiene
-        excepciones en ciertas capas de hardware. Para quienes lo defienden, es
-        una distinción pragmática; para mí, es una asimetría: estricta en
-        empaquetado, más tolerante donde el poder técnico es más difícil de
-        auditar.</p>
+        firmeza el firmware no libre en distribuciones, mientras RYF mantiene
+        excepciones en ciertas capas de hardware. Para sus defensores es una
+        distinción pragmática; para mí, es una asimetría: estricta en
+        empaquetado y más tolerante donde el poder técnico resulta más difícil
+        de auditar.</p>
       </section>
 
       <section>
@@ -134,18 +135,19 @@
 
         <p>La fricción se ve en la gobernanza de distribuciones. La Resolución
         General de Debian de 2022 sobre firmware no libre y su implementación
-        en Debian 12 priorizaron instalabilidad en hardware común, con
+        en Debian 12 priorizaron la instalabilidad en hardware común, con
         información visible para el usuario y controles explícitos. GNU, en
-        cambio, considera esta dirección incompatible con sus condiciones de
-        aval para distros libres y la cita al explicar su no recomendación.</p>
+        cambio, considera esta dirección incompatible con sus criterios de aval
+        para distribuciones libres y la cita al explicar su no
+        recomendación.</p>
 
         <p>Mi objeción práctica es clara: si un estándar de libertad no puede
         adoptarse en proyectos amplios sin recortes severos de compatibilidad,
         corre el riesgo de quedar socialmente periférico. Reconozco que la
-        réplica ética también es sólida: bajar requisitos normaliza el bloqueo
-        privativo. Aun así, el conflicto sin resolver es cómo mantener presión
-        de liberación sin romper conexión con condiciones reales de
-        despliegue.</p>
+        réplica ética también es sólida: rebajar requisitos puede normalizar el
+        bloqueo privativo. Aun así, el conflicto pendiente sigue siendo cómo
+        mantener presión de liberación sin desconectarse de las condiciones
+        reales de despliegue.</p>
       </section>
 
       <section>
@@ -155,30 +157,30 @@
         <p>También cuestiono su alcance. FSDG y RYF están redactados, sobre
         todo, alrededor de licencias y políticas de distribución de software.
         Son más débiles al evaluar reparabilidad, apertura de diagnóstico,
-        mantenibilidad del hardware y presión legal anti-elusión que puede
+        mantenibilidad del hardware y presión legal anti-elusión, que puede
         bloquear reparación legítima e ingeniería inversa.</p>
 
         <p>Esto importa porque la autonomía del usuario hoy depende tanto del
         código como del control del ciclo de vida del dispositivo. El
-        movimiento de derecho a reparar ha mostrado cómo restricciones legales
-        y técnicas en software embebido pueden vaciar la propiedad material del
-        equipo. Un marco que no mida ese eje puede sobreestimar la libertad
-        práctica.</p>
+        movimiento por el derecho a reparar ha mostrado cómo restricciones
+        legales y técnicas en software embebido pueden vaciar de contenido la
+        propiedad material del equipo. Un marco que no mida ese eje puede
+        sobreestimar la libertad práctica.</p>
       </section>
 
       <section>
         <h2 id="criterios-conclusiones">Conclusiones</h2>
 
         <p>Mi crítica más fuerte a FSDG y RYF no es que sean demasiado
-        exigentes en teoría, sino que pueden ser desiguales en efecto: muy
-        rigurosos donde el proyecto controla paquetes y menos transformadores
-        donde se concentra el control real del hardware.</p>
+        exigentes en teoría, sino que su efecto es desigual: muy rigurosos
+        donde el proyecto controla paquetes y menos transformadores donde se
+        concentra el control real del hardware.</p>
 
         <p>Una siguiente generación más robusta mantendría el suelo actual de
-        libertad, endurecería excepciones y añadiría métricas explícitas de
+        libertad, endurecería las excepciones y añadiría métricas explícitas de
         reparación, recuperabilidad, reemplazo de firmware y control
         verificable por el usuario en toda la pila del dispositivo. Así, la
-        política pasaría de pureza simbólica a resultados medibles de
+        política pasaría de la pureza simbólica a resultados medibles de
         libertad.</p>
       </section>
     </article>

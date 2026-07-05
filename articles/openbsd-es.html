@@ -50,9 +50,9 @@
         <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
         "2025-12-12">12 de diciembre de 2025</time></p>
 
-        <p class="lede">OpenBSD privilegia la simplicidad y la seguridad:
-        auditado a fondo, con servicios mínimos por defecto y documentación
-        clara para configurar sin exponer el sistema.</p>
+        <p class="lede">OpenBSD combina simplicidad y seguridad: auditoría
+        rigurosa, servicios mínimos por defecto y documentación clara para
+        configurar el sistema sin exponerlo de más.</p>
       </header>
 
       <nav class="toc" aria-label="Índice">
@@ -117,8 +117,8 @@
       <section>
         <p>OpenBSD es una opción sólida tanto para entornos profesionales como
         para uso personal. Ofrece una plataforma en la que cada línea de código
-        y cada ajuste de configuración se desarrollan con meticulosa atención
-        al detalle.</p>
+        y cada ajuste de configuración se desarrollan con una atención
+        meticulosa al detalle.</p>
       </section>
 
       <section>
@@ -127,16 +127,16 @@
 
         <p>OpenBSD sigue de cerca la filosofía Unix, lo que se traduce en un
         sistema sencillo de instalar y configurar sin perder de vista la
-        seguridad. Incluye numerosas aplicaciones en el paquete base, diseñadas
-        para usarse tal cual y sin configuraciones predeterminadas inseguras.
-        Este enfoque de "menos es más" obliga a habilitar solo los servicios
+        seguridad. Incluye numerosas aplicaciones en el sistema base, pensadas
+        para usarse tal cual y sin configuraciones por defecto inseguras. Este
+        enfoque de "menos es más" empuja a habilitar solo los servicios
         realmente necesarios, minimizando riesgos por errores de configuración
         o exposición innecesaria.</p>
 
         <p>Los archivos de configuración de OpenBSD usan una sintaxis clara y
         legible, lo que facilita su comprensión y modificación. Además, la
         documentación es una prioridad absoluta: cada opción se explica en
-        detalle en las páginas de manual. La premisa es simple, pero poderosa:
+        detalle en las páginas de manual. La premisa es simple, pero potente:
         la documentación ausente o incorrecta se considera un fallo, porque una
         configuración correcta es esencial para mantener la seguridad del
         sistema.</p>
@@ -147,10 +147,10 @@
         la diferencia</h2>
 
         <p>Lo que realmente distingue a OpenBSD es su enfoque en la seguridad
-        desde el núcleo del sistema. Cada componente, desde el kernel hasta las
-        aplicaciones de espacio de usuario, se somete a auditorías rigurosas
-        para identificar y eliminar posibles fallos de seguridad. Algunas de
-        las innovaciones más destacadas son:</p>
+        desde el núcleo del sistema. Cada componente, desde el kernel hasta el
+        espacio de usuario, se somete a auditorías rigurosas para identificar y
+        eliminar posibles fallos de seguridad. Algunas de las innovaciones más
+        destacadas son:</p>
 
         <ul>
           <li><strong>Política W^X:</strong> La aplicación obligatoria de W^X
@@ -185,12 +185,12 @@
         <p>El enfoque de OpenBSD no se limita a mitigar técnicas de
         explotación. También prioriza valores por defecto conservadores,
         utilidades pequeñas y auditables, e integración estrecha entre kernel y
-        entorno base de usuario. En la práctica, esto se traduce en un sistema
-        que tiende a ser más seguro sin depender de un endurecimiento posterior
+        entorno base de usuario. En la práctica, esto suele traducirse en un
+        sistema más seguro sin depender de un endurecimiento posterior
         especialmente complejo.</p>
 
         <p>Entre los mecanismos y herramientas del sistema base que suelen
-        destacarse en este contexto se incluyen:</p>
+        destacarse en este contexto están:</p>
 
         <ul>
           <li><strong>KARL (Kernel Address Randomized Link):</strong> Una
@@ -226,7 +226,7 @@
         <p>Por último, la cultura de auditoría continua y la insistencia en
         páginas de manual de alta calidad contribuyen de forma decisiva a la
         seguridad operativa: la configuración es explícita, los valores por
-        defecto son intencionados y la administración se apoya en primitivas
+        defecto son deliberados y la administración se apoya en primitivas
         documentadas.</p>
       </section>
 
@@ -234,12 +234,12 @@
         <h2 id="openbsd-es-refuerzo">Refuerzo adicional: aleatorización y
         seguridad de memoria</h2>
 
-        <p>Además de mitigaciones ampliamente conocidas, OpenBSD ha invertido
-        durante años en técnicas que reducen la predictibilidad tanto en
-        espacio de usuario como en el kernel, dificultando la explotación
-        fiable. Estas medidas suelen ser más efectivas cuando se combinan:
-        incluso con fugas parciales de información, cada capa adicional
-        incrementa el coste de construir cadenas de ataque consistentes.</p>
+        <p>Además de mitigaciones ampliamente conocidas, OpenBSD lleva años
+        invirtiendo en técnicas que reducen la predictibilidad tanto en espacio
+        de usuario como en el kernel, dificultando la explotación fiable. Estas
+        medidas son más efectivas cuando se combinan: incluso con fugas
+        parciales de información, cada capa adicional incrementa el coste de
+        construir cadenas de ataque consistentes.</p>
 
         <ul>
           <li><strong>Aleatorización de direcciones y disposición:</strong> Se
@@ -266,10 +266,10 @@
           memoria durante desarrollo y depuración.</li>
         </ul>
 
-        <p>Cuando corresponde, OpenBSD también tiende a exponer el control
+        <p>Cuando procede, OpenBSD también tiende a exponer el control
         operativo de estas medidas mediante interfaces documentadas
-        (habitualmente sysctl o ficheros de configuración), favoreciendo
-        transparencia y verificabilidad.</p>
+        (habitualmente sysctl o ficheros de configuración), favoreciendo la
+        transparencia y la verificabilidad.</p>
       </section>
 
       <section>
@@ -381,7 +381,7 @@
 
         <p>Un tema recurrente es la coherencia: el kernel, el entorno base de
         usuario y el modelo de administración evolucionan de forma coordinada.
-        Esto facilita desplegar mecanismos de seguridad de manera transversal y
+        Eso facilita desplegar mecanismos de seguridad de manera transversal y
         documentarlos de forma consistente.</p>
 
         <ul>
@@ -408,7 +408,7 @@
         gráfico</h2>
 
         <p>No todos los entornos son sin interfaz gráfica. OpenBSD incluye
-        componentes para virtualización y gráficos con foco en reducir
+        componentes para virtualización y gráficos, con foco en reducir
         privilegios innecesarios y reforzar los valores por defecto.</p>
 
         <ul>
@@ -435,9 +435,9 @@
         manera natural en la distribución base.</p>
 
         <p>Esta integración estrecha entre componentes, junto con el compromiso
-        de sus desarrolladores con la seguridad, permite a los usuarios
-        disponer de una plataforma fiable, capaz de sostener desde servidores
-        críticos hasta estaciones de trabajo para desarrollo web.</p>
+        de sus desarrolladores con la seguridad, permite a los usuarios contar
+        con una plataforma fiable, capaz de sostener desde servidores críticos
+        hasta estaciones de trabajo para desarrollo web.</p>
       </section>
 
       <section>
@@ -445,7 +445,7 @@
 
         <p>Si buscas un sistema operativo que combine simplicidad, seguridad y
         diseño coherente, OpenBSD merece la pena. Su enfoque de seguridad desde
-        el diseño, la calidad de su documentación y la innovación constante en
+        el diseño, la calidad de la documentación y la innovación continua en
         técnicas de mitigación lo convierten en una opción sólida para quienes
         valoran la estabilidad y la integridad de sus sistemas.</p>
       </section>
