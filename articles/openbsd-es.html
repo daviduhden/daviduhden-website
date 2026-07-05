@@ -48,7 +48,7 @@
         <h1>OpenBSD: un sistema operativo seguro y robusto para el futuro</h1>
 
         <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
-        "2025-12-12">12 de diciembre de 2025</time></p>
+        "2026-07-05">5 de julio de 2026</time></p>
 
         <p class="lede">OpenBSD combina simplicidad y seguridad: auditoría
         rigurosa, servicios mínimos por defecto y documentación clara para
@@ -301,6 +301,15 @@
           reducidos y se estructuren para bajar privilegios cuando es posible,
           limitando impacto ante fallos.</li>
         </ul>
+
+        <p>Los cambios recientes del ciclo de releases mantienen esa línea. En
+        desarrollo actual, OpenBSD ha añadido reenlazado aleatorio en arranque
+        para <code>smtpd(8)</code> y <code>httpd(8)</code>, además de reforzar
+        el análisis de peticiones HTTP en <code>httpd(8)</code> (incluyendo un
+        tratamiento más estricto de patrones de framing ambiguos). Son mejoras
+        incrementales, pero muestran la misma pauta del proyecto: endurecer
+        servicios base reales en lugar de tratar la seguridad como algo
+        puntual.</p>
       </section>
 
       <section>
@@ -467,6 +476,21 @@
 
       <li>
         <a href="https://man.openbsd.org/">Documentación de OpenBSD</a>
+      </li>
+
+      <li>
+        <a href="https://www.openbsd.org/plus.html">Registro de cambios
+        -current de OpenBSD</a>
+      </li>
+
+      <li>
+        <a href="https://man.openbsd.org/httpd.8">Página de manual de
+        httpd(8)</a>
+      </li>
+
+      <li>
+        <a href="https://man.openbsd.org/smtpd.8">Página de manual de
+        smtpd(8)</a>
       </li>
     </ul>
   </footer>

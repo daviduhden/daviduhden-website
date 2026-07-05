@@ -48,7 +48,7 @@
         <h1>FSDG y RYF de GNU: libertad, firmware y realidad del hardware</h1>
 
         <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
-        "2026-07-01">1 de julio de 2026</time></p>
+        "2026-07-05">5 de julio de 2026</time></p>
 
         <p class="lede">Las FSDG de GNU y el RYF de la FSF siguen siendo
         referencias en libertad de software, pero sostengo que abordan mal el
@@ -127,6 +127,16 @@
         distinción pragmática; para mí, es una asimetría: estricta en
         empaquetado y más tolerante donde el poder técnico resulta más difícil
         de auditar.</p>
+
+        <p>La cuestión técnica clave es dónde reside el firmware. Si el
+        firmware lo carga el sistema operativo, la comunidad al menos puede
+        inspeccionar rutas de carga, comparar binarios y experimentar con
+        sustituciones desde la capa de distribución. Cuando el firmware está
+        embebido en controladores secundarios, esos caminos desaparecen: la
+        ingeniería inversa suele requerir extracción física, trazado de buses,
+        herramientas no documentadas y riesgo legal por normas anti-elusión. Es
+        decir, justo donde auditar es más difícil es donde RYF hoy mantiene una
+        excepción.</p>
       </section>
 
       <section>
@@ -166,6 +176,16 @@
         legales y técnicas en software embebido pueden vaciar de contenido la
         propiedad material del equipo. Un marco que no mida ese eje puede
         sobreestimar la libertad práctica.</p>
+
+        <p>Aquí es donde GPL, FSDG y RYF se separan de forma relevante. El
+        copyleft de la GPL puede proteger reciprocidad de código cuando el
+        código fuente está disponible, y FSDG puede impedir distribuir blobs no
+        libres en distros avaladas. Pero ninguno de esos mecanismos resuelve,
+        por sí solo, el firmware opaco soldado en controladores del
+        dispositivo. Mi crítica a RYF/FSDG es que siguen infravalorando ese
+        límite: puede haber cumplimiento formal de software y, aun así,
+        coexistir con componentes prácticamente no verificables y difíciles de
+        estudiar.</p>
       </section>
 
       <section>

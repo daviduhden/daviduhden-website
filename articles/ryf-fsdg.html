@@ -48,7 +48,7 @@
         <h1>GNU FSDG and RYF: Freedom, Firmware, and Hardware Reality</h1>
 
         <p class="meta">By David Uhden Collado - Updated <time datetime=
-        "2026-07-01">July 1, 2026</time></p>
+        "2026-07-05">July 5, 2026</time></p>
 
         <p class="lede">GNU's FSDG and the FSF's RYF still shape freedom
         standards, but I argue they handle firmware poorly, understate modern
@@ -126,6 +126,16 @@
         principled consistency; I see asymmetry: strict where package policy is
         easy to enforce, more permissive where hardware is hardest to
         audit.</p>
+
+        <p>The key technical issue is where firmware lives. If firmware is
+        loaded by the operating system, communities can at least inspect
+        loading paths, compare binaries, and experiment with replacement
+        workflows at the distribution layer. When firmware is embedded inside
+        secondary controllers, those paths disappear: reverse engineering often
+        requires hardware extraction, bus tracing, undocumented tooling, and
+        legal risk around anti-circumvention rules. In other words, the place
+        where auditability is most difficult is exactly where RYF currently
+        allows an exception.</p>
       </section>
 
       <section>
@@ -163,6 +173,15 @@
         undermine ownership even when parts of the stack are open. A criteria
         framework that does not score those constraints can overstate practical
         freedom.</p>
+
+        <p>This is where GPL, FSDG, and RYF diverge in ways that matter. GPL
+        copyleft can protect source-level reciprocity where source is
+        available, and FSDG can block shipping known nonfree blobs in endorsed
+        distributions. But neither mechanism, by itself, solves opaque
+        controller firmware soldered into devices. My critique of RYF/FSDG is
+        that they still underweight this boundary: formal software compliance
+        can coexist with components that remain practically unverifiable and
+        hard to study.</p>
       </section>
 
       <section>

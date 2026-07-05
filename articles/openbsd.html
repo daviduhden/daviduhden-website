@@ -48,7 +48,7 @@
         <h1>OpenBSD: A Secure, Robust Operating System for the Future</h1>
 
         <p class="meta">By David Uhden Collado - Updated <time datetime=
-        "2025-12-12">December 12, 2025</time></p>
+        "2026-07-05">July 5, 2026</time></p>
 
         <p class="lede">OpenBSD combines security-by-design with simplicity,
         offering a rigorously audited system whose built-in tools and
@@ -291,6 +291,14 @@
           and are structured to drop privileges where possible, limiting impact
           when something goes wrong.</li>
         </ul>
+
+        <p>Recent release-cycle work continues this direction. In current
+        development, OpenBSD has added boot-time random relinking for
+        <code>smtpd(8)</code> and <code>httpd(8)</code>, and tightened HTTP
+        request parsing behavior in <code>httpd(8)</code> (including stricter
+        handling of ambiguous framing patterns). These are incremental changes,
+        but they show the same project habit: hardening practical base services
+        instead of treating security as a one-time feature.</p>
       </section>
 
       <section>
@@ -455,6 +463,19 @@
 
       <li>
         <a href="https://man.openbsd.org/">OpenBSD Documentation</a>
+      </li>
+
+      <li>
+        <a href="https://www.openbsd.org/plus.html">OpenBSD -current
+        Changelog</a>
+      </li>
+
+      <li>
+        <a href="https://man.openbsd.org/httpd.8">httpd(8) manual page</a>
+      </li>
+
+      <li>
+        <a href="https://man.openbsd.org/smtpd.8">smtpd(8) manual page</a>
       </li>
     </ul>
   </footer>
