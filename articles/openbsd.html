@@ -50,9 +50,9 @@
         <p class="meta">By David Uhden Collado - Updated <time datetime=
         "2025-12-12">December 12, 2025</time></p>
 
-        <p class="lede">OpenBSD pairs security-by-design with simplicity,
+        <p class="lede">OpenBSD combines security-by-design with simplicity,
         offering a rigorously audited system whose built-in tools and
-        documentation favor safety over convenience.</p>
+        documentation prioritize safety over convenience.</p>
       </header>
 
       <nav class="toc" aria-label="Table of contents">
@@ -117,40 +117,39 @@
 
       <section>
         <p>Since its inception, OpenBSD has stood out as a UNIX-like operating
-        system based on 4.4BSD, known for security and minimalist design. Over
-        the years, it has proven to be a strong choice for professional and
-        personal use alike, offering a platform where code and configuration
-        are developed with meticulous attention to detail.</p>
+        system derived from 4.4BSD, known for security and minimalist design.
+        Over the years, it has proven to be a strong option for both
+        professional and personal use, with code and configuration developed
+        with meticulous attention to detail.</p>
       </section>
 
       <section>
         <h2 id="openbsd-philosophy">A Philosophy of Security and
         Simplicity</h2>
 
-        <p>OpenBSD adheres closely to the Unix philosophy, resulting in a
-        system that is straightforward to install and configure without
-        compromising security. It includes many built-in base applications
-        designed to work as shipped, without insecure defaults. This "less is
-        more" approach requires users to enable only the services they truly
-        need, minimizing risks tied to misconfiguration and unnecessary
-        exposure.</p>
+        <p>OpenBSD adheres closely to the Unix philosophy, producing a system
+        that is straightforward to install and configure without compromising
+        security. It ships with many base applications designed to work safely
+        out of the box, without insecure defaults. This "less is more" approach
+        pushes users to enable only the services they truly need, reducing
+        risks from misconfiguration and unnecessary exposure.</p>
 
-        <p>OpenBSD configuration files use clear, readable syntax, making them
-        easier to understand and modify. Documentation is also a first-class
-        priority: each option is explained in detail in the manual pages. The
-        premise is simple but powerful—missing or incorrect documentation is a
-        defect, because correct configuration is essential to system
-        security.</p>
+        <p>OpenBSD configuration files use clear, readable syntax, which makes
+        them easier to understand and modify. Documentation is also a
+        first-class priority: each option is explained in detail in the manual
+        pages. The premise is simple but powerful—missing or incorrect
+        documentation is a defect, because correct configuration is essential
+        to system security.</p>
       </section>
 
       <section>
         <h2 id="openbsd-innovations">Security Innovations That Make a
         Difference</h2>
 
-        <p>What truly sets OpenBSD apart is its focus on security at the system
-        core. Every component—from kernel to userland—is subjected to rigorous
-        audits to identify and eliminate potential security flaws. Key
-        innovations include:</p>
+        <p>What truly sets OpenBSD apart is its system-level focus on security.
+        Every component—from kernel to userland—goes through rigorous audits to
+        identify and eliminate potential security flaws. Key innovations
+        include:</p>
 
         <ul>
           <li><strong>W^X Policy:</strong> The mandatory enforcement of W^X in
@@ -173,8 +172,8 @@
         </ul>
 
         <p>These features have influenced other operating systems to adopt
-        similar measures, establishing OpenBSD as a benchmark for security and
-        stability.</p>
+        similar measures, helping establish OpenBSD as a benchmark for security
+        and stability.</p>
       </section>
 
       <section>
@@ -183,11 +182,10 @@
         <p>OpenBSD's security posture is not limited to exploit mitigations. It
         also emphasizes secure defaults, small auditable utilities, and tight
         integration between the kernel and base userland. In practice, this
-        tends to produce a safer system without extensive post-install
-        hardening.</p>
+        often yields a safer system without heavy post-install hardening.</p>
 
         <p>Several mechanisms and base tools commonly cited in security
-        discussions include:</p>
+        discussions are:</p>
 
         <ul>
           <li><strong>KARL (Kernel Address Randomized Link):</strong> A
@@ -220,19 +218,19 @@
         <p>Finally, OpenBSD's culture of continuous auditing, together with its
         insistence on high-quality manual pages, plays an outsized role in
         real-world security: configuration is explicit, defaults are
-        intentional, and administration relies on documented primitives rather
-        than opaque layers.</p>
+        intentional, and administration relies on documented primitives instead
+        of opaque layers.</p>
       </section>
 
       <section>
         <h2 id="openbsd-hardening">Hardening Beyond the Obvious: Randomization
         and Memory Safety</h2>
 
-        <p>In addition to well-known mitigations, OpenBSD has long invested in
+        <p>Beyond well-known mitigations, OpenBSD has long invested in
         techniques that make exploitation less reliable by reducing
         predictability in both userland and kernel space. These measures are
         most effective in combination: even when attackers gain partial
-        information, each extra layer raises the cost of building a reliable
+        information, each added layer raises the cost of building a reliable
         exploit chain.</p>
 
         <ul>
@@ -259,11 +257,10 @@
           and debugging.</li>
         </ul>
 
-        <p>Where applicable, OpenBSD also tends to pair mitigations with
-        operational clarity: when a mechanism can be controlled at runtime, it
-        is generally exposed through documented interfaces (typically sysctls
-        or configuration files) rather than hidden behind implicit
-        behavior.</p>
+        <p>Where applicable, OpenBSD also pairs mitigations with operational
+        clarity: when a mechanism can be controlled at runtime, it is generally
+        exposed through documented interfaces (typically sysctls or
+        configuration files) rather than hidden behind implicit behavior.</p>
       </section>
 
       <section>
@@ -272,7 +269,7 @@
 
         <p>Many OpenBSD design decisions make secure operation the path of
         least resistance. This is visible not only in the kernel, but also in
-        daemon defaults and in small, purpose-built administration tools.</p>
+        daemon defaults and small, purpose-built administration tools.</p>
 
         <ul>
           <li><strong>Chrooted web serving:</strong> The base
@@ -302,9 +299,9 @@
 
         <p>OpenBSD's ecosystem includes security-focused networking and
         cryptographic components that are either part of the base system or
-        closely associated with the project. While many of these tools are used
-        far beyond OpenBSD, their development culture emphasizes reviewability,
-        conservative defaults, and predictable operation.</p>
+        closely associated with the project. Many of these tools are used far
+        beyond OpenBSD, but their development culture still emphasizes
+        reviewability, conservative defaults, and predictable operation.</p>
 
         <ul>
           <li><strong>OpenSSH:</strong> The project maintains OpenSSH, a widely
@@ -339,8 +336,8 @@
 
         <p>OpenBSD also provides practical levers that help operators reduce
         attack surface and restrict what applications and services can do, even
-        after compromise. The goal is rarely "perfect security"; instead, it is
-        to keep failures contained and observable.</p>
+        after compromise. The goal is rarely "perfect security"; it is to keep
+        failures contained and observable.</p>
 
         <ul>
           <li><strong>Process sandboxing:</strong> <code>pledge(2)</code> and
@@ -372,7 +369,7 @@
         Documentation Culture</h2>
 
         <p>A recurring OpenBSD theme is that security depends on coherence: the
-        kernel, base userland, and administrative model evolve together. This
+        kernel, base userland, and administrative model evolve together. That
         makes it feasible to roll out cross-cutting security mechanisms broadly
         and document them consistently.</p>
 
@@ -400,7 +397,7 @@
         Stack</h2>
 
         <p>Not every environment is headless. OpenBSD includes components for
-        virtualization and graphical environments with a focus on reducing
+        virtualization and graphical environments, with a focus on reducing
         unnecessary privileges and tightening defaults.</p>
 
         <ul>
@@ -420,12 +417,12 @@
         Community</h2>
 
         <p>Beyond its robust architecture, OpenBSD has an active and dedicated
-        community that works continuously to improve the system. Complementary
-        projects such as LibreSSL, OpenBGPD, OpenNTPD, OpenSMTPD, and OpenSSH
-        are integral to the ecosystem, providing secure, high-quality tools
-        that integrate cleanly with the base distribution.</p>
+        community that continuously improves the system. Complementary projects
+        such as LibreSSL, OpenBGPD, OpenNTPD, OpenSMTPD, and OpenSSH are
+        integral to the ecosystem, providing secure, high-quality tools that
+        integrate cleanly with the base distribution.</p>
 
-        <p>This close integration across system components, combined with the
+        <p>This tight integration across system components, combined with the
         developers' commitment to security, gives users a reliable platform
         that can support everything from critical servers to web development
         workstations.</p>
@@ -436,7 +433,7 @@
 
         <p>If you are looking for an operating system that combines simplicity,
         security, and coherent design, OpenBSD is well worth exploring. Its
-        security-by-design approach, documentation quality, and ongoing
+        security-by-design approach, documentation quality, and continued
         innovation in mitigation techniques make it a strong choice for people
         who value stability and system integrity.</p>
       </section>
