@@ -4,42 +4,48 @@
     <title>Blog de David Uhden Collado</title>
     <link>/blog-es.html</link>
     <description>Últimos artículos y actualizaciones del blog de David Uhden Collado.</description>
-    <lastBuildDate>Wed, 01 Jul 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 05 Jul 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="/feeds/blog-es.xml" rel="self" type="application/rss+xml"/>
-    <item>
-      <title>FSDG y RYF de GNU: libertad, firmware y realidad del hardware</title>
-      <link>/articles/ryf-fsdg-es.html</link>
-      <description>En este artículo critico, con fuentes, los criterios FSDG de GNU y RYF de la FSF, centrándome en excepciones de firmware, límites del hardware y la diferencia entre cumplimiento formal y control efectivo del usuario.</description>
-      <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
-      <guid isPermaLink="false">/articles/ryf-fsdg-es.html</guid>
-    </item>
+
     <item>
       <title>OpenBSD: un sistema operativo seguro y robusto para el futuro</title>
       <link>/articles/openbsd-es.html</link>
-      <description>OpenBSD privilegia la simplicidad y la seguridad: auditado a fondo, con servicios mínimos por defecto y documentación clara para configurar sin exponer el sistema.</description>
-      <pubDate>Fri, 12 Dec 2025 00:00:00 GMT</pubDate>
+      <description>OpenBSD combina simplicidad y seguridad: auditoría rigurosa, servicios mínimos por defecto y documentación clara para configurar el sistema sin exponerlo de más.</description>
+      <pubDate>Sun, 05 Jul 2026 00:00:00 GMT</pubDate>
       <guid isPermaLink="false">/articles/openbsd-es.html</guid>
     </item>
+
+    <item>
+      <title>FSDG y RYF de GNU: libertad, firmware y realidad del hardware</title>
+      <link>/articles/ryf-fsdg-es.html</link>
+      <description>Las FSDG de GNU y el RYF de la FSF siguen siendo referencias en libertad de software, pero abordan mal el firmware, infravaloran las dependencias del hardware moderno y dejan una brecha entre cumplimiento formal y control real del usuario.</description>
+      <pubDate>Sun, 05 Jul 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">/articles/ryf-fsdg-es.html</guid>
+    </item>
+
     <item>
       <title>La GPL: paradojas en el software libre</title>
       <link>/articles/gpl-es.html</link>
-      <description>La GPL busca proteger la libertad del software, pero sus cláusulas recíprocas pueden frenar la colaboración y generar tensiones con los modelos permisivos.</description>
+      <description>La GPL nació para proteger la libertad del software, pero sus cláusulas recíprocas pueden frenar la colaboración y generar fricciones con los modelos permisivos.</description>
       <pubDate>Sat, 08 Mar 2025 00:00:00 GMT</pubDate>
       <guid isPermaLink="false">/articles/gpl-es.html</guid>
     </item>
+
     <item>
       <title>Reinventando los sistemas operativos: lecciones de OpenBSD y más allá</title>
       <link>/articles/sistemas.html</link>
-      <description>Mientras el enfoque empresarial prioriza compatibilidad, OpenBSD y Apple rompen con el pasado para ganar seguridad y simplicidad: dos rutas con costos y beneficios distintos.</description>
+      <description>Mientras el enfoque empresarial prioriza la compatibilidad, OpenBSD y Apple aceptan más rupturas con el pasado para ganar seguridad y simplicidad: dos caminos con costes y beneficios muy distintos.</description>
       <pubDate>Tue, 04 Mar 2025 00:00:00 GMT</pubDate>
       <guid isPermaLink="false">/articles/sistemas.html</guid>
     </item>
+
     <item>
       <title>Repensando la filosofía UNIX: más allá de los programas pequeños</title>
       <link>/articles/unix-es.html</link>
-      <description>La filosofía UNIX no es solo "programas pequeños"; su fuerza está en la composabilidad y el diseño deliberado, no en una analogía simple con microservicios.</description>
+      <description>La filosofía UNIX no es solo "programas pequeños"; su fuerza está en la composabilidad y en la integración deliberada, no en una analogía simplista con microservicios.</description>
       <pubDate>Tue, 04 Mar 2025 00:00:00 GMT</pubDate>
       <guid isPermaLink="false">/articles/unix-es.html</guid>
     </item>
+
   </channel>
 </rss>
