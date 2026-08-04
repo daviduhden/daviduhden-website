@@ -48,7 +48,7 @@
         <h1>OpenBSD: un sistema operativo seguro y robusto para el futuro</h1>
 
         <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
-        "2026-07-05">5 de julio de 2026</time></p>
+        "2026-08-05">5 de agosto de 2026</time></p>
 
         <p class="lede">OpenBSD combina simplicidad y seguridad: auditoría
         rigurosa, servicios mínimos por defecto y documentación clara para
@@ -72,6 +72,11 @@
           <li>
             <a href="#openbsd-es-defaults">Valores por defecto y herramientas
             orientadas a la seguridad</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-es-comprobaciones"><code>security(8)</code> y
+            comprobaciones diarias del sistema</a>
           </li>
 
           <li>
@@ -228,6 +233,27 @@
         seguridad operativa: la configuración es explícita, los valores por
         defecto son deliberados y la administración se apoya en primitivas
         documentadas.</p>
+      </section>
+
+      <section>
+        <h2 id="openbsd-es-comprobaciones"><code>security(8)</code> y
+        comprobaciones diarias del sistema</h2>
+
+        <p>OpenBSD incluye <a href=
+        "https://man.openbsd.org/security"><code>security(8)</code></a>, un
+        script ejecutado por <code>daily(8)</code> que busca indicios de
+        debilidades habituales y envía cualquier resultado por correo a root.
+        Entre otras tareas, revisa las bases de datos de cuentas, los permisos
+        de directorios personales y archivos de configuración, los cambios en
+        archivos enumerados en <code>/etc/changelist</code>, las etiquetas y
+        tablas de particiones de discos montados, los cambios de paquetes y
+        determinados permisos de configuración de red.</p>
+
+        <p>El propio manual lo presenta deliberadamente como una ayuda para la
+        seguridad, no como una protección completa. Su valor consiste en hacer
+        visibles debilidades evidentes y cambios inesperados del sistema,
+        siempre que un administrador revise los informes diarios y mantenga
+        actualizada la lista de archivos supervisados.</p>
       </section>
 
       <section>

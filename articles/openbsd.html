@@ -48,7 +48,7 @@
         <h1>OpenBSD: A Secure, Robust Operating System for the Future</h1>
 
         <p class="meta">By David Uhden Collado - Updated <time datetime=
-        "2026-07-05">July 5, 2026</time></p>
+        "2026-08-05">August 5, 2026</time></p>
 
         <p class="lede">OpenBSD combines security-by-design with simplicity,
         offering a rigorously audited system whose built-in tools and
@@ -72,6 +72,11 @@
           <li>
             <a href="#openbsd-defaults">Secure Defaults and Tooling in
             Practice</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-security-checks"><code>security(8)</code> and
+            Daily System Checks</a>
           </li>
 
           <li>
@@ -220,6 +225,25 @@
         real-world security: configuration is explicit, defaults are
         intentional, and administration relies on documented primitives instead
         of opaque layers.</p>
+      </section>
+
+      <section>
+        <h2 id="openbsd-security-checks"><code>security(8)</code> and Daily
+        System Checks</h2>
+
+        <p>OpenBSD includes <a href=
+        "https://man.openbsd.org/security"><code>security(8)</code></a>, a
+        script run by <code>daily(8)</code> that looks for signs of common
+        security weaknesses and mails any output to root. Among other things,
+        it checks account databases, home directories and dotfile permissions,
+        changes to files listed in <code>/etc/changelist</code>, mounted-disk
+        labels and partition tables, package changes, and selected network
+        configuration permissions.</p>
+
+        <p>The manual deliberately describes it as a security aid rather than
+        complete protection. Its value lies in making obvious weaknesses and
+        unexpected system changes visible, provided an administrator reviews
+        the daily reports and maintains the files being monitored.</p>
       </section>
 
       <section>
