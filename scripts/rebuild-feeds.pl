@@ -41,21 +41,16 @@ use File::Spec;
 use POSIX       qw(strftime);
 use Time::Local qw(timegm);
 
-my $script_dir = ( File::Spec->splitpath($0) )[1];
-my $root_dir   =
-  File::Spec->catdir( $script_dir, '..' );
-my $feeds_dir =
-  File::Spec->catdir( $root_dir, 'feeds' );
-my $articles_dir =
-  File::Spec->catdir( $root_dir, 'articles' );
+my $script_dir   = ( File::Spec->splitpath($0) )[1];
+my $root_dir     = File::Spec->catdir( $script_dir, '..' );
+my $feeds_dir    = File::Spec->catdir( $root_dir,   'feeds' );
+my $articles_dir = File::Spec->catdir( $root_dir,   'articles' );
 
 my $abs_root = abs_path($root_dir);
 $root_dir = $abs_root
   if defined $abs_root && length $abs_root;
-$feeds_dir =
-  File::Spec->catdir( $root_dir, 'feeds' );
-$articles_dir =
-  File::Spec->catdir( $root_dir, 'articles' );
+$feeds_dir    = File::Spec->catdir( $root_dir, 'feeds' );
+$articles_dir = File::Spec->catdir( $root_dir, 'articles' );
 
 binmode STDOUT, ':encoding(UTF-8)';
 binmode STDERR, ':encoding(UTF-8)';
@@ -94,23 +89,16 @@ sub iso_to_epoch {
     my ($iso) = @_;
     return undef unless defined $iso;
     if (
-        $iso =~
-/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})
+        $iso =~ /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})
   (Z|([+-])(\d{2}):(\d{2}))?$/x
       )
     {
-        my (
-            $Y,  $M, $D, $h, $m,  $s,
-            undef, $sign, $oh, $om
-          )
-          = ( $1, $2, $3, $4, $5, $6,
-            $7, $8, $9, $10 );
-        my $epoch =
-          timegm( $s, $m, $h, $D, $M - 1, $Y );
+        my ( $Y, $M, $D, $h, $m, $s, undef, $sign, $oh, $om ) =
+          ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10 );
+        my $epoch = timegm( $s, $m, $h, $D, $M - 1, $Y );
         if ( defined $sign && defined $oh ) {
             my $ofs = $oh * 3600 + $om * 60;
-            $epoch -=
-              ( $sign eq '+' ) ? $ofs : -$ofs;
+            $epoch -= ( $sign eq '+' ) ? $ofs : -$ofs;
         }
         return $epoch;
     }
@@ -122,21 +110,14 @@ sub iso_to_epoch {
 
 sub format_pubdate {
     my ($epoch) = @_;
-    my @wday_en =
-      qw(Sun Mon Tue Wed Thu Fri Sat);
-    my @mon_en =
-      qw(Jan Feb Mar Apr May Jun Jul
+    my @wday_en = qw(Sun Mon Tue Wed Thu Fri Sat);
+    my @mon_en  = qw(Jan Feb Mar Apr May Jun Jul
       Aug Sep Oct Nov Dec);
 
-    my ( $sec, $min, $hour, $mday, $mon, $year,
-        $wday )
-      = gmtime($epoch);
+    my ( $sec, $min, $hour, $mday, $mon, $year, $wday ) = gmtime($epoch);
     $year += 1900;
-    return sprintf(
-        '%s, %02d %s %d %02d:%02d:%02d GMT',
-        $wday_en[$wday], $mday, $mon_en[$mon],
-        $year, $hour, $min, $sec
-    );
+    return sprintf( '%s, %02d %s %d %02d:%02d:%02d GMT',
+        $wday_en[$wday], $mday, $mon_en[$mon], $year, $hour, $min, $sec );
 }
 
 sub normalize_root_relative {
@@ -144,28 +125,21 @@ sub normalize_root_relative {
     $href //= '';
     $href =~ s/^\s+|\s+$//g;
     return '/' unless length $href;
-    if (
-        $href =~
-        m{^https?://[^/]+(?:(/.*))?$}i )
-    {
+    if ( $href =~ m{^https?://[^/]+(?:(/.*))?$}i ) {
         return defined $1 && length $1 ? $1 : '/';
     }
     return $href if $href =~ m{^/};
-    $href =~ s{^\./+}{};
-    $href =~ s{^\.\./+}{};
+    $href                 =~ s{^\./+}{};
+    $href                 =~ s{^\.\./+}{};
     return "/$href";
 }
 
 sub detect_feeds {
     my %out;
-    my $blog_en =
-      File::Spec->catfile( $feeds_dir, 'blog.xml' );
-    my $blog_es = File::Spec->catfile(
-        $feeds_dir, 'blog-es.xml' );
-    my $art_en = File::Spec->catfile(
-        $feeds_dir, 'articles.xml' );
-    my $art_es = File::Spec->catfile(
-        $feeds_dir, 'articles-es.xml' );
+    my $blog_en = File::Spec->catfile( $feeds_dir, 'blog.xml' );
+    my $blog_es = File::Spec->catfile( $feeds_dir, 'blog-es.xml' );
+    my $art_en  = File::Spec->catfile( $feeds_dir, 'articles.xml' );
+    my $art_es  = File::Spec->catfile( $feeds_dir, 'articles-es.xml' );
 
     if ( -f $blog_en ) {
         $out{en} = $blog_en;
@@ -177,77 +151,58 @@ sub detect_feeds {
         $out{es} = $art_es if -f $art_es;
         return \%out;
     }
-    die_tool(
-        "No supported feed files found in"
-          . " $feeds_dir"
-    );
+    die_tool( "No supported feed files found in" . " $feeds_dir" );
 }
 
 sub extract_metadata {
-    my ($path) = @_;
-    my $html = read_file($path);
-    my ($article_header) =
-      $html =~
-      m{<header[^>]*\bid\s*=\s*["']
+    my ($path)           = @_;
+    my $html             = read_file($path);
+    my ($article_header) = $html =~ m{<header[^>]*\bid\s*=\s*["']
         article-header["'][^>]*>
         (.*?)</header>}isx;
     my $content_scope =
-         defined $article_header
+      defined $article_header
       ? $article_header
       : $html;
 
-    my ($lang) =
-      $html =~
-      /<html[^>]*\blang\s*=\s*"([^"]+)"/i;
+    my ($lang) = $html =~ /<html[^>]*\blang\s*=\s*"([^"]+)"/i;
     $lang =
-         defined $lang && $lang =~ /^es/i
+      defined $lang && $lang =~ /^es/i
       ? 'es'
       : 'en';
 
-    my ($title) =
-      $content_scope =~
-      /<h1[^>]*>\s*(.*?)\s*<\/h1>/is;
+    my ($title) = $content_scope =~ /<h1[^>]*>\s*(.*?)\s*<\/h1>/is;
     $title //= 'Untitled';
     $title =~ s/<[^>]+>//g;
     $title =~ s/\s+/ /g;
     $title =~ s/^\s+|\s+$//g;
 
-    my ($desc) = $html =~
-      /<meta[^>]*\bname\s*=\s*["']
+    my ($desc) = $html =~ /<meta[^>]*\bname\s*=\s*["']
        description["'][^>]*\bcontent
        \s*=\s*["'](.*?)["'][^>]*>/isx;
     $desc = ''
       unless defined $desc && length $desc;
     if ( !length $desc ) {
-        ($desc) = $content_scope =~
-          /<p[^>]*\bclass\s*=\s*["']
+        ($desc) = $content_scope =~ /<p[^>]*\bclass\s*=\s*["']
            [^"']*\blede\b[^"']*["'][^>]*>
            \s*(.*?)\s*<\/p>/isx;
         $desc //= '';
     }
     if ( !length $desc ) {
-        ($desc) =
-          $content_scope =~
-          /<p[^>]*>\s*(.*?)\s*<\/p>/is;
+        ($desc) = $content_scope =~ /<p[^>]*>\s*(.*?)\s*<\/p>/is;
         $desc //= '';
     }
     $desc =~ s/<[^>]+>//g;
     $desc =~ s/\s+/ /g;
     $desc =~ s/^\s+|\s+$//g;
 
-    my ($iso) =
-      $html =~
-      /<time[^>]*\sdatetime\s*=\s*"([^"]+)"/i;
-    $iso //= (
-        $html =~
-        /<time[^>]*\sdatetime\s*=\s*'([^']+)'/i
-    )[0];
+    my ($iso) = $html =~ /<time[^>]*\sdatetime\s*=\s*"([^"]+)"/i;
+    $iso //= ( $html =~ /<time[^>]*\sdatetime\s*=\s*'([^']+)'/i )[0];
     my $mtime = ( stat($path) )[9] || time;
     my $epoch = iso_to_epoch($iso);
     $epoch = $mtime unless defined $epoch;
 
-    my ( undef, undef, $file ) =
-      File::Spec->splitpath($path);
+    my ( undef, undef, $file ) = File::Spec->splitpath($path);
     $file =~ s/\.html$//i;
 
     return {
@@ -269,8 +224,7 @@ sub collect_articles {
             return if $_ eq 'index.html';
 
             my $path = $File::Find::name;
-            my $meta =
-              extract_metadata($path);
+            my $meta = extract_metadata($path);
             if ( !$has_es_feed ) {
                 $meta->{lang} = 'en';
             }
@@ -288,15 +242,11 @@ sub rebuild_feed_file {
     my ( $feed_path, $lang, $rows ) = @_;
     my $xml = read_file($feed_path);
 
-    my ($channel_title) =
-      $xml =~ m{<title>(.*?)</title>}s;
+    my ($channel_title) = $xml =~ m{<title>(.*?)</title>}s;
     $channel_title //= 'RSS Feed';
-    my ($channel_link) =
-      $xml =~ m{<link>(.*?)</link>}s;
-    $channel_link =
-      normalize_root_relative($channel_link);
-    my ($channel_desc) =
-      $xml =~ m{<description>(.*?)</description>}s;
+    my ($channel_link) = $xml =~ m{<link>(.*?)</link>}s;
+    $channel_link = normalize_root_relative($channel_link);
+    my ($channel_desc) = $xml =~ m{<description>(.*?)</description>}s;
     $channel_desc //= '';
     my $feed_name = basename($feed_path);
     my $feed_self = "/feeds/$feed_name";
@@ -304,15 +254,13 @@ sub rebuild_feed_file {
     my $items = '';
     for my $r (@$rows) {
         next if $r->{lang} ne $lang;
-        my $pub =
-          format_pubdate( $r->{epoch} );
+        my $pub = format_pubdate( $r->{epoch} );
         $items .= join '',
           "    <item>\n",
           "      <title>",
           xml_escape( $r->{title} ),
           "</title>\n",
-          "      <link>/articles/"
-          . "$r->{slug}.html</link>\n",
+          "      <link>/articles/" . "$r->{slug}.html</link>\n",
           "      <description>",
           xml_escape( $r->{desc} ),
           "</description>\n",
@@ -334,15 +282,12 @@ sub rebuild_feed_file {
 
     my $new_xml = join '',
       qq(<?xml version="1.0" encoding="UTF-8"?>\n),
-      qq(<rss xmlns:atom="http://www.w3.org/)
-      . qq(2005/Atom" version="2.0">\n),
+      qq(<rss xmlns:atom="http://www.w3.org/) . qq(2005/Atom" version="2.0">\n),
       qq(  <channel>\n),
       qq(    <title>$channel_title</title>\n),
       qq(    <link>$channel_link</link>\n),
-      qq(    <description>$channel_desc)
-      . qq(</description>\n),
-      qq(    <lastBuildDate>$last_build)
-      . qq(</lastBuildDate>\n),
+      qq(    <description>$channel_desc) . qq(</description>\n),
+      qq(    <lastBuildDate>$last_build) . qq(</lastBuildDate>\n),
       qq(    <atom:link href="$feed_self")
       . qq( rel="self")
       . qq( type="application/rss+xml"/>\n),
@@ -356,15 +301,12 @@ sub rebuild_feed_file {
 }
 
 sub main {
-    my $feeds = detect_feeds();
-    my $has_es_feed =
-      exists $feeds->{es} ? 1 : 0;
-    my $rows = collect_articles($has_es_feed);
+    my $feeds       = detect_feeds();
+    my $has_es_feed = exists $feeds->{es} ? 1 : 0;
+    my $rows        = collect_articles($has_es_feed);
 
-    rebuild_feed_file( $feeds->{en}, 'en',
-        $rows );
-    rebuild_feed_file( $feeds->{es}, 'es',
-        $rows )
+    rebuild_feed_file( $feeds->{en}, 'en', $rows );
+    rebuild_feed_file( $feeds->{es}, 'es', $rows )
       if $has_es_feed;
 }
 
