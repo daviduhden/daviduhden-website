@@ -37,7 +37,7 @@
     <item>
       <title>Repensando la filosofía UNIX: más allá de los programas pequeños</title>
       <link>/articles/unix-es.html</link>
-      <description>La filosofía UNIX no es solo "programas pequeños"; su fuerza está en la composabilidad y en la integración deliberada, no en una analogía simplista con microservicios.</description>
+      <description>La filosofía UNIX no es solo &amp;quot;programas pequeños&amp;quot;; su fuerza está en la composabilidad y en la integración deliberada, no en una analogía simplista con microservicios.</description>
       <pubDate>Tue, 04 Mar 2025 00:00:00 GMT</pubDate>
       <guid isPermaLink="false">/articles/unix-es.html</guid>
     </item>
