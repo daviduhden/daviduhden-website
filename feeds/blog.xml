@@ -4,13 +4,13 @@
     <title>David Uhden Collado's Blog</title>
     <link>/blog.html</link>
     <description>Latest articles and updates from David Uhden Collado's blog.</description>
-    <lastBuildDate>Wed, 05 Aug 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 15 Aug 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="/feeds/blog.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>OpenBSD: A Secure, Robust Operating System for the Future</title>
       <link>/articles/openbsd.html</link>
       <description>OpenBSD combines security-by-design with simplicity, offering a rigorously audited system whose built-in tools and documentation prioritize safety over convenience.</description>
-      <pubDate>Wed, 05 Aug 2026 00:00:00 GMT</pubDate>
+      <pubDate>Sat, 15 Aug 2026 00:00:00 GMT</pubDate>
       <guid isPermaLink="false">/articles/openbsd.html</guid>
     </item>
     <item>

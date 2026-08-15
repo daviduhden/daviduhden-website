@@ -60,7 +60,7 @@
         <h1>OpenBSD: un sistema operativo seguro y robusto para el futuro</h1>
 
         <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
-        "2026-08-05">5 de agosto de 2026</time></p>
+        "2026-08-15">15 de agosto de 2026</time></p>
 
         <p class="lede">OpenBSD combina simplicidad y seguridad: auditoría
         rigurosa, servicios mínimos por defecto y documentación clara para
@@ -366,7 +366,18 @@
 
           <li><strong>LibreSSL:</strong> Un esfuerzo de limpieza y
           mantenimiento orientado a mejorar claridad y mantenibilidad en
-          bibliotecas de TLS/criptografía.</li>
+          bibliotecas de TLS/criptografía. macOS distribuye LibreSSL como sus
+          bibliotecas de sistema <code>libssl</code>/<code>libcrypto</code> y
+          lo usa de forma amplia en componentes del sistema base, incluida la
+          distribución de OpenSSH de Apple. El port oficial de OpenSSH para
+          Windows también documenta la compilación con la criptografía de
+          LibreSSL.</li>
+
+          <li><strong><a href=
+          "https://man.openbsd.org/openrsync">openrsync(1)</a>:</strong> La
+          implementación de <code>rsync</code> de OpenBSD, bajo licencia BSD,
+          sincroniza archivos locales y remotos y es compatible con el
+          protocolo rsync versión 27.</li>
 
           <li><strong><code>pf(4)</code>:</strong> Un cortafuegos con un estilo
           de configuración claro (variables, tablas y reglas) que facilita
