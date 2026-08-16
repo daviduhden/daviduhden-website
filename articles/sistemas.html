@@ -7,16 +7,17 @@
   | David Uhden Collado</title>
   <link rel="icon" href="./../favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./../styles.css">
-  <script src="./../redirect.js"></script>
   <link rel="alternate" type="application/rss+xml" title="RSS de Artículos"
   href="./../feeds/blog-es.xml">
   <meta name="description" content=
-  "Mientras el enfoque empresarial prioriza la compatibilidad, OpenBSD y Apple aceptan más rupturas con el pasado para ganar seguridad y simplicidad: dos caminos con costes y beneficios muy distintos.">
+  "Los sistemas empresariales preservan contratos de compatibilidad; OpenBSD y Apple aceptan rupturas deliberadas cuando las interfaces antiguas obstaculizan la seguridad, la simplicidad o la arquitectura.">
   <link rel="canonical" href="https://uhden.dev/articles/sistemas.html">
+  <link rel="alternate" hreflang="en" href=
+  "https://uhden.dev/articles/systems.html">
   <meta property="og:title" content=
-  "D.U.C. - Reinventando los Sistemas Operativos">
+  "Reinventando los sistemas operativos: lecciones de OpenBSD y más allá | David Uhden Collado">
   <meta property="og:description" content=
-  "Mientras el enfoque empresarial prioriza la compatibilidad, OpenBSD y Apple aceptan más rupturas con el pasado para ganar seguridad y simplicidad: dos caminos con costes y beneficios muy distintos.">
+  "Los sistemas empresariales preservan contratos de compatibilidad; OpenBSD y Apple aceptan rupturas deliberadas cuando las interfaces antiguas obstaculizan la seguridad, la simplicidad o la arquitectura.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://uhden.dev/articles/sistemas.html">
 </head>
@@ -25,7 +26,7 @@
   <header id="site-header">
     <p class="site-title">David Uhden Collado</p>
 
-    <h2>Artículo</h2>
+    <p class="page-type">Artículo</p>
 
     <nav id="site-nav" aria-label="Navegación principal">
       <ul>
@@ -43,8 +44,7 @@
 
         <li>
           <a class="lang-switch" href="./systems.html" rel="alternate"
-          hreflang="en"><img src="./../images/en.png" alt="EN" class=
-          "icon">English</a>
+          hreflang="en">English</a>
         </li>
       </ul>
     </nav>
@@ -59,12 +59,12 @@
         allá</h1>
 
         <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
-        "2025-03-04">4 de marzo de 2025</time></p>
+        "2026-08-16">16 de agosto de 2026</time></p>
 
-        <p class="lede">Mientras el enfoque empresarial prioriza la
-        compatibilidad, OpenBSD y Apple aceptan más rupturas con el pasado para
-        ganar seguridad y simplicidad: dos caminos con costes y beneficios muy
-        distintos.</p>
+        <p class="lede">Los sistemas empresariales preservan contratos de
+        compatibilidad; OpenBSD y Apple aceptan rupturas deliberadas cuando las
+        interfaces antiguas obstaculizan la seguridad, la simplicidad o la
+        arquitectura.</p>
       </header>
 
       <nav class="toc" aria-label="Índice">
@@ -72,23 +72,23 @@
 
         <ol>
           <li>
-            <a href="#sistemas-empresarial">El Paradigma Empresarial y su
+            <a href="#sistemas-empresarial">El paradigma empresarial y su
             Legado</a>
           </li>
 
           <li>
-            <a href="#sistemas-compatibilidad">Las Consecuencias de la
-            Compatibilidad Retroactiva</a>
+            <a href="#sistemas-compatibilidad">Las consecuencias de la
+            Retrocompatibilidad</a>
           </li>
 
           <li>
-            <a href="#sistemas-enfoque">Un Enfoque Renovado: La Filosofía de
+            <a href="#sistemas-enfoque">Un enfoque renovado: la filosofía de
             OpenBSD y Apple</a>
           </li>
 
           <li>
-            <a href="#sistemas-innovacion">Impacto en la Innovación y el Futuro
-            de la Computación</a>
+            <a href="#sistemas-innovacion">Impacto en la innovación y el futuro
+            de la computación</a>
           </li>
 
           <li>
@@ -97,154 +97,155 @@
         </ol>
       </nav>
 
+      <p>Los proveedores de sistemas operativos deciden qué contratos antiguos
+      conservan y cuáles retiran. Windows invierte intensamente en
+      retrocompatibilidad; OpenBSD exige actualizaciones coordinadas de su
+      sistema base; Apple combina las retiradas de interfaces con transiciones
+      controladas de hardware y software. Esas políticas determinan cuánto
+      comportamiento heredado sigue expuesto y quién asume el coste de
+      migración.</p>
+
       <section>
-        <p>La evolución de los sistemas operativos ha estado condicionada, en
-        gran medida, por las demandas del mercado empresarial. Durante décadas,
-        fabricantes como Microsoft priorizaron la compatibilidad hacia atrás,
-        mientras proyectos como OpenBSD y Apple estuvieron más dispuestos a
-        romper con el pasado para mejorar seguridad, rendimiento y
-        arquitectura. Este artículo analiza cómo esos enfoques, tan distintos,
-        moldean la innovación y la seguridad de los sistemas.</p>
+        <h2 id="sistemas-empresarial">El paradigma empresarial y su Legado</h2>
+
+        <p>Las organizaciones invierten en aplicaciones, formación, despliegue
+        y procesos de soporte que duran más que una versión del sistema
+        operativo. Romper una interfaz binaria puede convertir una
+        actualización de seguridad en una interrupción del negocio. Microsoft
+        conserva por ello comportamientos de compatibilidad, <a href=
+        "https://learn.microsoft.com/en-us/windows/compatibility/application-executable-manifest">
+        manifiestos de aplicación</a> y herramientas de migración para que las
+        aplicaciones antiguas sigan funcionando mientras las nuevas solicitan
+        el comportamiento actual.</p>
+
+        <p>Una interfaz binaria de aplicación (ABI)<sup><a href="#fn-1" id=
+        "ref-1">[1]</a></sup> es un contrato, no simple lastre histórico.
+        Conservarla protege el software desplegado y reduce el riesgo inmediato
+        de migración. El coste aparece cuando analizadores, protocolos,
+        privilegios o comportamientos no documentados deben seguir accesibles
+        después de desaparecer la arquitectura que los justificaba.</p>
       </section>
 
       <section>
-        <h2 id="sistemas-empresarial">El Paradigma Empresarial y su Legado</h2>
+        <h2 id="sistemas-compatibilidad">Las consecuencias de la
+        Retrocompatibilidad</h2>
 
-        <p>En el mundo corporativo, la estabilidad suele equivaler a confianza.
-        Las empresas que invierten en software a medida para sus operaciones,
-        desde bancos hasta agencias gubernamentales, esperan que sus
-        aplicaciones sigan funcionando durante décadas. Esa necesidad ha
-        llevado a gigantes como Microsoft a diseñar sistemas operativos con una
-        compatibilidad casi inmutable entre versiones.</p>
+        <p>Las APIs<sup><a href="#fn-2" id="ref-2">[2]</a></sup> y ABIs
+        antiguas no aumentan la superficie de ataque por el mero hecho de
+        existir. La aumentan cuando obligan a mantener código adicional
+        accesible, conservar una semántica insegura o sostener varias
+        implementaciones de una misma operación. Una capa de compatibilidad
+        estrecha y probada puede resultar más barata y segura que obligar a
+        cada aplicación a repetir la migración.</p>
 
-        <p>El desarrollo empresarial se basa en evitar cambios disruptivos en
-        la interfaz binaria de aplicación (ABI)<sup><a href="#fn-1" id=
-        "ref-1">[1]</a></sup>. El resultado suele ser un sistema que acumula
-        capas de "soluciones parche" para mantener aplicaciones críticas.
-        Aunque esta estrategia reduce riesgos inmediatos para clientes
-        corporativos, también limita de forma severa la capacidad de introducir
-        mejoras arquitectónicas y de seguridad, porque cualquier cambio
-        drástico puede desestabilizar software heredado.</p>
+        <p>Windows muestra las dos caras. Microsoft documenta manifiestos de
+        aplicación que conservan comportamientos específicos de cada versión y
+        afirma que dedica grandes esfuerzos a mantener la compatibilidad. El
+        mecanismo protege aplicaciones desplegadas, pero cada comportamiento
+        conservado añade un contrato que los cambios de seguridad y plataforma
+        deben respetar. La pregunta correcta no es si la compatibilidad es
+        mala, sino si cada ruta conservada sigue justificando su mantenimiento
+        y exposición.</p>
       </section>
 
       <section>
-        <h2 id="sistemas-compatibilidad">Las Consecuencias de la Compatibilidad
-        Retroactiva</h2>
-
-        <p>Insistir en mantener APIs<sup><a href="#fn-2" id=
-        "ref-2">[2]</a></sup> y ABIs antiguos tiene un coste real. Por un lado,
-        se acumula código obsoleto o redundante en las partes más críticas del
-        sistema, lo que aumenta la superficie de ataque y la probabilidad de
-        fallos o vulnerabilidades. Por otro, la innovación se ralentiza: en
-        lugar de repensar la arquitectura, se añaden capas de compatibilidad
-        que con el tiempo se convierten en deuda técnica.</p>
-
-        <p>Ejemplos notorios son los extensos esfuerzos de Microsoft para
-        adaptar aplicaciones que dependían de comportamientos específicos de
-        versiones anteriores, o la dependencia de ciertos fabricantes de
-        sistemas operativos que arrastran décadas de inmovilismo. Este enfoque,
-        aunque conveniente a corto plazo, suele sacrificar la evolución
-        tecnológica y la eficiencia a largo plazo.</p>
-      </section>
-
-      <section>
-        <h2 id="sistemas-enfoque">Un Enfoque Renovado: La Filosofía de OpenBSD
+        <h2 id="sistemas-enfoque">Un enfoque renovado: la filosofía de OpenBSD
         y Apple</h2>
 
-        <p>Frente al modelo empresarial, proyectos como OpenBSD y la línea de
-        sistemas operativos de Apple adoptan un enfoque distinto: priorizar la
-        modernización. En lugar de evitar toda ruptura de compatibilidad, estos
-        desarrolladores están dispuestos a rediseñar la arquitectura para
-        eliminar código heredado, optimizar el rendimiento y reforzar la
-        seguridad.</p>
+        <p>OpenBSD y Apple aceptan formas distintas de incompatibilidad
+        planificada. OpenBSD desarrolla el núcleo, las bibliotecas, las
+        utilidades, los demonios y la documentación como un solo sistema base y
+        los actualiza de manera coordinada. Apple controla la transición de la
+        plataforma, publica obsolescencias y puede exigir a los desarrolladores
+        que adopten un sustituto dentro de un calendario definido.</p>
 
-        <h3>OpenBSD: Simplicidad y Seguridad ante Todo</h3>
+        <h3>OpenBSD: simplicidad y seguridad ante todo</h3>
 
-        <p>OpenBSD es conocido por su riguroso proceso de auditoría del código
-        y por su baja tolerancia al "cruft" (código obsoleto o mal
-        documentado). Cada línea que entra en el sistema se evalúa no solo por
-        su funcionalidad, sino también por su seguridad y mantenibilidad. Este
-        enfoque facilita introducir cambios significativos de arquitectura y
-        eliminar vulnerabilidades antes de que se enquisten.</p>
+        <p>OpenBSD no promete que los binarios de una versión definan la
+        arquitectura de las siguientes. Sus versiones semestrales desplazan el
+        sistema base como una unidad coherente, mientras las <a href=
+        "https://www.openbsd.org/stable.html">ramas estables con soporte</a>
+        reciben correcciones de seguridad y fiabilidad sin APIs nuevas. Esta
+        política permite retirar código obsoleto y cambiar interfaces internas,
+        pero exige que usuarios y responsables de paquetes sigan
+        actualizaciones completas y ordenadas.</p>
 
-        <h3>Apple: Innovación sin Ataduras</h3>
+        <h3>Apple: transiciones controladas de plataforma</h3>
 
-        <p>Apple, por su parte, ha demostrado que una ruptura controlada con el
-        pasado puede abrir la puerta a avances de calado. Con Darwin/XNU, la
-        compañía ha estado dispuesta a retirar APIs antiguas y empujar a los
-        desarrolladores a modernizar sus aplicaciones. Ese dinamismo se traduce
-        en sistemas operativos que, aunque exigen adaptación para software muy
-        antiguo, ofrecen una experiencia moderna y una plataforma más segura y
-        eficiente.</p>
+        <p>Apple combina avisos de obsolescencia, herramientas de desarrollo y
+        fechas firmes de retirada. <a href=
+        "https://support.apple.com/es-es/103076">macOS Catalina dejó de
+        ejecutar aplicaciones de 32 bits</a> después de que Mojave sirviera
+        como última versión de transición. Apple también trasladó clases
+        compatibles de controladores de terceros desde extensiones del núcleo
+        hacia <a href=
+        "https://developer.apple.com/system-extensions/">DriverKit y
+        extensiones del sistema</a> en espacio de usuario. Estos cambios
+        eliminan compatibilidad y superficie de ataque en el núcleo a costa de
+        romper el software que no haya migrado.</p>
       </section>
 
       <section>
-        <h2 id="sistemas-innovacion">Impacto en la Innovación y el Futuro de la
+        <h2 id="sistemas-innovacion">Impacto en la innovación y el futuro de la
         Computación</h2>
 
-        <p>La tensión entre mantener compatibilidad y empujar la innovación es
-        uno de los dilemas centrales del desarrollo de sistemas operativos.
-        Mientras el modelo empresarial garantiza estabilidad a corto plazo,
-        también frena la adopción de nuevas tecnologías y paradigmas
-        arquitectónicos. En cambio, la ruptura deliberada con el pasado puede
-        aportar mejoras importantes en rendimiento, seguridad y funcionalidad,
-        aunque exige esfuerzos adicionales de adaptación por parte de
-        desarrolladores y usuarios.</p>
+        <p>La compatibilidad y la modernización asignan el coste a partes
+        distintas. Conservar una interfaz obliga a la plataforma a mantenerla;
+        retirarla obliga a migrar a los propietarios de las aplicaciones. La
+        seguridad solo mejora cuando una transición elimina una debilidad
+        accesible o habilita una defensa concreta, no cada vez que un proveedor
+        declara obsoleta una API.</p>
 
-        <p>El futuro de la computación depende de encontrar un equilibrio más
-        flexible. Tecnologías como la virtualización, los contenedores y las
-        estrategias modernas de actualización ofrecen soluciones híbridas.
-        Estos enfoques permiten ejecutar aplicaciones antiguas en entornos
-        modernos sin sacrificar la innovación del sistema operativo
-        anfitrión.</p>
+        <p>Las máquinas virtuales, los contenedores, los procesos de
+        compatibilidad y las versiones con soporte prolongado pueden aislar
+        aplicaciones heredadas mientras avanza el anfitrión. No eliminan el
+        riesgo antiguo: el entorno de compatibilidad sigue necesitando parches,
+        entradas restringidas y un plan explícito de retirada.</p>
       </section>
 
       <section>
         <h2 id="sistemas-conclusiones">Conclusiones</h2>
 
-        <p>El debate entre compatibilidad e innovación no es nuevo, pero cada
-        vez es más relevante en un mundo donde la seguridad y la eficiencia son
-        prioridades críticas. Preservar el pasado ha dado estabilidad a muchos
-        sistemas, pero la apuesta por la modernización —ejemplificada por
-        OpenBSD y Apple— abre la puerta a sistemas operativos más seguros,
-        ágiles y adaptables.</p>
-
-        <p>La evolución de los sistemas operativos refleja, en última
-        instancia, las prioridades del mercado. Avanzar hacia un futuro
-        tecnológico más robusto y seguro exige replantear la rigidez de la
-        compatibilidad y favorecer arquitecturas que se renueven de forma
-        continua y vean el cambio como una oportunidad, no como una
-        amenaza.</p>
+        <p>La compatibilidad debe ser un contrato explícito y acotado. Conviene
+        conservar una interfaz antigua cuando sus usuarios y su coste de
+        migración justifican el código, y retirarla cuando la exposición
+        bloquea una mejora documentada de seguridad o arquitectura. Windows,
+        OpenBSD y Apple trazan límites distintos, y cada elección transfiere
+        trabajo de mantenimiento y riesgo mensurables.</p>
       </section>
     </article>
   </main>
 
-  <footer id="footnotes">
-    <p><strong>Notas:</strong>
-    </p>
+  <aside id="footnotes" aria-labelledby="footnotes-heading">
+    <h2 id="footnotes-heading">Notas</h2>
 
-    <p id="fn-1"><sup>1</sup> <strong>ABI:</strong> Una Interfaz Binaria de
-    Aplicación (ABI) define la interfaz de bajo nivel entre una aplicación y el
-    sistema operativo, incluyendo detalles como tipos de datos, tamaños y
-    alineación, convenciones de llamada y números de llamadas al sistema.
-    <a href="#ref-1">↩</a></p>
+    <ol>
+      <li id="fn-1">
+        <strong>ABI:</strong> Una Interfaz Binaria de Aplicación (ABI) define
+        la interfaz de bajo nivel entre una aplicación y el sistema operativo,
+        incluyendo detalles como tipos de datos, tamaños y alineación,
+        convenciones de llamada y números de llamadas al sistema. <a href=
+        "#ref-1">Volver a la referencia 1</a>
+      </li>
 
-    <p id="fn-2"><sup>2</sup> <strong>API:</strong> Una Interfaz de
-    Programación de Aplicaciones (API) es un conjunto de reglas y protocolos
-    para construir e interactuar con aplicaciones de software, definiendo los
-    métodos y estructuras de datos que los desarrolladores pueden usar para
-    interactuar con el sistema u otros componentes de software. <a href=
-    "#ref-2">↩</a></p>
-  </footer>
+      <li id="fn-2">
+        <strong>API:</strong> Una Interfaz de Programación de Aplicaciones
+        (API) es un conjunto de reglas y protocolos para construir e
+        interactuar con aplicaciones de software, definiendo los métodos y
+        estructuras de datos que los desarrolladores pueden usar para
+        interactuar con el sistema u otros componentes de software. <a href=
+        "#ref-2">Volver a la referencia 2</a>
+      </li>
+    </ol>
+  </aside>
 
   <footer id="site-footer">
     <p>&copy; 2024-2026 David Uhden Collado. Todos los derechos reservados.</p>
 
     <p><strong><a href="./../licencia.html">LICENCIA</a></strong>
     </p>
-    <img src="./../images/anarchy.png" alt="libertad" class="motto">
+
     <p class="motto">VIVE ET SINE ALIOS VIVERE</p>
-    <img src="./../images/anarchy.png" alt="libertad" class="motto">
   </footer>
 </body>
 </html>

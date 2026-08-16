@@ -6,7 +6,6 @@
   <title>The GPL: Paradoxes in Free Software | David Uhden Collado</title>
   <link rel="icon" href="./../favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./../styles.css">
-  <script src="./../redirect.js"></script>
   <link rel="alternate" type="application/rss+xml" title="Articles RSS" href=
   "./../feeds/blog.xml">
   <meta name="description" content=
@@ -26,7 +25,7 @@
   <header id="site-header">
     <p class="site-title">David Uhden Collado</p>
 
-    <h2>Article</h2>
+    <p class="page-type">Article</p>
 
     <nav id="site-nav" aria-label="Primary navigation">
       <ul>
@@ -44,7 +43,7 @@
 
         <li>
           <a class="lang-switch" href="./gpl-es.html" rel="alternate" hreflang=
-          "es"><img src="./../images/es.png" alt="ES" class="icon">Español</a>
+          "es">Español</a>
         </li>
       </ul>
     </nav>
@@ -58,7 +57,7 @@
         <h1>The GPL: Paradoxes in Free Software</h1>
 
         <p class="meta">By David Uhden Collado - Updated <time datetime=
-        "2025-03-06">March 6, 2025</time></p>
+        "2026-08-16">August 16, 2026</time></p>
 
         <p class="lede">The GPL was meant to protect software freedom, but its
         reciprocal restrictions can limit collaboration and create tension
@@ -95,95 +94,104 @@
         </ol>
       </nav>
 
-      <section>
-        <p>The GNU General Public License (GPL) was created to counter the
-        proprietary software model by guaranteeing four essential freedoms:
-        running, studying, sharing, and modifying software. At the same time,
-        it introduces tensions and side effects that can work against the
-        cooperative spirit the free software community aims to promote.</p>
-      </section>
+      <p>The GNU General Public License (GPL) uses copyright to guarantee the
+      freedom to run, study, share, and modify covered software. Its reciprocal
+      conditions are deliberate: anyone who conveys a covered work must
+      preserve the corresponding freedoms for recipients. This article
+      questions the integration costs of that mechanism without misrepresenting
+      its scope.</p>
 
       <section>
         <h2 id="gpl-restrictions">A Design with Contradictory Restrictions</h2>
 
-        <p>The GPL was designed to prevent code under its terms from being
-        absorbed into proprietary projects. In practice, if a program uses
-        GPL-licensed code, derivative software must stay under the GPL as well.
-        The goal is to protect user freedom, but this requirement can also
-        limit reuse in mixed environments where permissive components are
-        easier to integrate.</p>
+        <p>The GPL prevents a distributor from taking a covered work, conveying
+        a modified or combined version, and withholding the corresponding
+        source under incompatible terms. Merely running GPL software or placing
+        independent programs on the same system does not trigger that result.
+        The obligation attaches to covered derivative or combined works and to
+        distribution, which makes the precise boundary important.</p>
 
-        <p>In Linux kernel development, for example, the license can require
-        linked components to follow the same terms. As a result, developers and
-        companies often adopt more complex strategies—such as preferring
-        dynamic over static linking—to avoid conflicts with their business
-        models. In some jurisdictions, that complexity has contributed to
-        inconsistent enforcement and uncertainty about how the license applies
-        in practice.</p>
+        <p>Static versus dynamic linking is not a general escape hatch. The
+        <a href=
+        "https://www.gnu.org/licenses/gpl-faq.en.html#GPLStaticVsDynamic">GNU
+        GPL FAQ</a> treats both forms as combination when GPL-covered code is
+        linked with other modules. Linux adds implementation-specific rules:
+        proprietary modules taint the kernel, and the loader refuses to link
+        them against <code>EXPORT_SYMBOL_GPL()</code> symbols, as documented in
+        the <a href=
+        "https://kernel.org/doc/html/latest/process/license-rules.html">kernel
+        licensing rules</a>. Copyright law still determines whether a
+        particular component is derivative, so the article does not reduce that
+        legal question to one technical linking method.</p>
       </section>
 
       <section>
         <h2 id="gpl-dichotomy">The Dichotomy Between Philosophy and
         Practice</h2>
 
-        <p>In theory, the GPL treats sharing and freedom as aligned. In
-        practice, using legal constraints to compel reciprocity can conflict
-        with voluntary cooperation. By restricting how code can be reused, the
-        license may also limit reciprocal exchange with projects under more
-        permissive licenses such as BSD or MIT.</p>
+        <p>The GPL aligns freedom with enforceable reciprocity. That protects
+        downstream recipients, but it also prevents some combinations with code
+        whose terms cannot be satisfied alongside the relevant GPL version. BSD
+        and MIT code can normally enter a GPL-covered combined work; the
+        reverse distribution cannot discard the GPL obligations that already
+        cover the GPL code.</p>
 
-        <p>There is an inherent tension here: on one hand, the GPL promotes an
-        ethic of sharing meant to protect users and communities; on the other,
-        it imposes a restrictive legal framework for distribution and reuse.
-        That paradox has fueled long-running debate over whether the GPL always
-        expands freedom or, in some contexts, narrows it.</p>
+        <p>The disagreement is therefore about which freedom the license should
+        prioritize. Copyleft protects every recipient's access to source and
+        modification rights. Permissive licensing gives each recipient broader
+        authority to redistribute derivatives under proprietary terms. Neither
+        model is restriction-free; they impose different obligations on the
+        distributor.</p>
       </section>
 
       <section>
         <h2 id="gpl-impact">The Impact on Collaboration and Business
         Development</h2>
 
-        <p>Another contentious issue is the GPL's relationship with business.
-        Large corporations often view permissive licenses as a better fit for
-        collaboration and product development, especially when there is no
-        obligation to publish every change. The Clang/LLVM ecosystem is often
-        cited as evidence that less restrictive terms can still drive major
-        innovation and productive collaboration between companies and
-        communities.</p>
+        <p>The GPL does not prohibit commercial use, private modification, or
+        selling copies. Its business constraint appears when a company conveys
+        a covered work and must provide corresponding source under the license.
+        Companies that need proprietary derivatives therefore prefer permissive
+        terms or negotiate a separate license with the copyright holders.</p>
 
-        <p>By contrast, the GPL's rigidity has sometimes encouraged project
-        "hijacking" strategies: when open integration is difficult, some
-        companies rely on political maneuvering or acquisitions to impose their
-        own terms. That dynamic can fragment communities and pull focus away
-        from the core goal of empowering users.</p>
+        <p>LLVM demonstrates the alternative clearly. Its <a href=
+        "https://llvm.org/docs/DeveloperPolicy.html#copyright-license-and-patents">
+        Apache 2.0 license with LLVM exceptions</a> permits proprietary
+        derivatives while preserving notices and a patent grant. That policy
+        has supported collaboration among vendors and community contributors
+        without source-release reciprocity. It proves that permissive licensing
+        can sustain a major shared toolchain; it does not prove that every
+        project would receive the same contributions without copyleft.</p>
       </section>
 
       <section>
         <h2 id="gpl-ethic">Toward an Ethic of Sharing Without Coercion</h2>
 
-        <p>The central critique is that freedom should not be enforced through
-        legal constraints that can also limit use. At its best, free software
-        relies on trust in human cooperation: when projects build healthy
-        environments and users understand their role, many people contribute
-        voluntarily.</p>
+        <p>My critique favors voluntary reciprocity over mandatory reciprocity.
+        A permissive license allows cooperation across open and proprietary
+        systems and lets each downstream author choose how to license new code.
+        The cost is equally concrete: a recipient can improve the software,
+        distribute the result, and withhold those improvements from the public.
+        Copyleft prevents that outcome.</p>
 
-        <p>The challenge, then, is balancing protection of authors' work with
-        an ecosystem where contributions flow naturally, without legal mandates
-        that often become counterproductive. Permissive licenses offer one
-        alternative: they allow more flexible integration that serves both
-        commercial and community needs.</p>
+        <p>The licensing decision should follow the intended guarantee. Choose
+        the GPL when every distributed derivative must preserve source access;
+        choose a permissive license when broad integration and downstream
+        licensing freedom take priority. Clear project governance, review, and
+        contributor relationships matter under either model.</p>
       </section>
 
       <section>
         <h2 id="gpl-conclusions">Conclusions</h2>
 
-        <p>Despite its noble aims, the GPL has limits that can obstruct one of
-        free software's core values: open collaboration without excessive
-        constraints. Its original goal—preventing private appropriation of
-        shared code—is understandable, but in practice it can create barriers
-        to more fluid cooperation among developers, communities, and companies.
-        The broader takeaway is to keep rethinking our legal tools so freedom
-        and collaboration remain real in practice, not only in principle.</p>
+        <p>The GPL reliably protects reciprocity when covered works are
+        distributed, and that is its central achievement. The same mechanism
+        rules out integrations whose licensing terms cannot coexist with those
+        obligations. I prefer permissive licensing when collaboration across
+        those boundaries matters more than compelling downstream source
+        release. That conclusion rests on a choice between explicit legal
+        guarantees, not on the false claim that the GPL forbids business or all
+        proprietary software.</p>
       </section>
     </article>
   </main>
@@ -193,9 +201,8 @@
 
     <p><strong><a href="./../license.html">LICENSE</a></strong>
     </p>
-    <img src="./../images/anarchy.png" alt="freedom" class="motto">
+
     <p class="motto">VIVE ET SINE ALIOS VIVERE</p>
-    <img src="./../images/anarchy.png" alt="freedom" class="motto">
   </footer>
 </body>
 </html>

@@ -7,7 +7,6 @@
   Uhden Collado</title>
   <link rel="icon" href="./../favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./../styles.css">
-  <script src="./../redirect.js"></script>
   <link rel="alternate" type="application/rss+xml" title="RSS de Artículos"
   href="./../feeds/blog-es.xml">
   <meta name="description" content=
@@ -28,7 +27,7 @@
   <header id="site-header">
     <p class="site-title">David Uhden Collado</p>
 
-    <h2>Artículo</h2>
+    <p class="page-type">Artículo</p>
 
     <nav id="site-nav" aria-label="Navegación principal">
       <ul>
@@ -46,8 +45,7 @@
 
         <li>
           <a class="lang-switch" href="./ryf-fsdg.html" rel="alternate"
-          hreflang="en"><img src="./../images/en.png" alt="EN" class=
-          "icon">English</a>
+          hreflang="en">English</a>
         </li>
       </ul>
     </nav>
@@ -61,7 +59,7 @@
         <h1>FSDG y RYF de GNU: libertad, firmware y realidad del hardware</h1>
 
         <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
-        "2026-07-05">5 de julio de 2026</time></p>
+        "2026-08-16">16 de agosto de 2026</time></p>
 
         <p class="lede">Las FSDG de GNU y el RYF de la FSF siguen siendo
         referencias en libertad de software, pero abordan mal el firmware,
@@ -74,22 +72,22 @@
 
         <ol>
           <li>
-            <a href="#criterios-diseno">Qué Exigen Realmente los Criterios</a>
+            <a href="#criterios-diseno">Qué exigen realmente los criterios</a>
           </li>
 
           <li>
-            <a href="#criterios-firmware">Firmware: Donde la Teoría Choca con
+            <a href="#criterios-firmware">Firmware: donde la teoría choca con
             los Dispositivos</a>
           </li>
 
           <li>
-            <a href="#criterios-practica">Presión de Adopción y Políticas de
+            <a href="#criterios-practica">Presión de adopción y políticas de
             Distribución</a>
           </li>
 
           <li>
-            <a href="#criterios-alcance">La Crítica de Alcance: Libertad de
-            Software frente a Libertad del Dispositivo</a>
+            <a href="#criterios-alcance">La crítica de alcance: libertad de
+            software frente a libertad del dispositivo</a>
           </li>
 
           <li>
@@ -98,16 +96,14 @@
         </ol>
       </nav>
 
-      <section>
-        <p>Esta crítica a FSDG y RYF no rechaza la libertad de software. La
-        cuestión central son sus límites de diseño: qué se considera libertad
-        suficiente hoy, cómo se aplican las excepciones y si el modelo actual
-        empuja a fabricantes y comunidades hacia una emancipación técnica real
-        o solo hacia una alineación formal.</p>
-      </section>
+      <p>Esta crítica a FSDG y RYF no rechaza la libertad de software. La
+      cuestión central son sus límites de diseño: qué se considera libertad
+      suficiente hoy, cómo se aplican las excepciones y si el modelo actual
+      empuja a fabricantes y comunidades hacia una emancipación técnica real o
+      solo hacia una alineación formal.</p>
 
       <section>
-        <h2 id="criterios-diseno">Qué Exigen Realmente los Criterios</h2>
+        <h2 id="criterios-diseno">Qué exigen realmente los criterios</h2>
 
         <p>Las Free System Distribution Guidelines (FSDG) de GNU exigen retirar
         software no libre, incluidos blobs de firmware no libre, y evitar que
@@ -125,7 +121,7 @@
       </section>
 
       <section>
-        <h2 id="criterios-firmware">Firmware: Donde la Teoría Choca con los
+        <h2 id="criterios-firmware">Firmware: donde la teoría choca con los
         Dispositivos</h2>
 
         <p>Portátiles, servidores y periféricos modernos dependen de múltiples
@@ -134,12 +130,12 @@
         esos componentes son necesarios para la funcionalidad básica y las
         alternativas libres son inexistentes o todavía inmaduras.</p>
 
-        <p>Aquí aparece una tensión interna. FSDG rechaza con firmeza el
-        firmware no libre en distribuciones, mientras RYF mantiene excepciones
-        en ciertas capas de hardware. Para sus defensores es una distinción
-        pragmática; el resultado práctico es una asimetría: estricta en
-        empaquetado y más tolerante donde el poder técnico resulta más difícil
-        de auditar.</p>
+        <p>Los criterios producen un resultado asimétrico. FSDG rechaza el
+        firmware no libre entregado por una distribución avalada, mientras RYF
+        exime el software de ciertos procesadores secundarios cuando no se
+        espera que el usuario instale actualizaciones después de la compra. La
+        política de paquetes recibe una regla absoluta; algunas de las capas de
+        hardware menos auditables reciben una excepción.</p>
 
         <p>La cuestión técnica clave es dónde reside el firmware. Si el
         firmware lo carga el sistema operativo, la comunidad al menos puede
@@ -153,7 +149,7 @@
       </section>
 
       <section>
-        <h2 id="criterios-practica">Presión de Adopción y Políticas de
+        <h2 id="criterios-practica">Presión de adopción y políticas de
         Distribución</h2>
 
         <p>La fricción se ve en la gobernanza de distribuciones. La Resolución
@@ -164,30 +160,30 @@
         para distribuciones libres y la cita al explicar su no
         recomendación.</p>
 
-        <p>La objeción práctica es clara: si un estándar de libertad no puede
-        adoptarse en proyectos amplios sin recortes severos de compatibilidad,
-        queda socialmente periférico. La réplica ética también es sólida:
-        rebajar requisitos puede normalizar el bloqueo privativo. Aun así, el
-        conflicto pendiente sigue siendo cómo mantener presión de liberación
-        sin desconectarse de las condiciones reales de despliegue.</p>
+        <p>La objeción de despliegue es clara: una norma que provoca recortes
+        severos de compatibilidad pierde adopción y, con ella, capacidad de
+        presión sobre los fabricantes. Rebajar el requisito tiene el coste
+        opuesto, pues normaliza el bloqueo privativo. Una norma útil debe
+        conservar la presión a favor de firmware sustituible y medir a la vez
+        si los usuarios pueden ejecutar, reparar y actualizar en la práctica el
+        dispositivo certificado.</p>
       </section>
 
       <section>
-        <h2 id="criterios-alcance">La Crítica de Alcance: Libertad de Software
+        <h2 id="criterios-alcance">La crítica de alcance: libertad de Software
         frente a Libertad del Dispositivo</h2>
 
-        <p>También cuestiono su alcance. FSDG y RYF están redactados, sobre
-        todo, alrededor de licencias y políticas de distribución de software.
-        Son más débiles al evaluar reparabilidad, apertura de diagnóstico,
-        mantenibilidad del hardware y presión legal anti-elusión, que puede
-        bloquear reparación legítima e ingeniería inversa.</p>
+        <p>También cuestiono su alcance. FSDG y RYF evalúan principalmente
+        licencias y políticas de distribución de software. Cubren en menor
+        medida la reparabilidad, la apertura del diagnóstico, la mantenibilidad
+        del hardware y la presión legal anti-elusión, aunque esas restricciones
+        pueden bloquear la reparación legítima y la ingeniería inversa.</p>
 
-        <p>Esto importa porque la autonomía del usuario hoy depende tanto del
-        código como del control del ciclo de vida del dispositivo. El
-        movimiento por el derecho a reparar ha mostrado cómo restricciones
-        legales y técnicas en software embebido pueden vaciar de contenido la
-        propiedad material del equipo. Un marco que no mida ese eje puede
-        sobreestimar la libertad práctica.</p>
+        <p>La autonomía del usuario hoy depende tanto del código como del
+        control del ciclo de vida del dispositivo. El movimiento por el derecho
+        a reparar ha mostrado cómo restricciones legales y técnicas en software
+        embebido vacían de contenido la propiedad material del equipo. Un marco
+        que no mida ese eje sobreestima la libertad práctica.</p>
 
         <p>Aquí es donde GPL, FSDG y RYF se separan de forma relevante. El
         copyleft de la GPL puede proteger reciprocidad de código cuando el
@@ -207,8 +203,8 @@
         donde el proyecto controla paquetes y menos transformadores donde se
         concentra el control real del hardware.</p>
 
-        <p>Una siguiente generación más robusta mantendría el suelo actual de
-        libertad, endurecería las excepciones y añadiría métricas explícitas de
+        <p>Una norma revisada mantendría el suelo actual de libertad,
+        endurecería las excepciones y añadiría métricas explícitas de
         reparación, recuperabilidad, reemplazo de firmware y control
         verificable por el usuario en toda la pila del dispositivo. Así, la
         política pasaría de la pureza simbólica a resultados medibles de
@@ -217,17 +213,19 @@
     </article>
   </main>
 
-  <footer id="footnotes">
-    <p><strong>Notas:</strong>
-    </p>
+  <aside id="footnotes" aria-labelledby="footnotes-heading">
+    <h2 id="footnotes-heading">Notas</h2>
 
-    <p id="fn-1"><sup>1</sup> Los criterios RYF describen una excepción para
-    software de ciertos procesadores embebidos secundarios cuando no se prevé
-    instalación tras la venta. <a href="#ref-1">↩</a></p>
-  </footer>
+    <ol>
+      <li id="fn-1">Los criterios RYF describen una excepción para software de
+      ciertos procesadores embebidos secundarios cuando no se prevé instalación
+      tras la venta. <a href="#ref-1">Volver a la referencia 1</a>
+      </li>
+    </ol>
+  </aside>
 
-  <footer id="links-footer">
-    <h3>Enlaces útiles</h3>
+  <aside id="links-footer" aria-labelledby="useful-links-heading">
+    <h2 id="useful-links-heading">Enlaces útiles</h2>
 
     <ul>
       <li>
@@ -264,16 +262,15 @@
         reparar</a>
       </li>
     </ul>
-  </footer>
+  </aside>
 
   <footer id="site-footer">
     <p>&copy; 2024-2026 David Uhden Collado. Todos los derechos reservados.</p>
 
     <p><strong><a href="./../licencia.html">LICENCIA</a></strong>
     </p>
-    <img src="./../images/anarchy.png" alt="libertad" class="motto">
+
     <p class="motto">VIVE ET SINE ALIOS VIVERE</p>
-    <img src="./../images/anarchy.png" alt="libertad" class="motto">
   </footer>
 </body>
 </html>

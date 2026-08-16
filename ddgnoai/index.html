@@ -10,15 +10,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content=
   "OpenSearch description for a DuckDuckGo search shortcut that skips AI summaries.">
-  <link rel="canonical" href="https://uhden.dev/ddgnoai//">
+  <link rel="canonical" href="https://uhden.dev/ddgnoai/">
   <meta property="og:title" content="D.U.C. - DuckDuckGo (no AI) OpenSearch">
   <meta property="og:description" content=
   "OpenSearch description for a DuckDuckGo search shortcut that skips AI summaries.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://uhden.dev/ddgnoai//">
+  <meta property="og:url" content="https://uhden.dev/ddgnoai/">
 </head>
 <body>
   <a class="skip-link" href="#site-main">Skip to main content</a>
+  <header id="site-header">
+    <p class="site-title"><a href="./../index.html" rel="home">David Uhden
+    Collado</a>
+    </p>
+
+    <nav aria-label="Primary navigation">
+      <ul>
+        <li>
+          <a href="./../index.html" rel="home">Home</a>
+        </li>
+
+        <li>
+          <a href="./../blog.html" rel="contents">Blog</a>
+        </li>
+
+        <li>
+          <a href="./../services.html">Public services</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
   <main class="card" id="site-main" tabindex="-1">
     <h1>DuckDuckGo (no AI)</h1>
 
@@ -37,6 +59,23 @@
     <p class="meta">If your browser doesn't auto-detect OpenSearch, you can
     manually import <a href="./opensearch.xml">the OpenSearch description</a>
     from this same directory.</p>
+
+    <form action="https://noai.duckduckgo.com/" method="get">
+      <p><label for="search-query">Search DuckDuckGo without AI
+      summaries:</label>
+      </p>
+
+      <p><input id="search-query" name="q" type="search" required="">
+      <input name="kp" type="hidden" value="-2"> <button type=
+      "submit">Search</button></p>
+    </form>
   </main>
+
+  <footer id="site-footer">
+    <p>&copy; 2024-2026 David Uhden Collado. All rights reserved.</p>
+
+    <p><a href="./../license.html" rel="license">License</a>
+    </p>
+  </footer>
 </body>
 </html>

@@ -3,22 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OpenBSD: A Secure, Robust Operating System for the Future | David
-  Uhden Collado</title>
+  <title>OpenBSD: Security Through Simplicity and System Design | David Uhden
+  Collado</title>
   <link rel="icon" href="./../favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./../styles.css">
-  <script src="./../redirect.js"></script>
   <link rel="alternate" type="application/rss+xml" title="Articles RSS" href=
   "./../feeds/blog.xml">
   <meta name="description" content=
-  "OpenBSD combines security-by-design with simplicity, offering a rigorously audited system whose built-in tools and documentation prioritize safety over convenience.">
+  "OpenBSD treats security as a system property through minimal defaults, proactive auditing, layered mitigations, and focused base-system implementations.">
   <link rel="canonical" href="https://uhden.dev/articles/openbsd.html">
   <link rel="alternate" hreflang="es" href=
   "https://uhden.dev/articles/openbsd-es.html">
   <meta property="og:title" content=
-  "OpenBSD: A Secure, Robust Operating System for the Future | David Uhden Collado">
+  "OpenBSD: Security Through Simplicity and System Design | David Uhden Collado">
   <meta property="og:description" content=
-  "OpenBSD combines security-by-design with simplicity, offering a rigorously audited system whose built-in tools and documentation prioritize safety over convenience.">
+  "OpenBSD treats security as a system property through minimal defaults, proactive auditing, layered mitigations, and focused base-system implementations.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://uhden.dev/articles/openbsd.html">
 </head>
@@ -27,7 +26,7 @@
   <header id="site-header">
     <p class="site-title">David Uhden Collado</p>
 
-    <h2>Article</h2>
+    <p class="page-type">Article</p>
 
     <nav id="site-nav" aria-label="Primary navigation">
       <ul>
@@ -45,8 +44,7 @@
 
         <li>
           <a class="lang-switch" href="./openbsd-es.html" rel="alternate"
-          hreflang="es"><img src="./../images/es.png" alt="ES" class=
-          "icon">Español</a>
+          hreflang="es">Español</a>
         </li>
       </ul>
     </nav>
@@ -57,14 +55,14 @@
       <header id="article-header">
         <p class="kicker">Operating Systems</p>
 
-        <h1>OpenBSD: A Secure, Robust Operating System for the Future</h1>
+        <h1>OpenBSD: Security Through Simplicity and System Design</h1>
 
         <p class="meta">By David Uhden Collado - Updated <time datetime=
-        "2026-08-15">August 15, 2026</time></p>
+        "2026-08-16">August 16, 2026</time></p>
 
-        <p class="lede">OpenBSD combines security-by-design with simplicity,
-        offering a rigorously audited system whose built-in tools and
-        documentation prioritize safety over convenience.</p>
+        <p class="lede">OpenBSD treats security as a system property through
+        minimal defaults, proactive auditing, layered mitigations, and focused
+        base-system implementations.</p>
       </header>
 
       <nav class="toc" aria-label="Table of contents">
@@ -77,8 +75,8 @@
           </li>
 
           <li>
-            <a href="#openbsd-innovations">Security Innovations That Make a
-            Difference</a>
+            <a href="#openbsd-innovations">Proactive Defenses and Exploit
+            Mitigations</a>
           </li>
 
           <li>
@@ -97,33 +95,43 @@
           </li>
 
           <li>
-            <a href="#openbsd-services">Secure-by-Default Services and System
-            Utilities</a>
+            <a href="#openbsd-services">Control of the Base System and Its
+            Implementations</a>
           </li>
 
           <li>
-            <a href="#openbsd-crypto">Cryptography, Network Security, and
-            Integrity</a>
+            <a href="#openbsd-crypto">Purpose-Built and Maintained
+            Components</a>
           </li>
 
           <li>
-            <a href="#openbsd-privacy">Operational Privacy and Reduced Attack
-            Surface</a>
+            <a href="#openbsd-init"><code>init(8)</code> and
+            <code>rcctl(8)</code>: Explicit Service Control</a>
           </li>
 
           <li>
-            <a href="#openbsd-integration">Subsystem Integration, Licensing,
-            and Documentation Culture</a>
+            <a href="#openbsd-cron"><code>cron(8)</code>: Explicit, Checked
+            Scheduling</a>
           </li>
 
           <li>
-            <a href="#openbsd-virtualization">Virtualization and the Graphical
-            Stack</a>
+            <a href="#openbsd-opensmtpd"><code>smtpd(8)</code>: Privilege
+            Separation as Architecture</a>
           </li>
 
           <li>
-            <a href="#openbsd-community">More Than an Operating System: A
-            Committed Community</a>
+            <a href="#openbsd-vmm"><code>vmm(4)</code>/<code>vmd(8)</code>: A
+            Narrow Hypervisor</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-openrsync"><code>openrsync(1)</code>:
+            Compatibility Without Importing rsync</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-integration">Auditing, Secure Coding, and
+            Documentation</a>
           </li>
 
           <li>
@@ -132,13 +140,11 @@
         </ol>
       </nav>
 
-      <section>
-        <p>Since its inception, OpenBSD has stood out as a UNIX-like operating
-        system derived from 4.4BSD, known for security and minimalist design.
-        Over the years, it has proven to be a strong option for both
-        professional and personal use, with code and configuration developed
-        with meticulous attention to detail.</p>
-      </section>
+      <p>OpenBSD is a UNIX-like operating system derived from 4.4BSD, but its
+      security model is more than a collection of hardening settings. The
+      project treats security as a property of the whole system: keep the base
+      understandable, disable unnecessary services, audit critical code, adopt
+      conservative interfaces, and contain bugs that survive review.</p>
 
       <section>
         <h2 id="openbsd-philosophy">A Philosophy of Security and
@@ -146,51 +152,60 @@
 
         <p>OpenBSD adheres closely to the Unix philosophy, producing a system
         that is straightforward to install and configure without compromising
-        security. It ships with many base applications designed to work safely
-        out of the box, without insecure defaults. This "less is more" approach
-        pushes users to enable only the services they truly need, reducing
-        risks from misconfiguration and unnecessary exposure.</p>
+        security. Its <a href=
+        "https://www.openbsd.org/security.html">secure-by-default policy</a>
+        leaves nonessential services disabled. This "less is more" approach
+        asks administrators to enable only what they need, reducing both
+        remotely reachable code and opportunities for misconfiguration.</p>
 
-        <p>OpenBSD configuration files use clear, readable syntax, which makes
-        them easier to understand and modify. Documentation is also a
-        first-class priority: each option is explained in detail in the manual
-        pages. The premise is simple but powerful—missing or incorrect
-        documentation is a defect, because correct configuration is essential
-        to system security.</p>
+        <p>Simplicity is a security property in this design: fewer mechanisms,
+        dependencies, and compatibility paths leave less behavior to
+        understand, test, and audit. OpenBSD omits features or replaces a
+        component when that choice leaves a clearer, more maintainable
+        system.</p>
+
+        <p>OpenBSD configuration files use compact, readable syntax, and the
+        manual pages document each option in detail. Missing or incorrect
+        documentation is a defect because administrators cannot secure behavior
+        they cannot identify and configure correctly.</p>
       </section>
 
       <section>
-        <h2 id="openbsd-innovations">Security Innovations That Make a
-        Difference</h2>
+        <h2 id="openbsd-innovations">Proactive Defenses and Exploit
+        Mitigations</h2>
 
-        <p>What truly sets OpenBSD apart is its system-level focus on security.
-        Every component—from kernel to userland—goes through rigorous audits to
-        identify and eliminate potential security flaws. Key innovations
-        include:</p>
+        <p>OpenBSD combines that restraint with proactive defenses. The
+        project's audit process repeatedly examines critical components for
+        ordinary correctness bugs, including bugs whose exploitability is not
+        yet known. It also develops mitigations that limit what a successful
+        memory-corruption bug can achieve. These layers include:</p>
 
         <ul>
-          <li><strong>W^X Policy:</strong> The mandatory enforcement of W^X in
-          both the kernel and userland ensures that memory used for executing
-          code cannot be modified, and vice versa.</li>
+          <li><strong>W^X policy:</strong> OpenBSD strictly enforces the rule
+          that writable memory must not also be executable. Exceptions for
+          programs that require writable executable mappings must be explicit
+          in both the executable and the filesystem mount policy.</li>
 
-          <li><strong>Stack Protections and SROP Mitigations:</strong> Advanced
-          techniques that limit the possibilities of exploiting
-          vulnerabilities, making it much harder for malicious code to
-          run.</li>
+          <li><strong>Stack protections and SROP mitigations:</strong> Stack
+          protections detect corruption, while SROP defenses restrict forged
+          signal-return state. Both remove routes from a memory-corruption bug
+          to control-flow hijacking.</li>
 
-          <li><strong>bcrypt for Passwords:</strong> A password hashing policy
-          that automatically adjusts the number of rounds based on system
-          performance, providing an extra layer of security.</li>
+          <li><strong><code>bcrypt(3)</code> for passwords:</strong> The
+          Blowfish-based password hash has a configurable work factor, making
+          offline password guessing deliberately expensive without relying on a
+          fast general-purpose hash.</li>
 
-          <li><strong>System-wide Sandboxing:</strong> With
-          <code>pledge(2)</code> and <code>unveil(2)</code>, OpenBSD restricts
-          process capabilities, significantly reducing the attack surface if a
-          service is compromised.</li>
+          <li><strong>Application sandboxing:</strong> <code>pledge(2)</code>
+          restricts which classes of system operations a process may request,
+          while <code>unveil(2)</code> restricts which filesystem paths it can
+          see. Applying both to base programs limits the damage available after
+          a compromise.</li>
         </ul>
 
-        <p>These features have influenced other operating systems to adopt
-        similar measures, helping establish OpenBSD as a benchmark for security
-        and stability.</p>
+        <p>OpenBSD layers these mitigations with narrow privileges,
+        conservative defaults, and code review. Each layer removes an exploit
+        path or limits the authority available after another layer fails.</p>
       </section>
 
       <section>
@@ -198,25 +213,28 @@
 
         <p>OpenBSD's security posture is not limited to exploit mitigations. It
         also emphasizes secure defaults, small auditable utilities, and tight
-        integration between the kernel and base userland. In practice, this
-        often yields a safer system without heavy post-install hardening.</p>
+        integration between the kernel and base userland. These choices reduce
+        reachable code and administrative complexity before any post-install
+        hardening.</p>
 
         <p>Several mechanisms and base tools commonly cited in security
         discussions are:</p>
 
         <ul>
-          <li><strong>KARL (Kernel Address Randomized Link):</strong> A
-          technique that produces a uniquely linked kernel, strengthening
-          resistance to certain classes of kernel-level exploitation.</li>
+          <li><strong>KARL (Kernel Address Randomized Link):</strong> After
+          each boot, <code>reorder_kernel(8)</code> relinks the kernel's object
+          files in randomized order for the next boot. This changes internal
+          code, data, and gadget locations rather than only the kernel's load
+          address.</li>
 
           <li><strong>Boot-time relinking of core libraries:</strong> OpenBSD
-          can randomize the layout of key shared libraries at boot, reducing
+          randomizes the object order of key shared libraries at boot, reducing
           predictability for attacks that depend on fixed offsets.</li>
 
           <li><strong><code>arc4random(3)</code> and
-          <code>getentropy(2)</code>:</strong> A high-quality randomness
-          interface that is broadly available and consistently used across the
-          base system.</li>
+          <code>getentropy(2)</code>:</strong> These interfaces provide random
+          data without requiring each caller to manage a pseudorandom generator
+          and are used consistently across the base system.</li>
 
           <li><strong><code>signify(1)</code>:</strong> A simple signing and
           verification tool used for release artifacts and binary patches,
@@ -226,15 +244,15 @@
           privilege-escalation tool designed to be easy to audit and easy to
           configure for common administrative workflows.</li>
 
-          <li><strong><code>pf(4)</code> and privilege separation:</strong> A
-          first-class firewall paired with a long-standing habit of running
-          services with restricted privileges, limiting blast radius when a
-          daemon is compromised.</li>
+          <li><strong><code>pf(4)</code> and privilege separation:</strong> The
+          stateful packet filter complements a long-standing practice of
+          splitting daemons into processes with narrowly assigned privileges,
+          limiting the authority retained after one process is
+          compromised.</li>
         </ul>
 
-        <p>Finally, OpenBSD's culture of continuous auditing, together with its
-        insistence on high-quality manual pages, plays an outsized role in
-        real-world security: configuration is explicit, defaults are
+        <p>Continuous auditing and precise manual pages make security-relevant
+        behavior inspectable: configuration is explicit, defaults are
         intentional, and administration relies on documented primitives instead
         of opaque layers.</p>
       </section>
@@ -274,9 +292,9 @@
           layers of randomization are used to make code- and data-targeting
           techniques less repeatable across reboots and across machines.</li>
 
-          <li><strong>Kernel randomization (KARL):</strong> OpenBSD can produce
-          a uniquely linked kernel, improving resilience against attacks that
-          depend on stable kernel layouts.</li>
+          <li><strong>Kernel randomization (KARL):</strong> Each relinked
+          kernel has a different internal object layout, denying exploits the
+          stable relative offsets of one fixed kernel build.</li>
 
           <li><strong>PID randomization:</strong> Process identifiers can be
           less predictable, reducing the value of attacks that rely on guessing
@@ -288,214 +306,340 @@
           data and allocation patterns more safely.</li>
 
           <li><strong>Allocator hardening and diagnostics:</strong> OpenBSD's
-          malloc implementation is widely regarded for its hardening work and
-          its usefulness in catching classes of memory bugs during development
-          and debugging.</li>
+          malloc implementation combines exploit resistance with diagnostics
+          that expose classes of memory errors during development and
+          debugging.</li>
         </ul>
 
-        <p>Where applicable, OpenBSD also pairs mitigations with operational
-        clarity: when a mechanism can be controlled at runtime, it is generally
-        exposed through documented interfaces (typically sysctls or
-        configuration files) rather than hidden behind implicit behavior.</p>
+        <p>OpenBSD exposes runtime controls through documented interfaces,
+        principally sysctls and configuration files. The active policy remains
+        inspectable instead of being hidden in implicit state.</p>
       </section>
 
       <section>
-        <h2 id="openbsd-services">Secure-by-Default Services and System
-        Utilities</h2>
+        <h2 id="openbsd-services">Control of the Base System and Its
+        Implementations</h2>
 
-        <p>Many OpenBSD design decisions make secure operation the path of
-        least resistance. This is visible not only in the kernel, but also in
-        daemon defaults and small, purpose-built administration tools.</p>
+        <p>OpenBSD develops the kernel and base userland in one source tree.
+        This unified tree carries a new kernel restriction into system
+        utilities, a privilege-separation refactoring into a daemon, and the
+        matching changes into its configuration and manual. Administrators
+        receive a coherent base rather than a collection of independently
+        assembled upstream components.</p>
 
-        <ul>
-          <li><strong>Chrooted web serving:</strong> The base
-          <code>httpd(8)</code> and common packaged web servers are typically
-          deployed with an emphasis on confinement (for example, serving
-          content from a restricted directory tree).</li>
+        <p>The project also maintains an unusual amount of commonly used
+        software itself. OpenBSD chooses among writing, importing, forking, and
+        substantially adapting a component according to interface clarity,
+        maintenance burden, integration, and license suitability. The project's
+        own <a href="https://www.openbsd.org/innovations.html">list of software
+        and ideas</a> shows the extent of this work.</p>
 
-          <li><strong><code>cron(8)</code> control features:</strong> OpenBSD's
-          cron supports options that help reduce accidental concurrency and can
-          make job timing less predictable, which is valuable both for
-          reliability and for reducing synchronized load spikes.</li>
+        <p>The security value comes from the design method: remove unnecessary
+        behavior, keep critical code within the project's review process, and
+        apply the same defensive primitives consistently. Size contributes only
+        when the resulting component remains correct, maintained, and suitable
+        for the job.</p>
 
-          <li><strong><code>rcctl(8)</code>:</strong> A straightforward tool
-          for enabling and managing services in a way that keeps configuration
-          explicit and readable.</li>
-
-          <li><strong>Privilege separation and privilege revocation:</strong>
-          System daemons and utilities frequently run with reduced privileges
-          and are structured to drop privileges where possible, limiting impact
-          when something goes wrong.</li>
-        </ul>
-
-        <p>Recent release-cycle work continues this direction. In current
-        development, OpenBSD has added boot-time random relinking for
-        <code>smtpd(8)</code> and <code>httpd(8)</code>, and tightened HTTP
-        request parsing behavior in <code>httpd(8)</code> (including stricter
-        handling of ambiguous framing patterns). These incremental changes show
-        the same project habit: hardening practical base services instead of
-        treating security as a one-time feature.</p>
+        <p>OpenBSD developer Ted Unangst has described this practice as an
+        attempt to reduce <a href=
+        "https://www.undeadly.org/cgi?action=article;sid=20150701074917">future
+        bugs and maintenance problems</a>, not as a way to erase known bugs by
+        rewriting code. A rewrite discards obscure lessons unless its
+        developers recover them. Its advantage must therefore come from a
+        deliberately narrower scope and from code the project expects to
+        understand and maintain over time.</p>
       </section>
 
       <section>
-        <h2 id="openbsd-crypto">Cryptography, Network Security, and
-        Integrity</h2>
+        <h2 id="openbsd-crypto">Purpose-Built and Maintained Components</h2>
 
-        <p>OpenBSD's ecosystem includes security-focused networking and
-        cryptographic components that are either part of the base system or
-        closely associated with the project. Many of these tools are used far
-        beyond OpenBSD, but their development culture still emphasizes
-        reviewability, conservative defaults, and predictable operation.</p>
+        <p>These examples distinguish the engineering reasons for controlling
+        an implementation without turning the base system into an
+        indiscriminate catalog of OpenBSD projects:</p>
 
         <ul>
-          <li><strong>OpenSSH:</strong> The project maintains OpenSSH, a widely
-          deployed secure remote-access toolchain used across many operating
-          systems.</li>
-
-          <li><strong>LibreSSL:</strong> A fork and cleanup effort aimed at
-          improving maintainability and code clarity in TLS/crypto libraries.
-          macOS ships LibreSSL as its system
-          <code>libssl</code>/<code>libcrypto</code> and uses it broadly in
-          base-system components, including Apple's OpenSSH distribution. The
-          official OpenSSH port for Windows also documents building with
-          LibreSSL crypto.</li>
+          <li><strong><a href=
+          "https://www.openbsd.org/papers/httpd-asiabsdcon2015.pdf"><code>httpd(8)</code></a>:</strong>
+          OpenBSD replaced nginx in base after local hardening patches, a
+          growing codebase, custom allocators, and duplicated library routines
+          made integration and review difficult. The replacement concentrates
+          on static files, FastCGI, and TLS, and runs chrooted with privilege
+          separation. Its value is not size alone, but that it uses OpenBSD's
+          libc defenses and common daemon architecture directly.</li>
 
           <li><strong><a href=
-          "https://man.openbsd.org/openrsync">openrsync(1)</a>:</strong>
-          OpenBSD's BSD-licensed implementation of <code>rsync</code>
-          synchronizes local and remote files and is compatible with rsync
-          protocol version 27.</li>
+          "https://man.openbsd.org/doas.conf"><code>doas(1)</code></a>:</strong>
+          Its compact <code>permit</code>/<code>deny</code> grammar matches an
+          identity, target user, command, and exact arguments, while the
+          program constructs a controlled environment by default. This keeps
+          privilege policy explicit and reviewable; it does not make a careless
+          rule safe.</li>
 
-          <li><strong><code>pf(4)</code>:</strong> A firewall with a clear
-          configuration style (variables, tables, and rulesets) that supports
-          building policy with readable primitives.</li>
+          <li><strong><a href=
+          "https://www.openbsd.org/papers/bsdcan-signify.html"><code>signify(1)</code></a>:</strong>
+          This compact tool addresses release and package signature
+          verification with a narrow command-line interface and a deliberately
+          limited role, avoiding the need to place a general-purpose OpenPGP
+          implementation in base.</li>
 
-          <li><strong><code>rpki-client(8)</code>:</strong> A tool for
-          validating RPKI data and producing validated route origin
-          information, relevant for operators and for routing hygiene.</li>
+          <li><strong><a href=
+          "https://www.opensmtpd.org/goals.html">OpenSMTPD</a>:</strong> Its
+          lean scope is reinforced by process-level compartmentalization and
+          external extension APIs. Optional dependencies remain outside the
+          daemon core and its address space.</li>
 
-          <li><strong><code>unwind(8)</code>:</strong> A local validating DNS
-          resolver intended for client systems, supporting a more
-          integrity-focused DNS posture.</li>
+          <li><strong><a href=
+          "https://www.libressl.org/goals.html">LibreSSL</a>:</strong> OpenBSD
+          forked OpenSSL in 2014 and set out to modernize the code, make it
+          easier to audit and repair, and remove obsolete or broken features
+          and platform support. These maintainability goals reduce the code and
+          compatibility paths that require security review.</li>
 
-          <li><strong><code>wg(4)</code>:</strong> WireGuard support is
-          available through a dedicated driver/interface, enabling modern VPN
-          configurations with a simple operational model.</li>
+          <li><strong>OpenSSH:</strong> OpenBSD maintains this widely deployed
+          remote-access suite and used it to introduce privilege separation.
+          Ports of OpenSSH carry that base-system engineering to other
+          platforms.</li>
         </ul>
       </section>
 
       <section>
-        <h2 id="openbsd-privacy">Operational Privacy and Reduced Attack
-        Surface</h2>
+        <h2 id="openbsd-init"><code>init(8)</code> and <code>rcctl(8)</code>:
+        Explicit Service Control</h2>
 
-        <p>OpenBSD also provides practical levers that help operators reduce
-        attack surface and restrict what applications and services can do, even
-        after compromise. The goal is rarely "perfect security"; it is to keep
-        failures contained and observable.</p>
+        <p>OpenBSD keeps the layers of system startup distinct. The small
+        <a href="https://man.openbsd.org/init"><code>init(8)</code></a> process
+        enters multi-user mode, manages terminal logins, and handles the
+        transition to shutdown or single-user mode. It invokes the documented
+        <a href="https://man.openbsd.org/rc"><code>rc(8)</code> startup
+        script</a>, which performs system housekeeping and starts the daemons
+        selected through <code>rc.conf(8)</code>. Individual
+        <code>rc.d(8)</code> scripts provide a common start, stop, reload,
+        restart, check, and configuration-test interface.</p>
 
-        <ul>
-          <li><strong>Process sandboxing:</strong> <code>pledge(2)</code> and
-          <code>unveil(2)</code> enable applications to declare what they need
-          and restrict themselves accordingly.</li>
+        <p><a href="https://man.openbsd.org/rcctl"><code>rcctl(8)</code></a> is
+        not an init system or a resident service supervisor. It is a small
+        front end that records local choices in <code>/etc/rc.conf.local</code>
+        and invokes those existing <code>rc.d(8)</code> controls. An
+        administrator can explicitly enable a daemon, set its arguments, user,
+        login class, routing table, working directory, logging, or timeout,
+        test its configuration, and list enabled-but-failed or
+        disabled-but-running services.</p>
 
-          <li><strong>Device-access controls:</strong> Where supported, system
-          controls can restrict sensitive capabilities (for example, reducing
-          access to audio/video capture) to better align defaults with privacy
-          goals.</li>
-
-          <li><strong>MAC address randomization:</strong> Network interfaces
-          can be configured to use randomized link-layer addresses to reduce
-          tracking on untrusted networks.</li>
-
-          <li><strong>Swap encryption:</strong> OpenBSD supports encrypted swap
-          configurations to reduce the risk of sensitive data persisting in
-          plaintext on disk.</li>
-
-          <li><strong>Time/telemetry reduction in common tools:</strong> Some
-          utilities include small hardening features intended to reduce
-          fingerprinting or information leakage (for example, in network
-          diagnostic tools).</li>
-        </ul>
+        <p>Daemon enablement is represented explicitly in configuration, site
+        overrides remain in one upgrade-safe text file, and a daemon's
+        configured identity and resource class are easy to inspect. During
+        startup, <code>rc(8)</code> also follows a visible sequence that
+        includes setting the kernel securelevel and randomized relinking. The
+        small control plane adds little hidden state and exposes unnecessary or
+        misconfigured services to direct inspection.</p>
       </section>
 
       <section>
-        <h2 id="openbsd-integration">Subsystem Integration, Licensing, and
-        Documentation Culture</h2>
+        <h2 id="openbsd-cron"><code>cron(8)</code>: Explicit, Checked
+        Scheduling</h2>
 
-        <p>A recurring OpenBSD theme is that security depends on coherence: the
-        kernel, base userland, and administrative model evolve together. That
-        makes it feasible to roll out cross-cutting security mechanisms broadly
-        and document them consistently.</p>
+        <p>Not every component maintained by OpenBSD was written from scratch.
+        Its <a href="https://man.openbsd.org/cron"><code>cron(8)</code></a>
+        descends from Paul Vixie's implementation, but OpenBSD keeps an
+        integrated version in the base system. Keeping it in base lets OpenBSD
+        audit and adapt suitable imported code instead of replacing it merely
+        for the sake of novelty.</p>
 
-        <ul>
-          <li><strong>Kernel and base userland developed together:</strong>
-          Security features can be introduced end-to-end, not merely as
-          optional add-ons.</li>
+        <p>The scheduler treats its inputs as privileged configuration. It
+        ignores user crontabs unless their mode is <code>0600</code>, and
+        <code>/etc/crontab</code> must not be writable by anyone except root or
+        carry execute, set-ID, or sticky bits. The <a href=
+        "https://man.openbsd.org/crontab.1"><code>crontab(1)</code></a>
+        utility's <code>cron.allow</code> and <code>cron.deny</code> files
+        control who may install user crontabs, and access fails closed if they
+        cannot be read. In the <a href=
+        "https://cvsweb.openbsd.org/src/usr.sbin/cron/cron.c">maintained daemon
+        source</a>, <code>pledge(2)</code> restricts the scheduler's permitted
+        operations. The <a href=
+        "https://cvsweb.openbsd.org/src/usr.sbin/cron/do_command.c">job setup
+        code</a> establishes the owner's login class and credentials and checks
+        account approval before executing the command.</p>
 
-          <li><strong>Permissive licensing (ISC/BSD style):</strong> The
-          project favors permissive licenses for much of its code, emphasizing
-          simplicity of reuse and distribution.</li>
-
-          <li><strong>Man pages as a primary interface:</strong> OpenBSD is
-          known for treating documentation as part of the system: configuration
-          and operational behavior are expected to be described precisely.</li>
-
-          <li><strong>Audit-driven improvement:</strong> The OpenBSD security
-          model places high value on proactive auditing—fixing correctness bugs
-          even when exploitability is not established.</li>
-        </ul>
+        <p>OpenBSD's <a href=
+        "https://man.openbsd.org/crontab.5"><code>crontab(5)</code> format</a>
+        adds focused operational controls rather than a separate scheduling
+        framework. A <code>~</code> range chooses a stable random offset when
+        the table is loaded to spread simultaneous starts, while
+        <code>-s</code> prevents overlapping instances of the same entry. These
+        two controls reduce load spikes, races, and accidental concurrent
+        access to shared state. They do not sandbox the scheduled command: a
+        job intentionally runs with its owner's authority and must still be
+        secured like any other command.</p>
       </section>
 
       <section>
-        <h2 id="openbsd-virtualization">Virtualization and the Graphical
-        Stack</h2>
+        <h2 id="openbsd-opensmtpd"><code>smtpd(8)</code>: Privilege Separation
+        as Architecture</h2>
 
-        <p>Not every environment is headless. OpenBSD includes components for
-        virtualization and graphical environments, with a focus on reducing
-        unnecessary privileges and tightening defaults.</p>
+        <p><a href="https://www.openbsd.org/opensmtpd/">OpenSMTPD</a> was
+        written as an ISC-licensed SMTP implementation after its developers
+        were dissatisfied with the available alternatives. Its <a href=
+        "https://www.opensmtpd.org/goals.html">published goals</a> join three
+        requirements: strict validation and privilege separation, reliable
+        handling of every accepted message, and a lean implementation aimed at
+        common rather than obscure use cases. A readable configuration language
+        is part of those goals because an MTA that is easy to misconfigure is
+        not operationally secure.</p>
 
-        <ul>
-          <li><strong><code>vmm(4)</code>:</strong> OpenBSD provides a built-in
-          hypervisor with a deliberately constrained model compared to
-          feature-maximal alternatives.</li>
+        <p>The difference is architectural. In a <a href=
+        "https://www.openbsd.org/papers/eurobsdcon2017-opensmtpd.pdf">developer
+        presentation</a>, OpenSMTPD is described as a set of processes with
+        well-defined tasks rather than one daemon in which every subsystem has
+        every privilege. Workers communicate through <code>imsg(3)</code>
+        instead of shared memory; privileged work is concentrated in the
+        parent, most other processes are unprivileged and chrooted, and the
+        queue uses a separate account. <code>pledge(2)</code> restricts each
+        worker's allowed operations, while re-execution gives child processes
+        memory layouts independent of the initial parent.</p>
 
-          <li><strong>X without root privileges (where supported):</strong> The
-          project has invested in reducing privilege requirements in the
-          graphical stack, and in using policy and confinement to reduce
-          risk.</li>
-        </ul>
+        <p>OpenSMTPD does not have to absorb every database or directory client
+        into that trusted core. The current <a href=
+        "https://man.openbsd.org/smtpd-tables"><code>smtpd-tables(7)</code>
+        API</a> runs lookup backends as standalone processes outside
+        <code>smtpd(8)</code>'s address space and allows them to use separately
+        configured accounts. This is how minimalism and extensibility reinforce
+        each other: site-specific dependencies remain available without giving
+        them the daemon's full privileges or making them part of its
+        memory-safety boundary.</p>
+
+        <p>OpenSMTPD's own <a href=
+        "https://www.openbsd.org/opensmtpd/security.html">security advisory
+        history</a> includes serious flaws, including bugs fixed in 2020 that
+        led to command execution. Process boundaries do not erase those bugs;
+        they limit the authority assigned to each exposed role. The defensible
+        advantage is this explicit, reviewable division of responsibility.</p>
       </section>
 
       <section>
-        <h2 id="openbsd-community">More Than an Operating System: A Committed
-        Community</h2>
+        <h2 id="openbsd-vmm"><code>vmm(4)</code>/<code>vmd(8)</code>: A Narrow
+        Hypervisor</h2>
 
-        <p>Beyond its robust architecture, OpenBSD has an active and dedicated
-        community that continuously improves the system. Complementary projects
-        such as LibreSSL, OpenBGPD, OpenNTPD, OpenSMTPD, and OpenSSH are
-        integral to the ecosystem, providing secure, high-quality tools that
-        integrate cleanly with the base distribution.</p>
+        <p>OpenBSD's native virtualization stack separates the <a href=
+        "https://man.openbsd.org/vmm"><code>vmm(4)</code> in-kernel virtual
+        machine monitor</a>, the <a href=
+        "https://man.openbsd.org/vmd"><code>vmd(8)</code> userland daemon</a>,
+        and the <code>vmctl(8)</code> control client. Device emulation
+        therefore remains primarily in userland instead of placing network- and
+        disk-device parsers in the host kernel. <code>vmd(8)</code> also starts
+        a separate VM process for each guest.</p>
 
-        <p>This tight integration across system components, combined with the
-        developers' commitment to security, gives users a reliable platform
-        that can support everything from critical servers to web development
-        workstations.</p>
+        <p>Emulated devices consume attacker-controlled guest data and have
+        repeatedly enabled escapes in hypervisors. An OpenBSD developer's
+        <a href=
+        "https://www.openbsd.org/papers/asiabsdcon2023-hardening_vmd_devices.pdf">
+        analysis of <code>vmd(8)</code></a> describes its fork-and-exec
+        privilege separation, dedicated process roles, reduced user and group
+        IDs, filesystem isolation, and <code>pledge(2)</code> restrictions.
+        OpenBSD 7.4 then <a href="https://www.openbsd.org/74.html">introduced a
+        multiprocess model for emulated VirtIO block and network devices</a>.
+        Separating those devices gives an attacker who compromises one emulator
+        another process boundary to cross before reaching the rest of
+        <code>vmd(8)</code> or other device code.</p>
+
+        <p>The <a href="https://www.openbsd.org/faq/faq16.html">virtualization
+        FAQ</a> also documents a deliberately limited feature set: no graphics,
+        snapshots, hardware passthrough, cross-host live migration, live
+        hardware changes, or guest SMP. Fewer emulation and migration paths
+        mean less code and state to maintain. The FAQ does not identify
+        security as the motive for every omission. The host trust boundary
+        still includes <code>vmm(4)</code>, <code>vmd(8)</code>, and the
+        kernel; an exploitable bug in those components can cause a VM escape.
+        The smaller, OpenBSD-integrated design applies compartmentalization to
+        the host side of virtualization.</p>
+      </section>
+
+      <section>
+        <h2 id="openbsd-openrsync"><code>openrsync(1)</code>: Compatibility
+        Without Importing rsync</h2>
+
+        <p><a href="https://man.openbsd.org/openrsync">openrsync</a> is a
+        clean-room, ISC-licensed implementation of rsync written by Kristaps
+        Dzonsons. It began as part of <code>rpki-client(8)</code>, which had to
+        retrieve RPKI repository data using the rsync protocol, and was
+        <a href="https://undeadly.org/cgi?action=article;sid=20190211081518">imported
+        into OpenBSD in 2019</a>. The result gave the base system an
+        implementation under its preferred license and direct project control;
+        it was not merely a renamed copy of upstream rsync.</p>
+
+        <p>Compatibility is deliberately narrower than a full rsync
+        replacement. The <a href="https://man.openbsd.org/openrsync">current
+        manual</a> defines its supported option set, local and remote
+        synchronization, and interoperability through rsync protocol version
+        27. OpenBSD also supplies <a href=
+        "https://cvsweb.openbsd.org/src/usr.bin/rsync/rsync.5">rsync(5)</a> and
+        <a href=
+        "https://cvsweb.openbsd.org/src/usr.bin/rsync/rsyncd.5">rsyncd(5)</a>
+        protocol documentation, making the wire formats explicit enough to
+        review and implement independently. Workflows that require newer
+        protocols or unsupported options still need upstream rsync.</p>
+
+        <p>On OpenBSD, sandboxing limits openrsync's authority. The current
+        <a href=
+        "https://cvsweb.openbsd.org/src/usr.bin/rsync/main.c"><code>main.c</code></a>
+        uses <code>pledge(2)</code> to limit system operations and tightens the
+        promises after network setup. On the receiving side, <a href=
+        "https://cvsweb.openbsd.org/src/usr.bin/rsync/receiver.c"><code>receiver.c</code></a>
+        applies <code>unveil(2)</code> around the source paths and destination
+        root. In server mode, <a href=
+        "https://cvsweb.openbsd.org/src/usr.bin/rsync/server.c"><code>server.c</code></a>
+        seeds the protocol's MD4 hashes with <code>arc4random(3)</code> rather
+        than the time of day.</p>
+
+        <p>A narrower interface leaves less behavior to understand, protocol
+        documentation supports review and maintenance, and sandboxing limits
+        what a bug can reach. The available evidence does not establish that
+        openrsync has fewer vulnerabilities than rsync. Its ordinary client and
+        server roles are not a separate privilege-separation design.</p>
+      </section>
+
+      <section>
+        <h2 id="openbsd-integration">Auditing, Secure Coding, and
+        Documentation</h2>
+
+        <p>OpenBSD describes its <a href=
+        "https://www.openbsd.org/security.html">audit process</a> as a
+        file-by-file examination of critical software. The reviewers look for
+        ordinary bugs rather than waiting for a proven exploit, and revisit
+        previously audited code when a new class of flaw becomes understood.
+        This avoids treating vulnerability reports as the only source of
+        security work.</p>
+
+        <p>The same approach governs programming interfaces such as
+        <code>reallocarray(3)</code>, <code>recallocarray(3)</code>,
+        <code>freezero(3)</code>, and <code>explicit_bzero(3)</code>. These
+        APIs make integer-overflow checks or reliable clearing of sensitive
+        memory easier to express. They do not make C memory-safe, but they turn
+        common defensive patterns into reviewed system primitives.</p>
+
+        <p>Precise manual pages complete the model. An implementation that is
+        difficult to describe is also difficult to operate and audit. Treating
+        inaccurate documentation as a defect keeps security-relevant behavior
+        visible to developers and administrators instead of hiding it behind
+        convention.</p>
       </section>
 
       <section>
         <h2 id="openbsd-conclusions">Conclusions</h2>
 
-        <p>If you are looking for an operating system that combines simplicity,
-        security, and coherent design, OpenBSD is well worth exploring. Its
-        security-by-design approach, documentation quality, and continued
-        innovation in mitigation techniques make it a strong choice for people
-        who value stability and system integrity.</p>
+        <p>OpenBSD reduces what must be trusted, makes the remaining behavior
+        understandable, audits it repeatedly, and contains failures with
+        layered defenses. Its own implementations, including httpd's direct use
+        of the system's defenses, OpenSMTPD's divided process architecture,
+        vmm/vmd's host-side compartmentalization, the explicit init/rc control
+        plane, and openrsync's focused compatibility target, show that this
+        philosophy is reflected in substantial parts of the base system, not
+        added afterward as a set of optional hardening switches.</p>
       </section>
     </article>
   </main>
 
-  <footer id="links-footer">
-    <h3>Useful Links</h3>
+  <aside id="links-footer" aria-labelledby="useful-links-heading">
+    <h2 id="useful-links-heading">Useful Links</h2>
 
     <ul>
       <li>
@@ -524,16 +668,15 @@
         <a href="https://man.openbsd.org/smtpd.8">smtpd(8) manual page</a>
       </li>
     </ul>
-  </footer>
+  </aside>
 
   <footer id="site-footer">
     <p>&copy; 2024-2026 David Uhden Collado. All rights reserved.</p>
 
     <p><strong><a href="./../license.html">LICENSE</a></strong>
     </p>
-    <img src="./../images/anarchy.png" alt="freedom" class="motto">
+
     <p class="motto">VIVE ET SINE ALIOS VIVERE</p>
-    <img src="./../images/anarchy.png" alt="freedom" class="motto">
   </footer>
 </body>
 </html>

@@ -7,7 +7,6 @@
   Collado</title>
   <link rel="icon" href="./../favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./../styles.css">
-  <script src="./../redirect.js"></script>
   <link rel="alternate" type="application/rss+xml" title="Articles RSS" href=
   "./../feeds/blog.xml">
   <meta name="description" content=
@@ -27,7 +26,7 @@
   <header id="site-header">
     <p class="site-title">David Uhden Collado</p>
 
-    <h2>Article</h2>
+    <p class="page-type">Article</p>
 
     <nav id="site-nav" aria-label="Primary navigation">
       <ul>
@@ -45,8 +44,7 @@
 
         <li>
           <a class="lang-switch" href="./unix-es.html" rel="alternate"
-          hreflang="es"><img src="./../images/es.png" alt="ES" class=
-          "icon">Español</a>
+          hreflang="es">Español</a>
         </li>
       </ul>
     </nav>
@@ -60,7 +58,7 @@
         <h1>Rethinking the UNIX Philosophy: Beyond Small Programs</h1>
 
         <p class="meta">By David Uhden Collado - Updated <time datetime=
-        "2025-03-05">March 5, 2025</time></p>
+        "2026-08-16">August 16, 2026</time></p>
 
         <p class="lede">UNIX is more than tiny tools and pipes; its real power
         lies in composability and thoughtful integration, not in a simplistic
@@ -90,110 +88,100 @@
         </ol>
       </nav>
 
-      <section>
-        <p>The UNIX philosophy has long been presented as a model for building
-        systems from small, specialized tools. Over time, though, its
-        foundations have often been oversimplified and misread. It is
-        frequently reduced to the idea that all you need is to connect small
-        programs through pipes<sup><a href="#fn-1" id="ref-1">[1]</a></sup>, or
-        even equated—incorrectly—with modern concepts such as
-        microservices.</p>
-      </section>
+      <p>The familiar summary of the UNIX philosophy, small programs joined by
+      pipes<sup><a href="#fn-1" id="ref-1">[1]</a></sup>, captures one
+      interface pattern and omits the system around it. UNIX also depends on
+      stable byte streams, conventional process semantics, shared naming,
+      textual tools, and programs designed for composition. Calling every
+      collection of small services "UNIX-like" erases those constraints.</p>
 
       <section>
         <h2 id="unix-essence">The Essence of the UNIX Philosophy</h2>
 
-        <p>At its core, UNIX was conceived not just as a collection of small
-        programs, but as an environment where <strong>composability</strong> is
-        central. The ability to combine simple tools into complex behavior
-        remains one of its defining traits. UNIX pioneers such as Ken Thompson,
-        Dennis Ritchie, and Doug McIlroy emphasized designing programs that
-        integrate cleanly, so system power emerges from relationships among
-        components rather than isolated features.</p>
+        <p><strong>Composability</strong> is the central property. A useful
+        UNIX tool reads and writes through conventional interfaces, behaves
+        predictably in a pipeline, reports failure through established process
+        mechanisms, and leaves policy to the caller where practical. Ken
+        Thompson, Dennis Ritchie, and Doug McIlroy did not merely advocate
+        short source files; they built an environment in which independently
+        useful programs could be assembled into behavior their authors had not
+        predesigned.</p>
 
-        <p>The idea of "doing one thing well" is only one part of a broader
-        vision: an approach that values adaptability, interaction, and
-        continuous evolution. In the UNIX environment, each tool is conceived
-        not in isolation but as part of a collaborative ecosystem, where one
-        program's output becomes another's input and enables creative,
-        efficient solutions.</p>
+        <p>"Do one thing well" therefore describes scope, not isolation. A tool
+        that performs one task but requires an idiosyncratic data model, hidden
+        state, or a bespoke orchestration layer composes poorly. A larger
+        program with a stable interface can honor the philosophy better than a
+        tiny program whose assumptions leak into every caller.</p>
       </section>
 
       <section>
         <h2 id="unix-misunderstandings">Misunderstandings in the Age of
         Microservices</h2>
 
-        <p>With the rise of modern architectures such as microservices, a
-        mistaken idea has spread: that these systems are a natural extension of
-        the UNIX philosophy. The comparison is superficial and leads to major
-        misunderstandings. UNIX focuses on predictable program interaction in a
-        controlled environment, while microservices run in distributed systems
-        where communication forms a complex graph of interconnections and
-        dependencies.</p>
+        <p>Microservices are not pipes at network scale. A local pipeline
+        inherits one host's process model, user identity, filesystem, clock,
+        and failure reporting. A distributed service call crosses independent
+        failure domains and introduces latency, retries, partial completion,
+        authentication, version negotiation, observability, and consistency
+        policy.</p>
 
-        <p>This extra complexity creates challenges in data management and
-        service coordination, showing that a direct UNIX analogy misses both
-        the essence and the realities of distributed computing. The UNIX
-        philosophy is grounded in simplicity and loose coupling—qualities that
-        become counterproductive when transferred mechanically to modern
-        architectures.</p>
+        <p>Small service boundaries can isolate ownership and deployment, but
+        each boundary also creates a protocol and an operational dependency.
+        The UNIX analogy is useful only when it encourages narrow interfaces
+        and explicit composition. It becomes misleading when it is used to
+        present a distributed dependency graph as inherently simple.</p>
       </section>
 
       <section>
         <h2 id="unix-beyond-os">Beyond the Operating System</h2>
 
-        <p>Another crucial point in understanding UNIX is to distinguish the
-        ideas that inspired it from specific operating system implementations.
-        Design rules—such as avoiding overly rigid input formats or encouraging
-        iterative development—are general principles that apply in contexts as
-        diverse as application development, software libraries, and user
-        interface design.</p>
+        <p>The design principles extend beyond a specific UNIX implementation.
+        Libraries, command-line interfaces, data formats, and graphical tools
+        all benefit from narrow contracts, useful defaults, explicit failure,
+        and outputs that another component can consume without reverse
+        engineering hidden state.</p>
 
-        <p>By abstracting these ideas from the operating system context, we can
-        apply them in any field that requires modular, flexible, evolving
-        design. At heart, this means fostering a mindset in which the whole is
-        greater than the sum of its parts, and collaboration among components
-        becomes a source of innovation and robustness.</p>
+        <p>Those principles do not require every component to be small. They
+        require each boundary to be understandable and stable enough for
+        independent use. Modularity earns its value when a component can be
+        replaced, tested, or combined without reproducing the internals of the
+        rest of the system.</p>
       </section>
 
       <section>
         <h2 id="unix-conclusions">Conclusions</h2>
 
-        <p>In its purest form, the UNIX philosophy invites us to rethink how we
-        design and assemble systems. Far from being a recipe of "small programs
-        communicating via pipes," it is an approach that values adaptability,
-        interaction, and effective integration within a broader ecosystem. By
-        applying these principles in context, we can build solutions that are
-        both elegant and efficient without falling into oversimplifications
-        that distort their meaning.</p>
-
-        <p>In a world where technology advances quickly and architectures grow
-        more complex, revisiting the true essence of the UNIX philosophy can
-        help us navigate between desired simplicity and the inevitable
-        complexity of modern systems.</p>
+        <p>The UNIX philosophy is a discipline for interfaces: constrain a
+        program's responsibility, make its behavior legible, and let other
+        components reuse its results. Pipes are the clearest example, not the
+        complete definition. Applying the philosophy to modern systems means
+        accounting for the actual cost of every boundary instead of counting
+        programs or services and calling the result modular.</p>
       </section>
     </article>
   </main>
 
-  <footer id="footnotes">
-    <p><strong>Notes:</strong>
-    </p>
+  <aside id="footnotes" aria-labelledby="footnotes-heading">
+    <h2 id="footnotes-heading">Notes</h2>
 
-    <p id="fn-1"><sup>1</sup> <strong>Pipes:</strong> In UNIX, a pipe is a
-    method of passing information from one process to another. It allows the
-    output of one program to be used as the input for another, enabling the
-    creation of complex workflows from simple, single-purpose programs.
-    <a href="#ref-1">↩</a></p>
-  </footer>
+    <ol>
+      <li id="fn-1">
+        <strong>Pipes:</strong> In UNIX, a pipe is a method of passing
+        information from one process to another. It allows the output of one
+        program to be used as the input for another, enabling the creation of
+        complex workflows from simple, single-purpose programs. <a href=
+        "#ref-1">Back to reference 1</a>
+      </li>
+    </ol>
+  </aside>
 
   <footer id="site-footer">
     <p>&copy; 2024-2026 David Uhden Collado. All rights reserved.</p>
 
     <p><strong><a href="./../license.html">LICENSE</a></strong>
     </p>
-    <img src="./../images/anarchy.png" alt="freedom" class="motto">
+
     <p class="motto">VIVE ET SINE ALIOS VIVERE</p>
-    <img src="./../images/anarchy.png" alt="freedom" class="motto">
   </footer>
 </body>
 </html>

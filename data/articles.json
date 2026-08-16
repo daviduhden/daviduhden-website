@@ -8,8 +8,8 @@
   "openbsd": {
     "en": "openbsd.html",
     "es": "openbsd-es.html",
-    "title_en": "OpenBSD: A Secure, Robust Operating System for the Future",
-    "title_es": "OpenBSD: un sistema operativo seguro y robusto para el futuro"
+    "title_en": "OpenBSD: Security Through Simplicity and System Design",
+    "title_es": "OpenBSD: seguridad mediante simplicidad y diseño de sistemas"
   },
   "unix": {
     "en": "unix.html",

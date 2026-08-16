@@ -23,9 +23,33 @@ body {
   color: #111827;
   background: #f8fafc;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
   text-align: center;
+}
+
+#site-header,
+#site-footer {
+  max-width: 560px;
+  width: 100%;
+}
+
+.site-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .skip-link {
@@ -99,7 +123,8 @@ p {
   margin: 0.5rem 0;
 }
 
-ol, ul {
+.card ol,
+.card ul {
   margin: 0.75rem 0 0;
   padding-left: 1.8rem;
   display: inline-block;
@@ -108,6 +133,17 @@ ol, ul {
 
 li {
   margin: 0.25rem 0;
+}
+
+form {
+  margin-top: 1rem;
+}
+
+input,
+button {
+  max-width: 100%;
+  padding: 0.45rem;
+  font: inherit;
 }
 
 a {

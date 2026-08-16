@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>David Uhden Collado — Personal Website</title>
+  <title>David Uhden Collado - Personal Website</title>
   <link rel="icon" href="./favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./styles.css">
-  <script src="./redirect.js"></script>
   <meta name="description" content=
   "Personal website of David Uhden Collado, covering free software, privacy, security, programming, and independent technical projects.">
   <link rel="canonical" href="https://uhden.dev/">
   <link rel="alternate" hreflang="es" href="https://uhden.dev/index-es.html">
-  <meta property="og:title" content="David Uhden Collado — Personal Website">
+  <meta property="og:title" content="David Uhden Collado - Personal Website">
   <meta property="og:description" content=
   "Personal website of David Uhden Collado, covering free software, privacy, security, programming, and independent technical projects.">
   <meta property="og:type" content="website">
@@ -35,7 +34,7 @@
   <header id="site-header">
     <h1>David Uhden Collado</h1>
 
-    <h2>Personal website</h2>
+    <p class="page-type">Personal website</p>
 
     <nav id="site-nav" aria-label="Primary navigation">
       <ul>
@@ -53,8 +52,7 @@
 
         <li>
           <a class="lang-switch" href="./index-es.html" rel="alternate"
-          hreflang="es"><img src="./images/es.png" alt="ES" class=
-          "icon">Español</a>
+          hreflang="es">Español</a>
         </li>
       </ul>
     </nav>
@@ -62,8 +60,8 @@
 
   <main id="site-main" tabindex="-1">
     <section id="bio">
-      <h3>About Me</h3>
-      <img src="./images/me.png" alt="David Uhden Collado" class=
+      <h2>About Me</h2>
+      <img src="./images/me.png" alt="Portrait of David Uhden Collado" class=
       "home-portrait">
       <p>I'm a self-taught technologist. In the short term, my goal is to work
       as a programmer; in the medium term, to grow into an engineer.</p>
@@ -74,7 +72,7 @@
     </section>
 
     <section id="links">
-      <h3>Links</h3>
+      <h2>Links</h2>
 
       <p><strong>Personal Projects</strong>
       </p>
@@ -114,86 +112,85 @@
     </section>
 
     <section id="contact">
-      <h3>Contact Information</h3>
+      <h2>Contact Information</h2>
 
       <address>
-        <p><img src="./images/email.png" alt="Email" class="icon">Email
-        address: <a href="mailto:david@uhden.dev">david@uhden.dev</a></p>
+        <p class="icon-label icon-email">Email address: <a href=
+        "mailto:david@uhden.dev">david@uhden.dev</a></p>
 
         <p><em>Whenever possible, emails should be sent in <a href=
         "https://useplaintext.email/">plain text format</a> rather than
         HTML.</em>
         </p>
 
-        <p><img src="./images/gnupg.png" alt="PGP" class="icon">Public PGP key
-        (RSA4096):</p>
+        <p class="icon-label icon-gnupg">Public PGP key (RSA4096):</p>
 
         <p><a href=
         "./pgp_public_key_rsa4096.asc">1BCF104C8C6527E449743E4C1A47E8A7D51FB3DA</a>
         </p>
 
-        <p><img src="./images/signal.png" alt="Signal" class="icon"><a href=
-        "https://signal.me/#eu/yi-6GYdrvs0PkexhZwCF86hc39bRBblo3x9H2_chqjIBdjCeYhlC3pZEZZORBIbZ">Signal</a>
+        <p><a class="icon-label icon-signal" href=
+        "https://signal.me/#eu/yi-6GYdrvs0PkexhZwCF86hc39bRBblo3x9H2_chqjIBdjCeYhlC3pZEZZORBIbZ">
+        Signal</a>
         </p>
 
-        <p><img src="./images/simplex.png" alt="SimpleX" class="icon"><a href=
-        "https://smp9.simplex.im/a#Wgo0CP8IZqj7oHflV7COIRapYTZizhKtwMx608wlEEo">SimpleX
-        Chat</a>
+        <p><a class="icon-label icon-simplex" href=
+        "https://smp9.simplex.im/a#Wgo0CP8IZqj7oHflV7COIRapYTZizhKtwMx608wlEEo">
+        SimpleX Chat</a>
         </p>
       </address>
     </section>
 
     <section id="domains">
-      <h3>Domains</h3>
+      <h2>Domains</h2>
 
       <ul>
         <li>
-          <img src="./images/www.png" alt="WWW" class="icon"><a href=
-          "https://uhden.dev/">Clear network</a>
-        </li>
-
-        <li>
-          <img src="./images/tor.png" alt="TOR" class="icon"><a href=
-          "http://nr3yj3bouucqw3omwlst5qmeon4djbn4mdlcrrw6xmc7v42sh5ajdpyd.onion/">Tor
+          <a class="icon-label icon-www" href="https://uhden.dev/">Clear
           network</a>
         </li>
 
         <li>
-          <img src="./images/i2p.png" alt="I2P" class="icon"><a href=
-          "http://uhden.i2p/">I2P network (short address)</a>
+          <a class="icon-label icon-tor" href=
+          "http://nr3yj3bouucqw3omwlst5qmeon4djbn4mdlcrrw6xmc7v42sh5ajdpyd.onion/">
+          Tor network</a>
         </li>
 
         <li>
-          <img src="./images/i2p.png" alt="I2P" class="icon"><a href=
-          "http://cp7wkyweud5cuqqhuugyzzpym5izbhwj3mch77nqk4hylc5fftpq.b32.i2p/">I2P
-          network (full base32 address)</a>
+          <a class="icon-label icon-i2p" href="http://uhden.i2p/">I2P network
+          (short address)</a>
+        </li>
+
+        <li>
+          <a class="icon-label icon-i2p" href=
+          "http://cp7wkyweud5cuqqhuugyzzpym5izbhwj3mch77nqk4hylc5fftpq.b32.i2p/">
+          I2P network (full base32 address)</a>
         </li>
       </ul>
     </section>
 
     <section id="source">
-      <h3>Source Code</h3>
+      <h2>Source Code</h2>
 
       <ul>
         <li>
-          <img class="icon" src="./images/github.png" alt="GitHub"><a href=
+          <a class="icon-label icon-github" href=
           "https://github.com/daviduhden/daviduhden-website">Website
           repository</a>
         </li>
 
         <li>
-          <img class="icon" src="./images/archive.png" alt="Archive"><a href=
+          <a class="icon-label icon-archive" href=
           "./archive/daviduhden-website.tar.gz">Website archive</a>
         </li>
       </ul>
     </section>
 
     <section id="donate">
-      <h3>Donations</h3>
+      <h2>Donations</h2>
 
       <dl>
-        <dt><strong><img src="./images/bitcoin.png" alt="BTC" class=
-        "icon">Bitcoin (BTC)</strong>
+        <dt><strong class="icon-label icon-bitcoin">Bitcoin (BTC)</strong>
         </dt>
 
         <dd>
@@ -201,8 +198,7 @@
           "bitcoin:bc1qeyyk9cn4rm44qhrdwsvhx50t46lejmysgj3jp5">bc1qeyyk9cn4rm44qhrdwsvhx50t46lejmysgj3jp5</a>
         </dd>
 
-        <dt><strong><img src="./images/monero.png" alt="XMR" class=
-        "icon">Monero (XMR)</strong>
+        <dt><strong class="icon-label icon-monero">Monero (XMR)</strong>
         </dt>
 
         <dd>
@@ -213,13 +209,11 @@
       </dl>
     </section>
 
-    <section id="powered">
-      <p><em><img src="./images/kicksecure.png" alt="Kicksecure" class=
-      "icon">This website is powered by the <a href=
-      "https://www.kicksecure.com/">Kicksecure</a> operating system (based on
-      <a href="https://www.debian.org/">Debian GNU/Linux</a>).</em>
-      </p>
-    </section>
+    <p id="powered" class="icon-label icon-kicksecure"><em>This website is
+    powered by the <a href="https://www.kicksecure.com/">Kicksecure</a>
+    operating system (based on <a href="https://www.debian.org/">Debian
+    GNU/Linux</a>).</em>
+    </p>
   </main>
 
   <footer id="site-footer">
@@ -227,9 +221,8 @@
 
     <p><strong><a href="./license.html" rel="license">LICENSE</a></strong>
     </p>
-    <img src="./images/anarchy.png" alt="freedom" class="motto">
+
     <p class="motto">VIVE ET SINE ALIOS VIVERE</p>
-    <img src="./images/anarchy.png" alt="freedom" class="motto">
   </footer>
 </body>
 </html>
