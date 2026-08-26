@@ -493,8 +493,13 @@ code {
     monospace;
 }
 
-/* Ensure content inside pre has equal spacing top/bottom */
-pre code,
+/* Inline-code styling must not add vertical space inside code blocks. */
+pre code {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
 pre p {
   margin: 0;
 }
