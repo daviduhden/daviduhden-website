@@ -4,8 +4,15 @@
     <title>David Uhden Collado's Blog</title>
     <link>/blog.html</link>
     <description>Latest articles and updates from David Uhden Collado's blog.</description>
-    <lastBuildDate>Sun, 16 Aug 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 27 Aug 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="/feeds/blog.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Create an OpenBSD Installation Image with a FAT32 ESP and Firmware</title>
+      <link>/articles/openbsd-install-fat32.html</link>
+      <description>Create a custom OpenBSD amd64 installation image with a 260 MiB FAT32 ESP, additional FFS space, and optional firmware without rebuilding the base system.</description>
+      <pubDate>Thu, 27 Aug 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">/articles/openbsd-install-fat32.html</guid>
+    </item>
     <item>
       <title>The GPL: Paradoxes in Free Software</title>
       <link>/articles/gpl.html</link>

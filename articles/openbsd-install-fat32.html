@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create an OpenBSD Installation Image with a FAT32 ESP and Firmware |
+  David Uhden Collado</title>
+  <link rel="icon" href="./../favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./../styles.css">
+  <link rel="alternate" type="application/rss+xml" title="Articles RSS" href=
+  "./../feeds/blog.xml">
+  <meta name="description" content=
+  "Create a custom OpenBSD amd64 installation image with a 260 MiB FAT32 ESP, additional FFS space, and optional firmware without rebuilding the base system.">
+  <link rel="canonical" href=
+  "https://uhden.dev/articles/openbsd-install-fat32.html">
+  <link rel="alternate" hreflang="es" href=
+  "https://uhden.dev/articles/openbsd-install-fat32-es.html">
+  <meta property="og:title" content=
+  "Create an OpenBSD Installation Image with a FAT32 ESP and Firmware | David Uhden Collado">
+  <meta property="og:description" content=
+  "Create a custom OpenBSD amd64 installation image with a 260 MiB FAT32 ESP, additional FFS space, and optional firmware without rebuilding the base system.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content=
+  "https://uhden.dev/articles/openbsd-install-fat32.html">
+</head>
+<body>
+  <a class="skip-link" href="#site-main">Skip to main content</a>
+  <header id="site-header">
+    <p class="site-title">David Uhden Collado</p>
+
+    <p class="page-type">Article</p>
+
+    <nav id="site-nav" aria-label="Primary navigation">
+      <ul>
+        <li>
+          <a href="./../index.html" rel="home">Home</a>
+        </li>
+
+        <li>
+          <a href="./../blog.html" rel="contents">Blog</a>
+        </li>
+
+        <li>
+          <a href="./../services.html">Public services</a>
+        </li>
+
+        <li>
+          <a class="lang-switch" href="./openbsd-install-fat32-es.html" rel=
+          "alternate" hreflang="es">Español</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="site-main" tabindex="-1">
+    <article>
+      <header id="article-header">
+        <p class="kicker">Operating Systems</p>
+
+        <h1>Create an OpenBSD Installation Image with a FAT32 ESP and
+        Firmware</h1>
+
+        <p class="meta">By David Uhden Collado - Updated <time datetime=
+        "2026-08-27">August 27, 2026</time></p>
+
+        <p class="lede">Build an OpenBSD amd64 installation image with a 260
+        MiB FAT32 ESP, 1,536 MiB of FFS space, and optional firmware without
+        rebuilding the base system.</p>
+      </header>
+
+      <nav class="toc" aria-label="Table of contents">
+        <h2>Contents</h2>
+
+        <ol>
+          <li>
+            <a href="#openbsd-image-download">Prebuilt download</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-image-scope">Scope and preparation</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-image-source">Download and mount the official
+            image</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-image-target">Create and format the target
+            image</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-image-content">Copy the installer, boot files,
+            and firmware</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-image-verify">Unmount and verify the image</a>
+          </li>
+
+          <li>
+            <a href="#openbsd-image-usb">Write it to a USB drive</a>
+          </li>
+        </ol>
+      </nav>
+
+      <section>
+        <h2 id="openbsd-image-download">Prebuilt Download</h2>
+
+        <p>As an alternative to rebuilding the image manually, <a href=
+        "./../files/install79-fat32.img" download=
+        "install79-fat32.img"><code>install79-fat32.img</code></a> is
+        available. It is a custom, unofficial modification of OpenBSD amd64
+        <code>installNN.img</code> installation image, not an independent
+        OpenBSD distribution or build. Update the filename and checksum
+        together when publishing a new release.</p>
+
+        <table>
+          <caption>
+            Prebuilt image details
+          </caption>
+
+          <tbody>
+            <tr>
+              <th scope="row">Name</th>
+              <td><code>install79-fat32.img</code>
+              </td>
+            </tr>
+
+            <tr>
+              <th scope="row">Platform and architecture</th>
+              <td>OpenBSD, <code>amd64</code></td>
+            </tr>
+
+            <tr>
+              <th scope="row">Partitioning</th>
+              <td>MBR, following the official installation image</td>
+            </tr>
+
+            <tr>
+              <th scope="row">ESP</th>
+              <td>260 MiB FAT32</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Base content</th>
+              <td>Derived from the official <code>installNN.img</code>
+              image</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Additional firmware</th>
+              <td>None</td>
+            </tr>
+
+            <tr>
+              <th scope="row">SHA256</th>
+              <td>
+              <code>8521010252d97d2d4fe3becc47c58363640c74bff5fcea4b5267fed10f9f6f7f</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>The prebuilt image does not include any additional firmware. No
+        proprietary Wi-Fi firmware or other externally distributed firmware has
+        been bundled with it, to avoid potential licensing or redistribution
+        restrictions. Users who require firmware should add it themselves with
+        OpenBSD's official mechanisms, such as <code>fw_update</code>.</p>
+      </section>
+
+      <section>
+        <h2 id="openbsd-image-scope">Scope and Preparation</h2>
+
+        <p>Run the whole procedure as <code>root</code>. It starts with the
+        official <code>installNN.img</code> and copies its contents to a larger
+        image; it neither rebuilds OpenBSD nor changes the <code>bsd.rd</code>
+        ramdisk. The result retains Legacy BIOS and UEFI boot support.</p>
+
+        <p>Before reusing mount points, leave them and inspect active mounts
+        and <code>vnd</code> devices:</p>
+
+        <pre><code>cd /
+mount | grep '/mnt/'
+vnconfig -l</code></pre>
+        <p>Unmount only resources from a prior attempt and detach only its
+        <code>vnd</code> devices:</p>
+
+        <pre><code>umount /mnt/dst-efi 2&gt;/dev/null || :
+umount /mnt/dst 2&gt;/dev/null || :
+umount /mnt/src-efi 2&gt;/dev/null || :
+umount /mnt/src 2&gt;/dev/null || :
+vnconfig -u vnd1 2&gt;/dev/null || :
+vnconfig -u vnd0 2&gt;/dev/null || :</code></pre>
+        <p>The last two commands are only examples; do not detach other
+        <code>vnd</code> devices. Create the working directory and mount
+        points, and make sure <code>/home</code> has several GiB free for both
+        the official and custom images:</p>
+
+        <pre><code>mkdir -p /home/openbsd-custom
+cd /home/openbsd-custom
+df -h /home
+mkdir -p /mnt/src /mnt/src-efi /mnt/dst /mnt/dst-efi</code></pre>
+        <p>The proposed layout uses 260 MiB for the FAT32 ESP and 1,536 MiB for
+        FFS, for 1,796 MiB total. At 512-byte sectors, that is 532480 sectors
+        for the ESP, 3145728 for FFS, and 3678208 in total.</p>
+      </section>
+
+      <section>
+        <h2 id="openbsd-image-source">Download and Mount the Official
+        Image</h2>
+
+        <p>Before running the commands, set the release in both its published
+        and dotless forms. When OpenBSD is updated, change these values and
+        keep the rest of the procedure:</p>
+
+        <pre><code>VERSION=7.9
+VERSION_NUMBER=79
+ARCH=amd64
+IMAGE="install${VERSION_NUMBER}.img"
+CUSTOM_IMAGE="install${VERSION_NUMBER}-fat32.img"</code></pre>
+        <p>Download the amd64 image, checksum, and signature. Verify the
+        SHA-256 checksum first, then the signature:</p>
+
+        <pre><code>ftp https://cdn.openbsd.org/pub/OpenBSD/${VERSION}/${ARCH}/${IMAGE}
+ftp https://cdn.openbsd.org/pub/OpenBSD/${VERSION}/${ARCH}/SHA256
+ftp https://cdn.openbsd.org/pub/OpenBSD/${VERSION}/${ARCH}/SHA256.sig
+sha256 -C SHA256 "$IMAGE"
+signify -Cp "/etc/signify/openbsd-${VERSION_NUMBER}-base.pub" \
+    -x SHA256.sig "$IMAGE"</code></pre>
+        <p>The checksum must report <code>${IMAGE}: OK</code>, and the
+        signature verification must include <code>Signature Verified</code>.
+        Attach the image; <code>vnconfig</code> selects a free <code>vnd</code>
+        device and writes its name to standard output:</p>
+
+        <pre><code>SRCVND=$(vnconfig "/home/openbsd-custom/${IMAGE}")
+echo "$SRCVND"
+fdisk "$SRCVND"
+disklabel "$SRCVND"
+mount -o ro "/dev/${SRCVND}a" /mnt/src
+mount -t msdos -o ro "/dev/${SRCVND}i" /mnt/src-efi
+df -h /mnt/src /mnt/src-efi
+ls -la /mnt/src
+ls -la /mnt/src-efi/efi/boot
+du -sh /mnt/src</code></pre>
+        <p>The original ESP must contain <code>BOOTIA32.EFI</code> and
+        <code>BOOTX64.EFI</code>. The official image allocates roughly 800 MiB
+        for FFS and is tightly packed; the target image leaves more space for
+        the sets and firmware.</p>
+      </section>
+
+      <section>
+        <h2 id="openbsd-image-target">Create and Format the Target Image</h2>
+
+        <p>Remove only a failed custom image and create the new 1,796 MiB
+        image. Attach it and record the assigned device:</p>
+
+        <pre><code>cd /home/openbsd-custom
+rm -f "$CUSTOM_IMAGE"
+dd if=/dev/zero of="$CUSTOM_IMAGE" bs=1m count=1796
+ls -lh "$IMAGE" "$CUSTOM_IMAGE"
+DSTVND=$(vnconfig "/home/openbsd-custom/${CUSTOM_IMAGE}")
+echo "$DSTVND"
+vnconfig -l</code></pre>
+        <p>Create the MBR with an <code>EF</code> EFI partition and an
+        <code>A6</code> OpenBSD partition. This follows the official USB image
+        layout with larger sizes:</p>
+
+        <pre><code>fdisk -yi \
+    -l 3145728 \
+    -b 532480 \
+    -f /usr/mdec/mbr \
+    "$DSTVND"
+fdisk "$DSTVND"
+echo '/ *' | disklabel -wAT- "$DSTVND"
+disklabel "$DSTVND"</code></pre>
+        <p>Before continuing, confirm that <code>EF</code> has 532480 sectors
+        and <code>A6</code> has about 3145728. The disklabel must include
+        <code>a</code> as <code>4.2BSD</code>, <code>c</code> as
+        <code>unused</code>, and <code>i</code> as <code>MSDOS</code>.</p>
+
+        <p>Explicitly format the ESP as FAT32 and create FFS1. Do not use
+        <code>-c</code>: it controls fragments per cylinder group, not
+        filesystem size; <code>newfs</code> takes the size from partition
+        <code>a</code>.</p>
+
+        <pre><code>newfs_msdos -F 32 "/dev/r${DSTVND}i"
+newfs -O 1 -m 0 -o space -i 524288 "/dev/r${DSTVND}a"
+mount "/dev/${DSTVND}a" /mnt/dst
+mount -t msdos "/dev/${DSTVND}i" /mnt/dst-efi
+df -h /mnt/src /mnt/dst /mnt/dst-efi
+df -i /mnt/src /mnt/dst</code></pre>
+        <p><code>/mnt/dst</code> must show about 1.5 GiB. If it shows about 800
+        MiB, stop and review the partition table before copying data.</p>
+      </section>
+
+      <section>
+        <h2 id="openbsd-image-content">Copy the Installer, Boot Files, and
+        Firmware</h2>
+
+        <p>Copy the installer tree while preserving permissions and other
+        attributes. The copy should no longer end with <code>No space left on
+        device</code>:</p>
+
+        <pre><code>cd /mnt/src
+pax -rw -pe . /mnt/dst
+cd /
+df -h /mnt/dst
+ls -lah /mnt/dst
+ls -lh "/mnt/dst/${VERSION}/${ARCH}/"</code></pre>
+        <p>The sets directory must contain the sets for the selected release,
+        along with <code>bsd</code>, <code>bsd.mp</code>, and
+        <code>bsd.rd</code>. Also copy the EFI bootloaders and reinstall BIOS
+        boot support; run the non-writing mode first:</p>
+
+        <pre><code>mkdir -p /mnt/dst-efi/efi/boot
+cp -p /mnt/src-efi/efi/boot/* /mnt/dst-efi/efi/boot/
+ls -lah /mnt/dst-efi/efi/boot/
+installboot -nv -r /mnt/dst "$DSTVND" \
+    /usr/mdec/biosboot /mnt/dst/boot
+installboot -v -r /mnt/dst "$DSTVND" \
+    /usr/mdec/biosboot /mnt/dst/boot</code></pre>
+        <p>Add firmware for the installed system if required. Firmware does not
+        make Wi-Fi work inside <code>bsd.rd</code> during installation; that
+        would require modifying its ramdisk, which is a separate procedure.</p>
+
+        <pre><code>cd /mnt/dst
+fw_update -Fv iwx
+fw_update -Fv iwm
+cd /
+fw_update -Fln iwx
+find /mnt/dst -maxdepth 2 -type f -name '*firmware*.tgz' -o \
+    -name '*firmware*.tgz.sig'</code></pre>
+        <p><code>fw_update -F</code> downloads firmware and its signatures to
+        the current directory. Use one or several drivers according to the
+        destination hardware.</p>
+      </section>
+
+      <section>
+        <h2 id="openbsd-image-verify">Unmount and Verify the Image</h2>
+
+        <p>Synchronize data and unmount the ESP before FFS, for both the target
+        and source. Detach both <code>vnd</code> devices as well:</p>
+
+        <pre><code>cd /
+sync
+umount /mnt/dst-efi
+umount /mnt/dst
+umount /mnt/src-efi
+umount /mnt/src
+mount | grep '/mnt/'
+vnconfig -u "$DSTVND"
+vnconfig -u "$SRCVND"
+vnconfig -l</code></pre>
+        <p>Attach the final image again from scratch. Filesystem checks must
+        not report errors that require repair:</p>
+
+        <pre><code>cd /home/openbsd-custom
+VERIFYVND=$(vnconfig "$CUSTOM_IMAGE")
+echo "$VERIFYVND"
+fdisk "$VERIFYVND"
+disklabel "$VERIFYVND"
+fsck_msdos -n "/dev/r${VERIFYVND}i"
+fsck_ffs -n "/dev/r${VERIFYVND}a"
+mount -t msdos -o ro "/dev/${VERIFYVND}i" /mnt
+df -h /mnt
+ls -lah /mnt/efi/boot
+umount /mnt
+mount -o ro "/dev/${VERIFYVND}a" /mnt
+ls -lah /mnt
+ls -lh /mnt/bsd.rd
+ls -lh "/mnt/${VERSION}/${ARCH}/"
+umount /mnt
+vnconfig -u "$VERIFYVND"
+vnconfig -l
+mount | grep '/mnt/'</code></pre>
+        <p>The finished image is
+        <code>/home/openbsd-custom/${CUSTOM_IMAGE}</code>. It contains an MBR,
+        a FAT32 ESP with <code>EFI/BOOT/BOOTX64.EFI</code> and
+        <code>BOOTIA32.EFI</code>, and an FFS1 partition with the installer,
+        <code>boot</code>, <code>bsd</code>, <code>bsd.rd</code>, the sets,
+        and, if added, firmware files.</p>
+      </section>
+
+      <section>
+        <h2 id="openbsd-image-usb">Write It to a USB Drive</h2>
+
+        <p>Identify the USB drive unambiguously before writing. For example, if
+        <code>sd2</code> is truly the correct device:</p>
+
+        <pre><code>sysctl hw.disknames
+disklabel sd2
+dd if="/home/openbsd-custom/${CUSTOM_IMAGE}" \
+    of=/dev/rsd2c bs=1m
+sync</code></pre>
+        <p>Do not use <code>/dev/rsd2c</code> without verifying the disk:
+        <code>dd</code> writes directly over the destination device.</p>
+      </section>
+    </article>
+  </main>
+
+  <footer id="site-footer">
+    <p>&copy; 2024-2026 David Uhden Collado. All rights reserved.</p>
+
+    <p><strong><a href="./../license.html">LICENSE</a></strong>
+    </p>
+
+    <p class="motto">VIVE ET SINE ALIOS VIVERE</p>
+  </footer>
+</body>
+</html>
