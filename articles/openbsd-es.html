@@ -58,7 +58,7 @@
         <h1>OpenBSD: seguridad mediante simplicidad y diseño de sistemas</h1>
 
         <p class="meta">Por David Uhden Collado - Actualizado <time datetime=
-        "2026-08-16">16 de agosto de 2026</time></p>
+        "2026-08-28">28 de agosto de 2026</time></p>
 
         <p class="lede">OpenBSD trata la seguridad como una propiedad del
         sistema mediante una configuración mínima por defecto, auditoría
@@ -427,6 +427,29 @@
           herramientas de acceso remoto, ampliamente desplegado, y lo empleó
           para introducir la separación de privilegios. Los ports de OpenSSH
           trasladan esa ingeniería del sistema base a otras plataformas.</li>
+
+          <li><strong><a href="https://www.openbgpd.org/">OpenBGPD</a> y
+          <a href="https://www.rpki-client.org/">rpki-client</a>:</strong>
+          OpenBGPD implementa BGP, el protocolo mediante el que los sistemas
+          autónomos y las grandes redes intercambian información de
+          encaminamiento. Por ejemplo, un proveedor de acceso puede saber qué
+          redes son alcanzables a través de sus pares y proveedores de tránsito
+          y anunciar los prefijos a los que puede llegar. rpki-client
+          implementa la parte de relying party de RPKI: descarga y valida
+          criptográficamente datos RPKI, permitiendo que software de
+          encaminamiento como OpenBGPD lleve a cabo la validación del origen de
+          rutas (Route Origin Validation). A partir de los ROA disponibles,
+          puede clasificar el origen de un anuncio como Valid, Invalid o
+          NotFound. Estas herramientas ayudan a los operadores a detectar
+          anuncios de origen erróneos, errores de configuración y algunos
+          secuestros de rutas. La validación de origen no valida
+          criptográficamente todo el recorrido de sistemas autónomos ni vuelve
+          seguro BGP de forma universal. OpenBGPD y rpki-client no son las
+          únicas implementaciones de BGP y RPKI, pero constituyen una
+          contribución relevante de OpenBSD a un encaminamiento de Internet más
+          fiable y seguro; los desarrolladores de OpenBSD también participan en
+          el desarrollo y la implementación de estándares abiertos
+          pertinentes.</li>
         </ul>
       </section>
 

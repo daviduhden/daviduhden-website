@@ -4,8 +4,15 @@
     <title>David Uhden Collado's Blog</title>
     <link>/blog.html</link>
     <description>Latest articles and updates from David Uhden Collado's blog.</description>
-    <lastBuildDate>Thu, 27 Aug 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 28 Aug 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="/feeds/blog.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>OpenBSD: Security Through Simplicity and System Design</title>
+      <link>/articles/openbsd.html</link>
+      <description>OpenBSD treats security as a system property through minimal defaults, proactive auditing, layered mitigations, and focused base-system implementations.</description>
+      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">/articles/openbsd.html</guid>
+    </item>
     <item>
       <title>Create an OpenBSD Installation Image with a FAT32 ESP and Firmware</title>
       <link>/articles/openbsd-install-fat32.html</link>
@@ -26,13 +33,6 @@
       <description>GNU</description>
       <pubDate>Sun, 16 Aug 2026 00:00:00 GMT</pubDate>
       <guid isPermaLink="false">/articles/ryf-fsdg.html</guid>
-    </item>
-    <item>
-      <title>OpenBSD: Security Through Simplicity and System Design</title>
-      <link>/articles/openbsd.html</link>
-      <description>OpenBSD treats security as a system property through minimal defaults, proactive auditing, layered mitigations, and focused base-system implementations.</description>
-      <pubDate>Sun, 16 Aug 2026 00:00:00 GMT</pubDate>
-      <guid isPermaLink="false">/articles/openbsd.html</guid>
     </item>
     <item>
       <title>Reinventing Operating Systems: Lessons from OpenBSD and Beyond</title>

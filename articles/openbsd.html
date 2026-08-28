@@ -58,7 +58,7 @@
         <h1>OpenBSD: Security Through Simplicity and System Design</h1>
 
         <p class="meta">By David Uhden Collado - Updated <time datetime=
-        "2026-08-16">August 16, 2026</time></p>
+        "2026-08-28">August 28, 2026</time></p>
 
         <p class="lede">OpenBSD treats security as a system property through
         minimal defaults, proactive auditing, layered mitigations, and focused
@@ -399,6 +399,25 @@
           remote-access suite and used it to introduce privilege separation.
           Ports of OpenSSH carry that base-system engineering to other
           platforms.</li>
+
+          <li><strong><a href="https://www.openbgpd.org/">OpenBGPD</a> and
+          <a href="https://www.rpki-client.org/">rpki-client</a>:</strong>
+          OpenBGPD implements BGP, the protocol through which autonomous
+          systems and large networks exchange routing information. An ISP, for
+          example, can learn which networks are reachable through its peers and
+          upstream providers while advertising the prefixes it can reach.
+          rpki-client is an RPKI relying-party implementation: it downloads and
+          cryptographically validates RPKI data, allowing routing software such
+          as OpenBGPD to perform Route Origin Validation. With the available
+          ROAs, an announcement's origin can then be classified as Valid,
+          Invalid, or NotFound. These tools help operators detect erroneous
+          origin announcements, configuration mistakes, and some route hijacks.
+          Origin validation does not cryptographically validate the complete AS
+          path or make BGP universally secure. OpenBGPD and rpki-client are not
+          the only BGP and RPKI implementations, but they are a substantial
+          OpenBSD contribution to more reliable, secure Internet routing;
+          OpenBSD developers also participate in developing and implementing
+          relevant open standards.</li>
         </ul>
       </section>
 

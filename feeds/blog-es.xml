@@ -4,8 +4,15 @@
     <title>Blog de David Uhden Collado</title>
     <link>/blog-es.html</link>
     <description>Últimos artículos y actualizaciones del blog de David Uhden Collado.</description>
-    <lastBuildDate>Thu, 27 Aug 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 28 Aug 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="/feeds/blog-es.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>OpenBSD: seguridad mediante simplicidad y diseño de sistemas</title>
+      <link>/articles/openbsd-es.html</link>
+      <description>OpenBSD trata la seguridad como una propiedad del sistema mediante una configuración mínima por defecto, auditoría proactiva, mitigaciones por capas e implementaciones específicas.</description>
+      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">/articles/openbsd-es.html</guid>
+    </item>
     <item>
       <title>Crear una imagen de instalación de OpenBSD con ESP FAT32 y firmware</title>
       <link>/articles/openbsd-install-fat32-es.html</link>
@@ -19,13 +26,6 @@
       <description>Las FSDG de GNU y el RYF de la FSF siguen siendo referencias en libertad de software, pero abordan mal el firmware, infravaloran las dependencias del hardware moderno y dejan una brecha entre cumplimiento formal y control real del usuario.</description>
       <pubDate>Sun, 16 Aug 2026 00:00:00 GMT</pubDate>
       <guid isPermaLink="false">/articles/ryf-fsdg-es.html</guid>
-    </item>
-    <item>
-      <title>OpenBSD: seguridad mediante simplicidad y diseño de sistemas</title>
-      <link>/articles/openbsd-es.html</link>
-      <description>OpenBSD trata la seguridad como una propiedad del sistema mediante una configuración mínima por defecto, auditoría proactiva, mitigaciones por capas e implementaciones específicas.</description>
-      <pubDate>Sun, 16 Aug 2026 00:00:00 GMT</pubDate>
-      <guid isPermaLink="false">/articles/openbsd-es.html</guid>
     </item>
     <item>
       <title>Reinventando los sistemas operativos: lecciones de OpenBSD y más allá</title>
