@@ -4,21 +4,21 @@
     <title>Blog de David Uhden Collado</title>
     <link>/blog-es.html</link>
     <description>Últimos artículos y actualizaciones del blog de David Uhden Collado.</description>
-    <lastBuildDate>Fri, 28 Aug 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 04 Sep 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="/feeds/blog-es.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Crear una imagen de instalación de OpenBSD con ESP FAT32 y firmware</title>
+      <link>/articles/openbsd-install-fat32-es.html</link>
+      <description>Crea una imagen personalizada de instalación de OpenBSD para amd64 con una ESP FAT32 de 260 MiB, FFS adicional y firmware opcional, sin recompilar el sistema base.</description>
+      <pubDate>Fri, 04 Sep 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">/articles/openbsd-install-fat32-es.html</guid>
+    </item>
     <item>
       <title>OpenBSD: seguridad mediante simplicidad y diseño de sistemas</title>
       <link>/articles/openbsd-es.html</link>
       <description>OpenBSD trata la seguridad como una propiedad del sistema mediante una configuración mínima por defecto, auditoría proactiva, mitigaciones por capas e implementaciones específicas.</description>
       <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
       <guid isPermaLink="false">/articles/openbsd-es.html</guid>
-    </item>
-    <item>
-      <title>Crear una imagen de instalación de OpenBSD con ESP FAT32 y firmware</title>
-      <link>/articles/openbsd-install-fat32-es.html</link>
-      <description>Crea una imagen personalizada de instalación de OpenBSD para amd64 con una ESP FAT32 de 260 MiB, FFS adicional y firmware opcional, sin recompilar el sistema base.</description>
-      <pubDate>Thu, 27 Aug 2026 00:00:00 GMT</pubDate>
-      <guid isPermaLink="false">/articles/openbsd-install-fat32-es.html</guid>
     </item>
     <item>
       <title>FSDG y RYF de GNU: libertad, firmware y realidad del hardware</title>

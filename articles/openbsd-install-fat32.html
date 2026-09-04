@@ -61,7 +61,7 @@
         Firmware</h1>
 
         <p class="meta">By David Uhden Collado - Updated <time datetime=
-        "2026-08-27">August 27, 2026</time></p>
+        "2026-09-04">September 4, 2026</time></p>
 
         <p class="lede">Build an OpenBSD amd64 installation image with a 260
         MiB FAT32 ESP, 1,536 MiB of FFS space, and optional firmware without
@@ -177,6 +177,12 @@
         official <code>installNN.img</code> and copies its contents to a larger
         image; it neither rebuilds OpenBSD nor changes the <code>bsd.rd</code>
         ramdisk. The result retains Legacy BIOS and UEFI boot support.</p>
+
+        <p>The reason for reformatting the ESP is that the official OpenBSD
+        images use FAT12 for this partition, which causes problems with some
+        UEFI firmware. In my experience, this particularly affects
+        <code>coreboot</code> and derivatives such as Libreboot and
+        MrChromebox.</p>
 
         <p>Before reusing mount points, leave them and inspect active mounts
         and <code>vnd</code> devices:</p>
