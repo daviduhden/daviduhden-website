@@ -154,7 +154,7 @@ code {
 header,
 main,
 footer {
-  width: min(var(--max-width), 100% - var(--gutter) * 2);
+  width: min(var(--max-width), 100%);
   margin: 0 auto;
 }
 
@@ -172,11 +172,12 @@ header .site-title {
   margin: 0 0 0.75em;
   font-size: clamp(1.6em, 2.5vw + 1em, 2.25em);
   line-height: 1.2;
+  font-weight: 700;
   color: var(--heading);
 }
 
 #site-header > .page-type,
-#site-header > .site-title + h1 {
+#site-header > .page-title {
   margin: 0 0 1em;
   font-size: clamp(1.05em, 1.1vw + 0.85em, 1.35em);
   font-weight: 600;
@@ -205,7 +206,7 @@ nav ul {
 
 nav a {
   display: inline-block;
-  padding: 0.45em 0.75em;
+  padding: 0.45em 0.8em;
   margin: 0 0.35em;
   border: thin solid var(--border);
   border-radius: var(--radius-pill);
@@ -351,14 +352,15 @@ main {
  * Article header spacing
  */
 article header {
-  margin-bottom: 1.25em;
+  margin-bottom: 1.1em;
+  text-align: start;
 }
 
 .kicker {
   margin: 0 0 0.35em;
   color: var(--heading);
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   font-size: 0.85em;
 }
@@ -380,6 +382,7 @@ section {
   margin-bottom: 1.5em;
 }
 
+section h1,
 section h2 {
   margin: 0 0 0.5em;
   font-size: clamp(1.25em, 1.2vw + 1em, 1.6em);
@@ -389,7 +392,7 @@ section h2 {
 
 section h3 {
   margin: 1em 0 0.45em;
-  font-size: clamp(1.08em, 0.9vw + 0.95em, 1.25em);
+  font-size: clamp(1.1em, 1vw + 0.95em, 1.35em);
   line-height: 1.3;
 }
 
@@ -507,7 +510,7 @@ pre p {
 /* List indentation: make lists visually indented from normal paragraph text */
 ul, ol {
   padding-left: 1.8em;
-  margin: 0.35em 0 0.85em;
+  margin: 0.5em 0 0.9em;
 }
 
 li + li {
@@ -683,7 +686,7 @@ code {
 /* Quotation styles */
 blockquote {
   margin: 0 0 1em;
-  padding: 0.8em 1em;
+  padding: 0.9em 1.05em;
   background: var(--panel-2);
   border-left: clamp(0.18em, 0.35vw, 0.32em) solid var(--border);
   border-radius: calc(var(--radius) * 0.35);
@@ -730,7 +733,8 @@ blockquote cite {
 
 /* Footer styling */
 footer {
-  padding: 1.25em 0 2em;
+  margin-top: 1.5em;
+  padding: 1em 0;
   text-align: center;
   color: var(--muted);
   font-size: 0.95em;
