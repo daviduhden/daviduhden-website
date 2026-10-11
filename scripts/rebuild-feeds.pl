@@ -71,7 +71,7 @@ sub read_file {
     my ($path) = @_;
     open my $fh, '<:encoding(UTF-8)', $path
       or die_tool("Could not read $path: $!");
-    local $/;
+    local $/ = undef;
     my $content = <$fh>;
     close $fh;
     return $content;
@@ -166,7 +166,7 @@ sub decode_entities {
 
 sub iso_to_epoch {
     my ($iso) = @_;
-    return undef unless defined $iso;
+    return unless defined $iso;
     if (
         $iso =~ /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})
   (Z|([+-])(\d{2}):(\d{2}))?$/x
@@ -184,7 +184,7 @@ sub iso_to_epoch {
     if ( $iso =~ /^(\d{4})-(\d{2})-(\d{2})$/ ) {
         return timegm( 0, 0, 0, $3, $2 - 1, $1 );
     }
-    return undef;
+    return;
 }
 
 sub format_pubdate {
