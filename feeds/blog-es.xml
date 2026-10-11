@@ -21,6 +21,13 @@
       <guid isPermaLink="false">/articles/openbsd-es.html</guid>
     </item>
     <item>
+      <title>La GPL: paradojas en el software libre</title>
+      <link>/articles/gpl-es.html</link>
+      <description>La GPL nació para proteger la libertad del software, pero sus cláusulas recíprocas pueden frenar la colaboración y generar fricciones con los modelos permisivos.</description>
+      <pubDate>Sun, 16 Aug 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="false">/articles/gpl-es.html</guid>
+    </item>
+    <item>
       <title>FSDG y RYF de GNU: libertad, firmware y realidad del hardware</title>
       <link>/articles/ryf-fsdg-es.html</link>
       <description>Las FSDG de GNU y el RYF de la FSF siguen siendo referencias en libertad de software, pero abordan mal el firmware, infravaloran las dependencias del hardware moderno y dejan una brecha entre cumplimiento formal y control real del usuario.</description>
@@ -40,13 +47,6 @@
       <description>La filosofía UNIX no es solo «programas pequeños»; su fuerza está en la composabilidad y en la integración deliberada, no en una analogía simplista con microservicios.</description>
       <pubDate>Sun, 16 Aug 2026 00:00:00 GMT</pubDate>
       <guid isPermaLink="false">/articles/unix-es.html</guid>
-    </item>
-    <item>
-      <title>La GPL: paradojas en el software libre</title>
-      <link>/articles/gpl-es.html</link>
-      <description>La GPL nació para proteger la libertad del software, pero sus cláusulas recíprocas pueden frenar la colaboración y generar fricciones con los modelos permisivos.</description>
-      <pubDate>Sun, 16 Aug 2026 00:00:00 GMT</pubDate>
-      <guid isPermaLink="false">/articles/gpl-es.html</guid>
     </item>
   </channel>
 </rss>

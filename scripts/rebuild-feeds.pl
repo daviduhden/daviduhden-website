@@ -35,10 +35,11 @@ use warnings;
 use utf8;
 
 use Cwd            qw(abs_path);
-use File::Basename qw(basename);
+use File::Basename qw(basename dirname);
 use File::Find;
 use File::Spec;
-use POSIX       qw(strftime);
+use File::Temp   qw(tempfile);
+use Getopt::Long qw(GetOptions);
 use Time::Local qw(timegm);
 
 my $script_dir   = ( File::Spec->splitpath($0) )[1];
@@ -51,6 +52,14 @@ $root_dir = $abs_root
   if defined $abs_root && length $abs_root;
 $feeds_dir    = File::Spec->catdir( $root_dir, 'feeds' );
 $articles_dir = File::Spec->catdir( $root_dir, 'articles' );
+
+# Optional deployment base URL. When empty (the default) links stay
+# root-relative so a single feed works on every mirror (HTTPS, Tor,
+# I2P). GUIDs always stay relative and therefore stable.
+my $base_url = '';
+GetOptions( 'base-url=s' => \$base_url )
+  or die "Usage: $0 [--base-url https://example.org]\n";
+$base_url =~ s{/+$}{} if length $base_url;
 
 binmode STDOUT, ':encoding(UTF-8)';
 binmode STDERR, ':encoding(UTF-8)';
@@ -70,10 +79,45 @@ sub read_file {
 
 sub write_file {
     my ( $path, $content ) = @_;
-    open my $fh, '>:encoding(UTF-8)', $path
-      or die_tool("Could not write $path: $!");
-    print {$fh} $content;
-    close $fh;
+
+    # Atomic, same-directory replacement: readers only ever observe the
+    # old or the new file, never a partial write.
+    my $dir  = dirname($path);
+    my $mode;
+    if ( -e $path ) {
+        $mode = ( stat($path) )[2] & 07777;
+    }
+    else {
+        my $mask = umask;
+        umask $mask;
+        $mode = 0666 & ~$mask;
+    }
+
+    my ( $fh, $tmp ) = tempfile( '.tmp-XXXXXX', DIR => $dir, UNLINK => 0 );
+    binmode $fh, ':encoding(UTF-8)';
+
+    if ( !print {$fh} $content ) {
+        my $err = $!;
+        close $fh;
+        unlink $tmp;
+        die_tool("Could not write $path: $err");
+    }
+    if ( !close $fh ) {
+        my $err = $!;
+        unlink $tmp;
+        die_tool("Could not close $path: $err");
+    }
+    if ( defined $mode && !chmod $mode, $tmp ) {
+        my $err = $!;
+        unlink $tmp;
+        die_tool("Could not set permissions on $path: $err");
+    }
+    if ( !rename $tmp, $path ) {
+        my $err = $!;
+        unlink $tmp;
+        die_tool("Could not replace $path: $err");
+    }
+    return 1;
 }
 
 sub xml_escape {
@@ -85,15 +129,38 @@ sub xml_escape {
     return $text;
 }
 
-sub decode_html_quotes {
+sub decode_entities {
     my ($text) = @_;
     return '' unless defined $text;
-    $text =~ s/&quot;/"/gi;
-    $text =~ s/&#0*34;/"/g;
-    $text =~ s/&#x0*22;/"/gi;
-    $text =~ s/&apos;/'/gi;
-    $text =~ s/&#0*39;/'/g;
-    $text =~ s/&#x0*27;/'/gi;
+
+    # Decode the common named entities plus numeric references so that
+    # HTML-sourced text can be safely re-encoded as XML without double
+    # encoding. Unknown entities are left untouched.
+    my %named = (
+        amp  => '&',
+        lt   => '<',
+        gt   => '>',
+        quot => '"',
+        apos => "'",
+        nbsp => "\x{a0}",
+    );
+
+    $text =~ s{&(\#[0-9]+|\#[xX][0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]*);}{
+        my $e = $1;
+        if ( $e =~ /^\#([0-9]+)$/ ) {
+            $1 <= 0x10FFFF ? chr($1) : "&$e;";
+        }
+        elsif ( $e =~ /^\#[xX]([0-9A-Fa-f]+)$/ ) {
+            hex($1) <= 0x10FFFF ? chr( hex $1 ) : "&$e;";
+        }
+        elsif ( exists $named{$e} ) {
+            $named{$e};
+        }
+        else {
+            "&$e;";
+        }
+    }ge;
+
     return $text;
 }
 
@@ -188,6 +255,7 @@ sub extract_metadata {
     $title =~ s/<[^>]+>//g;
     $title =~ s/\s+/ /g;
     $title =~ s/^\s+|\s+$//g;
+    $title = decode_entities($title);
 
     my ($desc) = $html =~ /<meta[^>]*\bname\s*=\s*["']
        description["'][^>]*\bcontent
@@ -204,10 +272,10 @@ sub extract_metadata {
         ($desc) = $content_scope =~ /<p[^>]*>\s*(.*?)\s*<\/p>/is;
         $desc //= '';
     }
-    $desc = decode_html_quotes($desc);
     $desc =~ s/<[^>]+>//g;
     $desc =~ s/\s+/ /g;
     $desc =~ s/^\s+|\s+$//g;
+    $desc = decode_entities($desc);
 
     my ($iso) = $html =~ /<time[^>]*\sdatetime\s*=\s*"([^"]+)"/i;
     $iso //= ( $html =~ /<time[^>]*\sdatetime\s*=\s*'([^']+)'/i )[0];
@@ -247,8 +315,17 @@ sub collect_articles {
     );
 
     @rows =
-      sort { $b->{epoch} <=> $a->{epoch} } @rows;
+      sort { $b->{epoch} <=> $a->{epoch} || $a->{slug} cmp $b->{slug} } @rows;
     return \@rows;
+}
+
+sub abs_url {
+    my ($path) = @_;
+    return $path if !length $base_url;
+    return $path if $path =~ m{^[a-z][a-z0-9+.-]*://}i;
+    return "$base_url/" if $path eq '/';
+    return $path if $path !~ m{^/};
+    return "$base_url$path";
 }
 
 sub rebuild_feed_file {
@@ -259,28 +336,31 @@ sub rebuild_feed_file {
     $channel_title //= 'RSS Feed';
     my ($channel_link) = $xml =~ m{<link>(.*?)</link>}s;
     $channel_link = normalize_root_relative($channel_link);
+    $channel_link = abs_url($channel_link);
     my ($channel_desc) = $xml =~ m{<description>(.*?)</description>}s;
     $channel_desc //= '';
     my $feed_name = basename($feed_path);
-    my $feed_self = "/feeds/$feed_name";
+    my $feed_self = abs_url("/feeds/$feed_name");
 
     my $items = '';
     for my $r (@$rows) {
         next if $r->{lang} ne $lang;
-        my $pub = format_pubdate( $r->{epoch} );
+        my $pub     = format_pubdate( $r->{epoch} );
+        my $rel_url = "/articles/$r->{slug}.html";
+        my $link    = abs_url($rel_url);
         $items .= join '',
           "    <item>\n",
           "      <title>",
           xml_escape( $r->{title} ),
           "</title>\n",
-          "      <link>/articles/" . "$r->{slug}.html</link>\n",
+          "      <link>$link</link>\n",
           "      <description>",
           xml_escape( $r->{desc} ),
           "</description>\n",
           "      <pubDate>$pub</pubDate>\n",
           "      <guid"
           . " isPermaLink=\"false\">"
-          . "/articles/$r->{slug}.html"
+          . "$rel_url"
           . "</guid>\n",
           "    </item>\n";
     }

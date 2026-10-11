@@ -74,6 +74,7 @@
  * Helps keep text sizing consistent across platforms.
  */
 html {
+  -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   font-size: clamp(16px, 0.3vw + 15px, 18px);
 }
@@ -136,15 +137,6 @@ code, pre, kbd, samp {
   overflow-wrap: normal;
   word-break: normal;
   hyphens: none;
-}
-
-pre {
-  white-space: pre;
-  overflow-x: auto;
-}
-
-code {
-  white-space: pre-wrap;
 }
 
 /*
@@ -417,6 +409,9 @@ table {
   border: thin solid var(--border);
   border-radius: var(--radius-soft);
   overflow: hidden;
+  overflow-x: auto;
+  display: block;
+  white-space: nowrap;
 }
 
 caption {
@@ -453,18 +448,13 @@ th, td {
   vertical-align: top;
 }
 
-table {
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
 pre {
   background: var(--panel-2);
   border: thin solid var(--border);
   border-radius: calc(var(--radius-soft, 0.66em) * 0.9);
   padding: 1em;
   overflow-x: auto;
+  white-space: pre;
   font-family:
     ui-monospace,
     SFMono-Regular,

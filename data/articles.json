@@ -11,6 +11,18 @@
     "title_en": "OpenBSD: Security Through Simplicity and System Design",
     "title_es": "OpenBSD: seguridad mediante simplicidad y diseño de sistemas"
   },
+  "openbsd-install-fat32": {
+    "en": "openbsd-install-fat32.html",
+    "es": "openbsd-install-fat32-es.html",
+    "title_en": "Create an OpenBSD Installation Image with a FAT32 ESP and Firmware",
+    "title_es": "Crear una imagen de instalación de OpenBSD con ESP FAT32 y firmware"
+  },
+  "ryf-fsdg": {
+    "en": "ryf-fsdg.html",
+    "es": "ryf-fsdg-es.html",
+    "title_en": "GNU FSDG and RYF: Freedom, Firmware, and Hardware Reality",
+    "title_es": "FSDG y RYF de GNU: libertad, firmware y realidad del hardware"
+  },
   "unix": {
     "en": "unix.html",
     "es": "unix-es.html",
