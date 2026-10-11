@@ -12,12 +12,13 @@ use TestSite qw(fixture slurp);
 use File::Spec;
 
 sub article {
-    my (%a) = @_;
+    my (%a)   = @_;
     my $lang  = $a{lang}  // 'en';
     my $time  = $a{time}  // '2026-01-02';
     my $title = $a{title} // 'Title';
     my $desc  = $a{desc}  // 'Description';
-    return "<!DOCTYPE html>\n<html lang=\"$lang\">\n<head>\n"
+    return
+        "<!DOCTYPE html>\n<html lang=\"$lang\">\n<head>\n"
       . "<meta charset=\"utf-8\">\n"
       . "<meta name=\"description\" content=\"$desc\">\n"
       . "</head>\n<body>\n<article>\n"
@@ -27,7 +28,7 @@ sub article {
 }
 
 sub feed {
-    my (%a) = @_;
+    my (%a)   = @_;
     my $self  = $a{self}  // '/feeds/blog.xml';
     my $title = $a{title} // 'Test Blog';
     return <<"XML";
@@ -94,7 +95,7 @@ sub item_slugs {
 # --- escaping / entities --------------------------------------------
 {
     my $dir = fixture(
-        'feeds/blog.xml' => feed(),
+        'feeds/blog.xml'  => feed(),
         'articles/x.html' => article(
             title => 'A & B',
             desc  => 'd &amp; d &lt;e&gt;'
@@ -105,8 +106,11 @@ sub item_slugs {
     my $xml = slurp("$d/feeds/blog.xml");
     like( $xml, qr{<title>A &amp; B</title>}, 'escaped once' );
     unlike( $xml, qr{&amp;amp;}, 'no double encoding' );
-    like( $xml, qr{<description>d &amp; d &lt;e&gt;</description>},
-        'entities decoded then re-escaped' );
+    like(
+        $xml,
+        qr{<description>d &amp; d &lt;e&gt;</description>},
+        'entities decoded then re-escaped'
+    );
 }
 
 # --- channel entity preservation ------------------------------------
@@ -167,21 +171,21 @@ sub item_slugs {
 # --- UTF-8 ----------------------------------------------------------
 {
     my $dir = fixture(
-        'feeds/blog.xml' => feed(),
+        'feeds/blog.xml'  => feed(),
         'articles/u.html' => article( title => "Caf\x{e9} \x{263A}" ),
     );
     my ( $r, $d ) = run_rebuild($dir);
     is( $r->{status}, 0, 'rebuild succeeds with UTF-8' );
     my $raw = slurp("$d/feeds/blog.xml");
-    like( $raw, qr/Caf\xc3\xa9/, 'é encoded as UTF-8' );
+    like( $raw, qr/Caf\xc3\xa9/,  'é encoded as UTF-8' );
     like( $raw, qr/\xe2\x98\xba/, '☺ encoded as UTF-8' );
 }
 
 # --- missing feed is an error ---------------------------------------
 {
-    my $dir = fixture( 'articles/a.html' => article() );
+    my $dir    = fixture( 'articles/a.html' => article() );
     my $script = File::Spec->catfile( $dir, 'scripts', 'rebuild-feeds.pl' );
-    my $r = TestSite::run( $^X, $script );
+    my $r      = TestSite::run( $^X, $script );
     isnt( $r->{status}, 0, 'missing feed fails' );
     like( $r->{stderr}, qr/No supported feed files found/, 'clear error' );
 }
@@ -195,14 +199,26 @@ sub item_slugs {
     my ( $r, $d ) = run_rebuild( $dir, '--base-url', 'https://example.org' );
     is( $r->{status}, 0, 'base-url run succeeds' );
     my $xml = slurp("$d/feeds/blog.xml");
-    like( $xml, qr{<link>https://example\.org/articles/a\.html</link>},
-        'item link made absolute' );
-    like( $xml, qr{<link>https://example\.org/blog\.html</link>},
-        'channel link made absolute' );
-    like( $xml, qr{<atom:link href="https://example\.org/feeds/blog\.xml"},
-        'atom self link made absolute' );
-    like( $xml, qr{<guid isPermaLink="false">/articles/a\.html</guid>},
-        'guid stays root-relative and stable' );
+    like(
+        $xml,
+        qr{<link>https://example\.org/articles/a\.html</link>},
+        'item link made absolute'
+    );
+    like(
+        $xml,
+        qr{<link>https://example\.org/blog\.html</link>},
+        'channel link made absolute'
+    );
+    like(
+        $xml,
+        qr{<atom:link href="https://example\.org/feeds/blog\.xml"},
+        'atom self link made absolute'
+    );
+    like(
+        $xml,
+        qr{<guid isPermaLink="false">/articles/a\.html</guid>},
+        'guid stays root-relative and stable'
+    );
 }
 
 done_testing();

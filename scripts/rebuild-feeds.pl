@@ -40,7 +40,7 @@ use File::Find;
 use File::Spec;
 use File::Temp   qw(tempfile);
 use Getopt::Long qw(GetOptions);
-use Time::Local qw(timegm);
+use Time::Local  qw(timegm);
 
 my $script_dir   = ( File::Spec->splitpath($0) )[1];
 my $root_dir     = File::Spec->catdir( $script_dir, '..' );
@@ -82,7 +82,7 @@ sub write_file {
 
     # Atomic, same-directory replacement: readers only ever observe the
     # old or the new file, never a partial write.
-    my $dir  = dirname($path);
+    my $dir = dirname($path);
     my $mode;
     if ( -e $path ) {
         $mode = ( stat($path) )[2] & 07777;
@@ -321,10 +321,10 @@ sub collect_articles {
 
 sub abs_url {
     my ($path) = @_;
-    return $path if !length $base_url;
-    return $path if $path =~ m{^[a-z][a-z0-9+.-]*://}i;
+    return $path        if !length $base_url;
+    return $path        if $path =~ m{^[a-z][a-z0-9+.-]*://}i;
     return "$base_url/" if $path eq '/';
-    return $path if $path !~ m{^/};
+    return $path        if $path !~ m{^/};
     return "$base_url$path";
 }
 
@@ -358,10 +358,7 @@ sub rebuild_feed_file {
           xml_escape( $r->{desc} ),
           "</description>\n",
           "      <pubDate>$pub</pubDate>\n",
-          "      <guid"
-          . " isPermaLink=\"false\">"
-          . "$rel_url"
-          . "</guid>\n",
+          "      <guid" . " isPermaLink=\"false\">" . "$rel_url" . "</guid>\n",
           "    </item>\n";
     }
 
