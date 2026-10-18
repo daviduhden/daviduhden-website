@@ -33,7 +33,9 @@ use File::Temp qw(tempfile);
 
 my $script_dir = ( File::Spec->splitpath($0) )[1];
 my $root_dir   = abs_path( File::Spec->catdir( $script_dir, '..' ) );
-my $site_url   = 'https://uhden.dev';
+defined $root_dir
+  or die "ERROR: could not resolve repository root\n";
+my $site_url = 'https://uhden.dev';
 
 sub write_file_atomic {
     my ( $path, $content ) = @_;
@@ -49,11 +51,11 @@ sub write_file_atomic {
     }
 
     my ( $fh, $tmp ) = tempfile( '.tmp-XXXXXX', DIR => $dir, UNLINK => 0 );
-    binmode $fh, ':encoding(UTF-8)';
+    binmode $fh, ':encoding(UTF-8)'
+      or die "Could not set encoding on $tmp: $!\n";
 
     if ( !print {$fh} $content ) {
         my $err = $!;
-        close $fh;
         unlink $tmp;
         die "Could not write $path: $err\n";
     }
@@ -100,8 +102,8 @@ find(
     {
         no_chdir => 1,
         wanted   => sub {
-            return unless -f $_ && /\.html$/i;
             my $path = $File::Find::name;
+            return unless -f $path && $path =~ /\.html$/i;
             return if $path =~ m{/(?:archive|templates)/};
             push @pages, sitemap_url($path);
         },

@@ -73,6 +73,40 @@ sub report_of {
     like( report_of($r), qr/^broken \|/m,   'report marks it broken' );
 }
 
+# --- links may not escape the root through a sibling prefix ----------
+{
+    my $parent = tempdir( CLEANUP => 1 );
+    my $dir    = "$parent/site";
+    my $evil   = "$parent/site-evil";
+    make_path($dir);
+    make_path($evil);
+    spew( "$evil/secret.html", page('<p>secret</p>') );
+    write_page( $dir, 'index.html',
+        '<p><a href="../site-evil/secret.html">x</a></p>' );
+
+    my $r = check_links($dir);
+    is( $r->{status}, 2, 'link outside root prefix fails' );
+    like( report_of($r), qr/secret[.]html/, 'report names escaped target' );
+}
+
+# --- link fixes do not rewrite unrelated substrings ------------------
+{
+    my $dir = tempdir( CLEANUP => 1 );
+    write_page( $dir, 'index.html',
+        '<p><a href="a">x</a> ' . '<a href="data.html">d</a></p>' );
+    write_page( $dir, 'a.html',    '<p>a</p>' );
+    write_page( $dir, 'data.html', '<p>data</p>' );
+
+    my $r = run( $^X, $validator, '--root', $dir, '--apply', '--check-links' );
+    is( $r->{status}, 0, 'fixable link applies cleanly' )
+      or diag( $r->{stdout} . $r->{stderr} );
+
+    my $html = slurp("$dir/index.html");
+    like( $html, qr/href="a[.]html"/,    'broken link rewritten' );
+    like( $html, qr/href="data[.]html"/, 'unrelated link preserved' );
+    unlike( $html, qr/data[.]html[.]html/, 'no substring corruption' );
+}
+
 # --- JavaScript `new URL(...)` is not treated as a CSS url() --------
 {
     my $dir = tempdir( CLEANUP => 1 );

@@ -7,6 +7,7 @@ package TestSite;
 use strict;
 use warnings;
 
+use Carp           qw(croak);
 use File::Basename qw(dirname);
 use File::Copy     qw(copy);
 use File::Path     qw(make_path);
@@ -33,19 +34,20 @@ sub script {
 
 sub slurp {
     my ($path) = @_;
-    open my $fh, '<:raw', $path or die "slurp $path: $!";
-    local $/;
+    open my $fh, '<:raw', $path or croak "slurp $path: $!";
+    local $/ = undef;
     my $c = <$fh>;
-    close $fh;
+    defined $c or croak "slurp $path: $!";
+    close $fh  or croak "slurp close $path: $!";
     return $c;
 }
 
 sub spew {
     my ( $path, $content ) = @_;
     utf8::encode($content) if utf8::is_utf8($content);
-    open my $fh, '>:raw', $path or die "spew $path: $!";
-    print {$fh} $content;
-    close $fh or die "spew close $path: $!";
+    open my $fh, '>:raw', $path or croak "spew $path: $!";
+    print {$fh} $content or croak "spew $path: $!";
+    close $fh            or croak "spew close $path: $!";
     return 1;
 }
 
@@ -58,12 +60,12 @@ sub fixture {
     make_path("$dir/scripts");
 
     my $sdir = File::Spec->catdir( repo_root(), 'scripts' );
-    opendir my $dh, $sdir or die "opendir $sdir: $!";
+    opendir my $dh, $sdir or croak "opendir $sdir: $!";
     for my $f ( readdir $dh ) {
         next unless $f =~ /\.(?:pl|sh)$/;
         my $src = File::Spec->catfile( $sdir, $f );
         next unless -f $src;
-        copy( $src, "$dir/scripts/$f" ) or die "copy $f: $!";
+        copy( $src, "$dir/scripts/$f" ) or croak "copy $f: $!";
         chmod 0755, "$dir/scripts/$f";
     }
     closedir $dh;
@@ -82,12 +84,12 @@ sub _run {
     my $wtr = gensym;
     my $rdr = gensym;
     my $err = gensym;
-    my $pid = open3( $wtr, $rdr, $err, $cmd, @$args );
+    my $pid = open3( $wtr, $rdr, $err, $cmd, @{$args} );
 
     if ( defined $input ) {
-        print {$wtr} $input;
+        print {$wtr} $input or croak "write stdin: $!";
     }
-    close $wtr;
+    close $wtr or croak "close stdin: $!";
 
     my $sel   = IO::Select->new( $rdr, $err );
     my %which = ( fileno($rdr) => 'out', fileno($err) => 'err' );
@@ -95,7 +97,7 @@ sub _run {
     while ( my @ready = $sel->can_read ) {
         for my $fh (@ready) {
             my $buf = '';
-            my $n   = sysread( $fh, $buf, 65536 );
+            my $n   = sysread( $fh, $buf, 65_536 );
             if ( !defined $n || $n == 0 ) {
                 $sel->remove($fh);
                 next;
@@ -109,7 +111,7 @@ sub _run {
         }
     }
 
-    waitpid( $pid, 0 );
+    waitpid( $pid, 0 ) == -1 and croak "waitpid: $!";
     my $raw = $?;
     return {
         status => ( $raw >> 8 ),
@@ -161,7 +163,7 @@ sub clone_repo {
             }
             elsif ( -f $s ) {
                 make_path( dirname($d) );
-                copy( $s, $d ) or die "copy $r: $!";
+                copy( $s, $d ) or croak "copy $r: $!";
                 my $mode = ( stat $s )[2] & 07777;
                 chmod $mode, $d;
             }

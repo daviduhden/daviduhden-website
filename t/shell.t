@@ -5,6 +5,7 @@
 use strict;
 use warnings;
 
+use Carp qw(croak);
 use FindBin;
 use lib "$FindBin::Bin/lib";
 use Test::More;
@@ -54,10 +55,10 @@ my $rsvg_ok =
     ok( -f "$dir/a.ogg", 'output .ogg created' );
     like( $r->{stdout}, qr/\[OK\]/, 'reports success' );
 
-    opendir my $dh, $tmpd or die $!;
-    my @left = grep { !/^\.\.?$/ } readdir $dh;
+    opendir my $dh, $tmpd or croak $!;
+    my @remaining = grep { !/^\.\.?$/ } readdir $dh;
     closedir $dh;
-    is_deeply( \@left, [], 'temporary file cleaned up' );
+    is_deeply( \@remaining, [], 'temporary file cleaned up' );
 }
 
 # html2ogg: pandoc failure aborts without producing output

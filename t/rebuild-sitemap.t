@@ -4,6 +4,7 @@
 use strict;
 use warnings;
 
+use Carp qw(croak);
 use FindBin;
 use lib "$FindBin::Bin/lib";
 use Test::More;
@@ -40,7 +41,7 @@ my $page = "<!DOCTYPE html><html lang=\"en\"><head>"
       or diag( $r->{stdout} . $r->{stderr} );
 
     my @locs  = locs( slurp($sm) );
-    my @paths = map { my $x = $_; $x =~ s{^https?://[^/]+}{}; $x } @locs;
+    my @paths = map { s{^https?://[^/]+}{}r } @locs;
 
     is_deeply(
         [ sort @paths ],
@@ -59,7 +60,7 @@ my $page = "<!DOCTYPE html><html lang=\"en\"><head>"
         File::Spec->catfile( $dir, 'scripts', 'rebuild-sitemap.pl' ) );
     is( ( stat $sm )[2] & 07777, 0640, 'file mode preserved' );
 
-    opendir my $dh, $dir or die $!;
+    opendir my $dh, $dir or croak $!;
     my @tmp = grep { /^\.tmp-/ } readdir $dh;
     closedir $dh;
     is_deeply( \@tmp, [], 'no temp files left behind' );

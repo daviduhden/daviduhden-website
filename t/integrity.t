@@ -6,6 +6,7 @@
 use strict;
 use warnings;
 
+use Carp qw(croak);
 use FindBin;
 use lib "$FindBin::Bin/lib";
 use Test::More;
@@ -17,7 +18,10 @@ use JSON::PP qw(decode_json);
 
 my $root = repo_root();
 
-sub file { File::Spec->catfile( $root, split m{/}, $_[0] ) }
+sub file {
+    my ($relative) = @_;
+    return File::Spec->catfile( $root, split m{/}, $relative );
+}
 
 sub h1_of {
     my ($path) = @_;
@@ -37,7 +41,7 @@ ok( defined $json, 'data/articles.json parses as JSON' )
 my %covered;
 my %lang_of;
 my @dupes;
-for my $key ( sort keys %$json ) {
+for my $key ( sort keys %{$json} ) {
     my $e = $json->{$key};
     for my $lang (qw(en es)) {
         next if !defined $e->{$lang};
@@ -52,7 +56,7 @@ for my $key ( sort keys %$json ) {
 }
 is_deeply( \@dupes, [], 'no article file is listed twice' );
 
-opendir my $dh, file('articles') or die "opendir articles: $!";
+opendir my $dh, file('articles') or croak "opendir articles: $!";
 my @html = sort grep { /\.html$/i } readdir $dh;
 closedir $dh;
 for my $fn (@html) {
@@ -60,7 +64,7 @@ for my $fn (@html) {
 }
 
 # --- bilingual pairing / reciprocal hreflang ------------------------
-for my $key ( sort keys %$json ) {
+for my $key ( sort keys %{$json} ) {
     my $e = $json->{$key};
     next if !( defined $e->{en} && defined $e->{es} );
     my $en = slurp( file("articles/$e->{en}") );
@@ -79,7 +83,7 @@ for my $key ( sort keys %$json ) {
 
 # --- feeds reference existing articles and stay language-separated --
 for my $pair ( [ 'blog.xml', 'en' ], [ 'blog-es.xml', 'es' ] ) {
-    my ( $name, $want ) = @$pair;
+    my ( $name, $want ) = @{$pair};
     my $xml   = slurp( file("feeds/$name") );
     my @links = $xml =~ m{<link>/articles/([^<]+)</link>}g;
     ok( scalar(@links), "$name has items" );

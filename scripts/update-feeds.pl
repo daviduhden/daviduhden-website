@@ -45,8 +45,14 @@ use File::Temp qw(tempfile);
 use Getopt::Long;
 use Time::Local qw(timegm);
 
+# Feed files are UTF-8; keep interactive I/O in the same encoding.
+binmode STDIN,  ':encoding(UTF-8)';
+binmode STDOUT, ':encoding(UTF-8)';
+binmode STDERR, ':encoding(UTF-8)';
+
 my $replace_existing = 0;
-GetOptions( 'replace' => \$replace_existing );
+GetOptions( 'replace' => \$replace_existing )
+  or die "Usage: update-feeds.pl [--replace]\n";
 
 my $root_dir =
   File::Spec->catdir( ( File::Spec->splitpath($0) )[1] || '.', '..' );
@@ -80,7 +86,10 @@ sub read_file {
       or die_tool("Could not read $path: $!");
     local $/ = undef;
     my $content = <$fh>;
-    close $fh;
+    defined $content
+      or die_tool("Could not read $path: $!");
+    close $fh
+      or die_tool("Could not close $path: $!");
     return $content;
 }
 
@@ -98,11 +107,11 @@ sub write_file {
     }
 
     my ( $fh, $tmp ) = tempfile( '.tmp-XXXXXX', DIR => $dir, UNLINK => 0 );
-    binmode $fh, ':encoding(UTF-8)';
+    binmode $fh, ':encoding(UTF-8)'
+      or die_tool("Could not set encoding on $tmp: $!");
 
     if ( !print {$fh} $content ) {
         my $err = $!;
-        close $fh;
         unlink $tmp;
         die_tool("Could not write $path: $err");
     }
@@ -145,12 +154,12 @@ sub iso_to_epoch {
     my ($s) = @_;
     return unless defined $s;
     if (
-        $s =~ /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})
-  (Z|([+-])(\d{2}):(\d{2}))?$/x
+        $s =~ m{^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})
+  (Z|([+-])(\d{2}):(\d{2}))?$}x
       )
     {
         my ( $Y, $M, $D, $h, $m, $sec, undef, $sign, $oh, $om ) =
-          ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10 );
+          ( $1, $2, $3, $4, $5, $6, $7, $8, $9, ${10} );
         my $epoch = timegm( $sec, $m, $h, $D, $M - 1, $Y );
         if ( defined $sign && defined $oh ) {
             my $ofs = $oh * 3600 + $om * 60;

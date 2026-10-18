@@ -235,7 +235,7 @@ sub run_capture {
     while ( my @ready = $sel->can_read ) {
         for my $fh (@ready) {
             my $buf = "";
-            my $n   = sysread( $fh, $buf, 65536 );
+            my $n   = sysread( $fh, $buf, 65_536 );
             if ( !defined $n || $n == 0 ) {
                 $sel->remove($fh);
                 next;
@@ -260,7 +260,8 @@ sub read_all {
     open my $fh, '<:raw', $path or return;
     local $/ = undef;
     my $c = <$fh>;
-    close $fh;
+    return unless defined $c;
+    return unless close $fh;
     return $c;
 }
 
@@ -279,10 +280,9 @@ sub write_all {
 
     my ( $fh, $tmp ) = tempfile( '.tmp-XXXXXX', DIR => $dir, UNLINK => 0 );
     return 0 if !$fh;
-    binmode $fh, ':raw';
+    binmode $fh, ':raw' or return 0;
 
     if ( !print {$fh} $content ) {
-        close $fh;
         unlink $tmp;
         return 0;
     }
@@ -302,14 +302,15 @@ sub write_all {
 }
 
 sub chunked {
-    my ( $aref, $n ) = @_;
-    my @out;
-    for ( my $i = 0 ; $i < @$aref ; $i += $n ) {
-        my $end = $i + $n - 1;
-        $end = $#$aref if $end > $#$aref;
-        push @out, [ @$aref[ $i .. $end ] ];
+    my ( $aref, $size ) = @_;
+    return if !defined $size || $size < 1;
+
+    my @remaining = @{$aref};
+    my @chunks;
+    while (@remaining) {
+        push @chunks, [ splice @remaining, 0, $size ];
     }
-    return @out;
+    return @chunks;
 }
 
 sub make_tmp_file_in_tmp {
@@ -452,6 +453,15 @@ sub internal_candidates {
     return @uniq;
 }
 
+sub is_within_root {
+    my ($path) = @_;
+    return 0 if !defined $path;
+    return 1 if $path eq $root_dir;
+    my $prefix = $root_dir;
+    $prefix =~ s{/$}{};
+    return index( $path, "$prefix/" ) == 0;
+}
+
 sub resolve_internal_link {
     my ( $source_file, $raw_link ) = @_;
     my $target = strip_query_fragment($raw_link);
@@ -474,7 +484,7 @@ sub resolve_internal_link {
 
     my $canon = abs_path($absolute);
     if (   defined($canon)
-        && index( $canon, $root_dir ) == 0
+        && is_within_root($canon)
         && -f $canon )
     {
         return ( 1, $canon, "ok" );
@@ -484,7 +494,7 @@ sub resolve_internal_link {
     my $with_index  = File::Spec->catfile( $absolute, "index.html" );
     my $canon_index = abs_path($with_index);
     if (   defined($canon_index)
-        && index( $canon_index, $root_dir ) == 0
+        && is_within_root($canon_index)
         && -f $canon_index )
     {
         return ( 1, $canon_index, "ok-index" );
@@ -781,9 +791,9 @@ sub apply_link_replacements {
 
         my $changed = 0;
         for my $pair (@pairs) {
-            my ( $old, $new ) = @$pair;
-            my $quoted = quotemeta($old);
-            my $count  = ( $content =~ s/$quoted/$new/g );
+            my ( $old, $new ) = @{$pair};
+            my $pattern = qr{(?<![\w./-])\Q$old\E(?![\w./-])};
+            my $count   = ( $content =~ s{$pattern}{$new}g );
             $changed += $count;
         }
 
@@ -1183,7 +1193,7 @@ sub xmllint_format_or_check_one {
 
 sub dprint_validate_and_check_or_apply {
     my ($files_ref) = @_;
-    return unless @$files_ref;
+    return unless @{$files_ref};
 
     if ($mode_apply) {
         logi("Formatting CSS/JS with dprint...");
@@ -1191,7 +1201,7 @@ sub dprint_validate_and_check_or_apply {
 
             # Use run_cmd so dprint writes files
             # in-place and inherits stdout/stderr
-            my @cmd = ( $dprint, "fmt", "--config", $dprint_cfg, @$chunk );
+            my @cmd = ( $dprint, "fmt", "--config", $dprint_cfg, @{$chunk} );
             print "[cmd] @cmd\n" if $verbose;
             my $ok = run_cmd(@cmd);
 
@@ -1201,7 +1211,7 @@ sub dprint_validate_and_check_or_apply {
                       . " failed for some files"
                       . " in chunk." );
                 mark_validate_failed($_)
-                  for @$chunk;
+                  for @{$chunk};
             }
         }
         return;
@@ -1213,7 +1223,7 @@ sub dprint_validate_and_check_or_apply {
 
         my ( $rc, $out, $err ) =
           run_capture( $dprint, "check", "--config", $dprint_cfg,
-            "--list-different", @$chunk );
+            "--list-different", @{$chunk} );
 
         # If plugin download/resolution fails,
         # skip dprint checks for this run.
@@ -1245,7 +1255,7 @@ sub dprint_validate_and_check_or_apply {
         # as either "format needed" or
         # "validation failed".
         if ( !$any_listed ) {
-            mark_format_needed($_) for @$chunk;
+            mark_format_needed($_) for @{$chunk};
         }
 
         # If stderr has content, treat as validation
@@ -1254,7 +1264,7 @@ sub dprint_validate_and_check_or_apply {
             loge(   "dprint reported errors while"
                   . " checking (see stderr with"
                   . " --verbose)." );
-            mark_validate_failed($_) for @$chunk;
+            mark_validate_failed($_) for @{$chunk};
             print STDERR $err if $verbose;
         }
     }
@@ -1489,9 +1499,9 @@ sub run_linters {
     if ( have_cmd('lychee') ) {
         my @excl = (
             '--exclude-path', '.git', '--exclude-path', 'archive',
-            '--exclude-path', 'tmp'
+            '--exclude-path', 'tmp',
         );
-        push @excl, ( '--exclude-path', 'files' )
+        push @excl, qw(--exclude-path files)
           if -d File::Spec->catdir( $root_dir, 'files' );
         run_optional( 'Offline link check (lychee)',
             'lychee', '--offline', '--no-progress', '--root-dir', $root_dir,

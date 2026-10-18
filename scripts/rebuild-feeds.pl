@@ -73,7 +73,10 @@ sub read_file {
       or die_tool("Could not read $path: $!");
     local $/ = undef;
     my $content = <$fh>;
-    close $fh;
+    defined $content
+      or die_tool("Could not read $path: $!");
+    close $fh
+      or die_tool("Could not close $path: $!");
     return $content;
 }
 
@@ -94,11 +97,11 @@ sub write_file {
     }
 
     my ( $fh, $tmp ) = tempfile( '.tmp-XXXXXX', DIR => $dir, UNLINK => 0 );
-    binmode $fh, ':encoding(UTF-8)';
+    binmode $fh, ':encoding(UTF-8)'
+      or die_tool("Could not set encoding on $tmp: $!");
 
     if ( !print {$fh} $content ) {
         my $err = $!;
-        close $fh;
         unlink $tmp;
         die_tool("Could not write $path: $err");
     }
@@ -129,6 +132,18 @@ sub xml_escape {
     return $text;
 }
 
+sub xml_char {
+    my ($code) = @_;
+    return if !defined $code;
+    return chr $code
+      if $code == 0x09 || $code == 0x0A || $code == 0x0D;
+    return chr $code
+      if ( $code >= 0x20 && $code <= 0xD7FF )
+      || ( $code >= 0xE000   && $code <= 0xFFFD )
+      || ( $code >= 0x10_000 && $code <= 0x10_FFFF );
+    return;
+}
+
 sub decode_entities {
     my ($text) = @_;
     return '' unless defined $text;
@@ -148,10 +163,12 @@ sub decode_entities {
     $text =~ s{&(\#[0-9]+|\#[xX][0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]*);}{
         my $e = $1;
         if ( $e =~ /^\#([0-9]+)$/ ) {
-            $1 <= 0x10FFFF ? chr($1) : "&$e;";
+            my $char = xml_char($1);
+            defined $char ? $char : "\x{FFFD}";
         }
         elsif ( $e =~ /^\#[xX]([0-9A-Fa-f]+)$/ ) {
-            hex($1) <= 0x10FFFF ? chr( hex $1 ) : "&$e;";
+            my $char = xml_char( hex $1 );
+            defined $char ? $char : "\x{FFFD}";
         }
         elsif ( exists $named{$e} ) {
             $named{$e};
@@ -168,12 +185,12 @@ sub iso_to_epoch {
     my ($iso) = @_;
     return unless defined $iso;
     if (
-        $iso =~ /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})
-  (Z|([+-])(\d{2}):(\d{2}))?$/x
+        $iso =~ m{^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})
+  (Z|([+-])(\d{2}):(\d{2}))?$}x
       )
     {
         my ( $Y, $M, $D, $h, $m, $s, undef, $sign, $oh, $om ) =
-          ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10 );
+          ( $1, $2, $3, $4, $5, $6, $7, $8, $9, ${10} );
         my $epoch = timegm( $s, $m, $h, $D, $M - 1, $Y );
         if ( defined $sign && defined $oh ) {
             my $ofs = $oh * 3600 + $om * 60;
@@ -257,15 +274,15 @@ sub extract_metadata {
     $title =~ s/^\s+|\s+$//g;
     $title = decode_entities($title);
 
-    my ($desc) = $html =~ /<meta[^>]*\bname\s*=\s*["']
+    my ($desc) = $html =~ m{<meta[^>]*\bname\s*=\s*["']
        description["'][^>]*\bcontent
-       \s*=\s*["'](.*?)["'][^>]*>/isx;
+       \s*=\s*["'](.*?)["'][^>]*>}isx;
     $desc = ''
       unless defined $desc && length $desc;
     if ( !length $desc ) {
-        ($desc) = $content_scope =~ /<p[^>]*\bclass\s*=\s*["']
+        ($desc) = $content_scope =~ m{<p[^>]*\bclass\s*=\s*["']
            [^"']*\blede\b[^"']*["'][^>]*>
-           \s*(.*?)\s*<\/p>/isx;
+           \s*(.*?)\s*</p>}isx;
         $desc //= '';
     }
     if ( !length $desc ) {
@@ -299,17 +316,20 @@ sub collect_articles {
     my ($has_es_feed) = @_;
     my @rows;
     find(
-        sub {
-            return unless -f $_;
-            return unless /\.html$/i;
-            return if $_ eq 'index.html';
+        {
+            no_chdir => 1,
+            wanted   => sub {
+                my $path = $File::Find::name;
+                return unless -f $path;
+                return unless $path =~ /\.html$/i;
+                return if $path =~ m{/index[.]html$};
 
-            my $path = $File::Find::name;
-            my $meta = extract_metadata($path);
-            if ( !$has_es_feed ) {
-                $meta->{lang} = 'en';
-            }
-            push @rows, $meta;
+                my $meta = extract_metadata($path);
+                if ( !$has_es_feed ) {
+                    $meta->{lang} = 'en';
+                }
+                push @rows, $meta;
+            },
         },
         $articles_dir
     );
@@ -343,7 +363,7 @@ sub rebuild_feed_file {
     my $feed_self = abs_url("/feeds/$feed_name");
 
     my $items = '';
-    for my $r (@$rows) {
+    for my $r ( @{$rows} ) {
         next if $r->{lang} ne $lang;
         my $pub     = format_pubdate( $r->{epoch} );
         my $rel_url = "/articles/$r->{slug}.html";
@@ -363,7 +383,7 @@ sub rebuild_feed_file {
     }
 
     my $last_epoch = time;
-    for my $r (@$rows) {
+    for my $r ( @{$rows} ) {
         next if $r->{lang} ne $lang;
         $last_epoch = $r->{epoch};
         last;

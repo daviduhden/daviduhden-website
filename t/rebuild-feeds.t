@@ -5,6 +5,7 @@
 use strict;
 use warnings;
 
+use Carp qw(croak);
 use FindBin;
 use lib "$FindBin::Bin/lib";
 use Test::More;
@@ -92,6 +93,21 @@ sub item_slugs {
     is( slurp($file), $first, 'TZ/locale independent' );
 }
 
+# --- numeric timezone offsets are applied correctly -----------------
+{
+    my $dir = fixture(
+        'feeds/blog.xml'   => feed(),
+        'articles/tz.html' => article( time => '2026-01-01T12:00:00+02:30' ),
+    );
+    my ( $r, $d ) = run_rebuild($dir);
+    is( $r->{status}, 0, 'rebuild succeeds with numeric offset' );
+    like(
+        slurp("$d/feeds/blog.xml"),
+        qr{<pubDate>Thu, 01 Jan 2026 09:30:00 GMT</pubDate>},
+        'offset minutes are subtracted'
+    );
+}
+
 # --- escaping / entities --------------------------------------------
 {
     my $dir = fixture(
@@ -111,6 +127,23 @@ sub item_slugs {
         qr{<description>d &amp; d &lt;e&gt;</description>},
         'entities decoded then re-escaped'
     );
+}
+
+# --- invalid XML character references are sanitized -----------------
+{
+    my $dir = fixture(
+        'feeds/blog.xml'    => feed(),
+        'articles/bad.html' => article(
+            title => 'bad &#0; &#xD800; &#x110000; references'
+        ),
+    );
+    my ( $r, $d ) = run_rebuild($dir);
+    is( $r->{status}, 0, 'rebuild succeeds with invalid references' );
+    my $raw = slurp("$d/feeds/blog.xml");
+    unlike( $raw, qr/\x00/,      'NUL is not emitted' );
+    unlike( $raw, qr/&#0;/,      'invalid zero reference is not emitted' );
+    unlike( $raw, qr/&#xD800;/i, 'surrogate is not emitted' );
+    like( $raw, qr/\xef\xbf\xbd/, 'replacement character is used' );
 }
 
 # --- channel entity preservation ------------------------------------
@@ -154,7 +187,7 @@ sub item_slugs {
     is( $r->{status}, 0, 'rebuild succeeds' );
     is_deeply( [ item_slugs( slurp($file) ) ], ['a'], 'index.html skipped' );
     is( ( stat $file )[2] & 07777, 0640, 'mode preserved' );
-    opendir my $dh, "$dir/feeds" or die $!;
+    opendir my $dh, "$dir/feeds" or croak $!;
     my @tmp = grep { /^\.tmp-/ } readdir $dh;
     closedir $dh;
     is_deeply( \@tmp, [], 'no temp files left' );

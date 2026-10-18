@@ -5,6 +5,7 @@
 use strict;
 use warnings;
 
+use Carp qw(croak);
 use FindBin;
 use lib "$FindBin::Bin/lib";
 use Test::More;
@@ -13,7 +14,7 @@ use File::Spec;
 
 my $sdir = File::Spec->catdir( repo_root(), 'scripts' );
 
-opendir my $dh, $sdir or die "opendir $sdir: $!";
+opendir my $dh, $sdir or croak "opendir $sdir: $!";
 my @pl = sort grep { /\.pl$/ } readdir $dh;
 rewinddir $dh;
 my @sh = sort grep { /\.sh$/ } readdir $dh;

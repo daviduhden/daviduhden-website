@@ -72,6 +72,17 @@ sub strip_rebuild {
         'guid stable' );
 }
 
+# --- non-ASCII input remains valid UTF-8 ----------------------------
+{
+    my $dir = fixture( 'feeds/blog.xml' => feed() );
+    strip_rebuild($dir);
+    my $r = run_update( $dir, "unicode\nCaf\xc3\xa9\nDesc\n2026-01-01\n" );
+    is( $r->{status}, 0, 'UTF-8 input accepted' ) or diag( $r->{stderr} );
+    my $raw = slurp("$dir/feeds/blog.xml");
+    like( $raw, qr/Caf\xc3\xa9/, 'input encoded once' );
+    unlike( $raw, qr/Caf\xc3\x83\xc2\xa9/, 'input not double encoded' );
+}
+
 # --- existing English link warns ------------------------------------
 {
     my $existing = item(
@@ -93,6 +104,26 @@ sub strip_rebuild {
     is( $r->{status}, 0, 'kept without --replace' );
     like( $r->{stderr}, qr/Feed already has/, 'warning emitted' );
     is( slurp("$dir/feeds/blog.xml"), $before, 'feed unchanged' );
+}
+
+# --- numeric timezone offsets are applied correctly -----------------
+{
+    my $dir = fixture(
+        'feeds/blog.xml'     => feed(),
+        'articles/offs.html' => "<html lang=\"en\"><body><article>"
+          . "<header id=\"article-header\"><h1>Offs</h1>"
+          . "<time datetime=\"2026-01-01T12:00:00+02:30\">x</time></header>"
+          . "</article></body></html>\n",
+    );
+    strip_rebuild($dir);
+    my $r = run_update( $dir, "offs\nT\nD\n" );
+    is( $r->{status}, 0, 'run with numeric offset succeeds' )
+      or diag( $r->{stderr} );
+    like(
+        slurp("$dir/feeds/blog.xml"),
+        qr{<pubDate>Thu, 01 Jan 2026 09:30:00 GMT</pubDate>},
+        'offset minutes are subtracted'
+    );
 }
 
 # --- invalid slug rejected ------------------------------------------
