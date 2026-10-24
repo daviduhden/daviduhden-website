@@ -353,18 +353,24 @@ sub main {
 
     my $rebuild_script =
       File::Spec->catfile( $root_dir, 'scripts', 'rebuild-feeds.pl' );
+    my $rebuild_failed = 0;
     if ( -x $rebuild_script ) {
         my $rc = system( $^X, $rebuild_script );
         if ( $rc == -1 ) {
             logw("Could not run $rebuild_script: $!");
+            $rebuild_failed = 1;
         }
         elsif ( $rc & 127 ) {
             logw( "Rebuild script terminated by signal " . ( $rc & 127 ) );
+            $rebuild_failed = 1;
         }
         elsif ( $rc >> 8 ) {
             logw( "Rebuild script exited with code " . ( $rc >> 8 ) );
+            $rebuild_failed = 1;
         }
     }
+
+    exit 1 if $rebuild_failed;
 }
 
 main();

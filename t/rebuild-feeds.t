@@ -129,6 +129,60 @@ sub item_slugs {
     );
 }
 
+# --- meta descriptions with apostrophes and mixed attributes --------
+{
+    my $reversed = <<'HTML';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta content="A &amp; B's summary" name="description">
+</head>
+<body>
+<header id="article-header"><h1>Reversed</h1>
+<p><time datetime="2026-01-03">x</time></p></header>
+</body>
+</html>
+HTML
+    my $single = <<'HTML';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name='description' content='Single &amp; quoted summary'>
+</head>
+<body>
+<header id="article-header"><h1>Single</h1>
+<p><time datetime="2026-01-04">x</time></p></header>
+</body>
+</html>
+HTML
+    my $dir = fixture(
+        'feeds/blog.xml'            => feed(),
+        'articles/apostrophe.html'  => article(
+            desc => "GNU's FSDG and the FSF's RYF"
+        ),
+        'articles/reversed.html'    => $reversed,
+        'articles/single.html'      => $single,
+    );
+    my ( $r, $d ) = run_rebuild($dir);
+    is( $r->{status}, 0, 'rebuild succeeds with mixed meta attributes' );
+    my $xml = slurp("$d/feeds/blog.xml");
+    like(
+        $xml,
+        qr{<description>GNU's FSDG and the FSF's RYF</description>},
+        'apostrophe does not truncate the description'
+    );
+    like(
+        $xml,
+        qr{<description>A &amp; B's summary</description>},
+        'content-before-name attribute order is accepted'
+    );
+    like(
+        $xml,
+        qr{<description>Single &amp; quoted summary</description>},
+        'single-quoted meta attributes are accepted'
+    );
+}
+
 # --- invalid XML character references are sanitized -----------------
 {
     my $dir = fixture(
@@ -195,10 +249,22 @@ sub item_slugs {
 
 # --- empty articles directory ---------------------------------------
 {
-    my $dir = fixture( 'feeds/blog.xml' => feed() );
+    my $dir  = fixture( 'feeds/blog.xml' => feed() );
+    my $file = "$dir/feeds/blog.xml";
     my ( $r, $d ) = run_rebuild($dir);
     is( $r->{status}, 0, 'rebuild succeeds with no articles' );
-    unlike( slurp("$d/feeds/blog.xml"), qr/<item>/, 'no items' );
+    my $first = slurp($file);
+    unlike( $first, qr/<item>/, 'no items' );
+    like(
+        $first,
+        qr{<lastBuildDate>Thu, 01 Jan 2026 00:00:00 GMT</lastBuildDate>},
+        'empty feed keeps its existing lastBuildDate'
+    );
+    TestSite::run(
+        $^X,
+        File::Spec->catfile( $d, 'scripts', 'rebuild-feeds.pl' )
+    );
+    is( slurp($file), $first, 'empty feed output is deterministic' );
 }
 
 # --- UTF-8 ----------------------------------------------------------

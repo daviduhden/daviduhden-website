@@ -121,4 +121,40 @@ sub report_of {
         'script text not treated as a link' );
 }
 
+# --- aria-current is accepted despite tidy 5.8 ----------------------
+{
+    my $dir = tempdir( CLEANUP => 1 );
+    write_page(
+        $dir,
+        'index.html',
+        '<p><a href="a.html" aria-current="page">x</a></p>'
+    );
+    write_page( $dir, 'a.html', '<p>ok</p>' );
+    my $r = check_links($dir);
+    is( $r->{status}, 0, 'aria-current does not fail tidy validation' )
+      or diag( $r->{stdout} . $r->{stderr} );
+
+    my $apply =
+      run( $^X, $validator, '--root', $dir, '--apply', '--check-links' );
+    is( $apply->{status}, 0, 'aria-current survives --apply' )
+      or diag( $apply->{stdout} . $apply->{stderr} );
+    like(
+        slurp("$dir/index.html"),
+        qr/aria-current="page"/,
+        'aria-current is preserved in the formatted page'
+    );
+}
+
+# --- --check-links-external also enables internal link checking -----
+{
+    my $dir = tempdir( CLEANUP => 1 );
+    write_page( $dir, 'index.html', '<p><a href="missing.html">x</a></p>' );
+    my $r = run(
+        $^X, $validator, '--root', $dir,
+        '--check', '--check-links-external'
+    );
+    is( $r->{status}, 2, 'external flag alone still checks internal links' );
+    like( report_of($r), qr/missing\.html/, 'report names the broken link' );
+}
+
 done_testing();

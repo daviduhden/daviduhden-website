@@ -152,6 +152,7 @@ if ($check_all) {
     $mode_apply  = 0;
     $check_links = 1;
 }
+$check_links    = 1 if $want_external;
 $external_links = $want_external;
 
 # Normalize the root directory to a canonical absolute
@@ -1095,14 +1096,30 @@ my @tidy_common = (
     "yes",
 );
 
+sub tidy_diagnostics_allowed {
+    my ($stderr) = @_;
+    return 0 if !defined $stderr || $stderr eq '';
+
+    # tidy 5.8 predates aria-current and reports it as a proprietary
+    # attribute. Accept that single known diagnostic; every other
+    # warning or error still fails validation.
+    for my $line ( split /\R/, $stderr ) {
+        next if $line !~ /\S/;
+        next if $line =~ /proprietary attribute "aria-current"/;
+        return 0;
+    }
+    return 1;
+}
+
 sub tidy_validate_one {
     my ($file) = @_;
 
     # Non-zero means warnings/errors.
-    # Treat as validation failure.
+    # Treat as validation failure unless the only diagnostic is the
+    # known tidy 5.8 aria-current false positive.
     my ( $rc, $out, $err ) =
       run_capture( $tidy, @tidy_common, "-errors", $file );
-    if ( $rc != 0 ) {
+    if ( $rc != 0 && !tidy_diagnostics_allowed($err) ) {
         loge( "tidy validation failed" . " (exit $rc): $file" );
         mark_validate_failed($file);
     }
@@ -1116,9 +1133,8 @@ sub tidy_format_or_check_one {
         # Format in place
         my @cmd = ( $tidy, @tidy_common, "-m", $file );
         print "[cmd] @cmd\n" if $verbose;
-        system(@cmd);
-        my $rc = ( $? >> 8 );
-        if ( $rc != 0 ) {
+        my ( $rc, undef, $err ) = run_capture(@cmd);
+        if ( $rc != 0 && !tidy_diagnostics_allowed($err) ) {
 
             # Even in apply, a non-zero indicates
             # issues (warnings/errors)
@@ -1131,7 +1147,7 @@ sub tidy_format_or_check_one {
     # --check: compare formatted output with file contents
     my ( $rc, $out, $err ) = run_capture( $tidy, @tidy_common, $file );
 
-    if ( $rc != 0 ) {
+    if ( $rc != 0 && !tidy_diagnostics_allowed($err) ) {
         loge( "tidy formatting/parse reported" . " issues (exit $rc): $file" );
         mark_validate_failed($file);
 

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # Content integrity checks for daviduhden-website (bilingual).
 # Read-only: verifies the article index, HTML metadata, language
-# pairing, feeds and sitemap stay consistent.
+# pairing, blog listing, feeds and sitemap stay consistent.
 
 use strict;
 use warnings;
@@ -110,6 +110,74 @@ for my $loc (@locs) {
 }
 for my $fn (@html) {
     like( $sm, qr{/articles/\Q$fn\E</loc>}, "articles/$fn appears in sitemap" );
+}
+
+# --- pre/code blocks start with code, not whitespace ----------------
+{
+    my @pages = (
+        glob("$root/*.html"),
+        glob("$root/articles/*.html"),
+        glob("$root/templates/*.html"),
+        File::Spec->catfile( $root, 'ddgnoai', 'index.html' ),
+    );
+
+    my @bad;
+    my $blocks = 0;
+    for my $page (@pages) {
+        my $html = slurp($page);
+        while ( $html =~ m{<pre\b[^>]*>\s*<code\b[^>]*>(.*?)</code>\s*</pre>}gs )
+        {
+            my $code = $1;
+            $blocks++;
+            push @bad, $page if $code =~ /^\s/;
+        }
+    }
+
+    ok( $blocks, 'found pre/code blocks' );
+    is_deeply(
+        \@bad,
+        [],
+        'pre/code blocks start with code, not a newline or indentation'
+    );
+}
+
+# --- blog listing mirrors article dates and feed order --------------
+for my $pair (
+    [ 'blog.html',    'blog.xml' ],
+    [ 'blog-es.html', 'blog-es.xml' ],
+  )
+{
+    my ( $blog, $feed ) = @{$pair};
+    my $html = slurp( file($blog) );
+    my @entries;
+    while (
+        $html =~ m{
+            <section[^>]*\bid="article-\d+"[^>]*>
+            \s*<h2>\s*<a\s+href="[.]/articles/([^"]+[.]html)">.*?</h2>
+            \s*<p>\s*<time[^>]*\bdatetime\s*=\s*"([^"]+)">
+        }gsx
+      )
+    {
+        push @entries, [ $1, $2 ];
+    }
+
+    ok( scalar(@entries), "$blog has article entries" );
+
+    my @feed_links =
+      slurp( file("feeds/$feed") ) =~ m{<link>/articles/([^<]+)</link>}g;
+    is_deeply(
+        [ map { $_->[0] } @entries ],
+        \@feed_links,
+        "$blog order matches $feed"
+    );
+
+    for my $entry (@entries) {
+        my ( $filename, $date ) = @{$entry};
+        my ($article_date) =
+          slurp( file("articles/$filename") )
+          =~ /<time[^>]*\bdatetime\s*=\s*"([^"]+)"/i;
+        is( $date, $article_date, "$blog date matches articles/$filename" );
+    }
 }
 
 done_testing();

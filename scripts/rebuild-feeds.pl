@@ -274,11 +274,18 @@ sub extract_metadata {
     $title =~ s/^\s+|\s+$//g;
     $title = decode_entities($title);
 
-    my ($desc) = $html =~ m{<meta[^>]*\bname\s*=\s*["']
-       description["'][^>]*\bcontent
-       \s*=\s*["'](.*?)["'][^>]*>}isx;
-    $desc = ''
-      unless defined $desc && length $desc;
+    my $desc = '';
+    if (
+        $html =~ m{
+            <meta\b
+            (?=[^>]*\bname\s*=\s*(["'])\s*description\s*\1)
+            [^>]*\bcontent\s*=\s*(["'])(.*?)\2
+            [^>]*>
+        }isx
+      )
+    {
+        $desc = $3;
+    }
     if ( !length $desc ) {
         ($desc) = $content_scope =~ m{<p[^>]*\bclass\s*=\s*["']
            [^"']*\blede\b[^"']*["'][^>]*>
@@ -382,13 +389,27 @@ sub rebuild_feed_file {
           "    </item>\n";
     }
 
-    my $last_epoch = time;
+    my $last_epoch;
     for my $r ( @{$rows} ) {
         next if $r->{lang} ne $lang;
         $last_epoch = $r->{epoch};
         last;
     }
-    my $last_build = format_pubdate($last_epoch);
+
+    my $last_build;
+    if ( defined $last_epoch ) {
+        $last_build = format_pubdate($last_epoch);
+    }
+    else {
+        # Keep an empty feed deterministic: retain the existing
+        # lastBuildDate instead of stamping it with the current time.
+        my ($existing) =
+          $xml =~ m{<lastBuildDate>\s*(.*?)\s*</lastBuildDate>}s;
+        $last_build =
+          defined $existing && length $existing
+          ? $existing
+          : format_pubdate(0);
+    }
 
     my $new_xml = join '',
       qq(<?xml version="1.0" encoding="UTF-8"?>\n),

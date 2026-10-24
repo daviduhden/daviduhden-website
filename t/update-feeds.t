@@ -7,7 +7,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 use Test::More;
-use TestSite qw(fixture run_input slurp);
+use TestSite qw(fixture run_input slurp spew);
 use File::Spec;
 
 sub feed {
@@ -151,6 +151,24 @@ sub strip_rebuild {
         qr{<link>/articles/auto\.html</link>},
         'item present after rebuild'
     );
+}
+
+# --- rebuild failures are reported with a non-zero exit -------------
+{
+    my $dir = fixture(
+        'feeds/blog.xml'     => feed(),
+        'articles/auto.html' => "<html lang=\"en\"><body><article>"
+          . "<header id=\"article-header\"><h1>Auto</h1>"
+          . "<time datetime=\"2026-03-04\">x</time></header>"
+          . "</article></body></html>\n",
+    );
+    my $rebuild = File::Spec->catfile( $dir, 'scripts', 'rebuild-feeds.pl' );
+    spew( $rebuild, "#!/usr/bin/perl\nexit 7;\n" );
+    chmod 0755, $rebuild;
+
+    my $r = run_update( $dir, "auto\nAuto\nAuto desc\n" );
+    isnt( $r->{status}, 0, 'rebuild failure makes update-feeds fail' );
+    like( $r->{stderr}, qr/Rebuild script exited with code 7/, 'warning' );
 }
 
 done_testing();
