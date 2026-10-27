@@ -3,7 +3,7 @@
  *
  * Language Switch Helper
  *
- * Copyright (c) 2024-2026 David David Uhden Collado <david@uhden.dev>
+ * Copyright (c) 2024-2026, David David Uhden Collado <david@uhden.dev>
  * SPDX-License-Identifier: ISC
  *
  * Permission to use, copy, modify, and distribute this software for any
