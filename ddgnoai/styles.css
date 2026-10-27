@@ -106,6 +106,7 @@ code {
 }
 
 .card {
+  /* Match the page's content width while keeping the search panel fluid. */
   max-width: 560px;
   width: 100%;
   background: #ffffff;
@@ -151,7 +152,165 @@ a {
   text-underline-offset: 0.12em;
 }
 
+a:hover,
+a:focus-visible {
+  color: #1d4ed8;
+}
+
+a:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Defaults for semantic and future content within the compact search page. */
+:where(article, aside, hgroup, main, search, section) { display: block; }
+
+/* Inline text semantics */
+hgroup > :where(h1, h2, h3, h4, h5, h6) {
+  margin-block: 0.2em;
+}
+
+:where(strong, b) { font-weight: 700; }
+:where(em, i, dfn, cite, var) { font-style: italic; }
+:where(u, ins) { text-decoration: underline; text-underline-offset: 0.12em; }
+:where(s, del) { text-decoration: line-through; }
+:where(small) { font-size: 0.875em; }
+:where(mark) { padding: 0.05em 0.2em; background: #fef3c7; color: #111827; }
+:where(sub, sup) { position: relative; font-size: 0.75em; line-height: 0; vertical-align: baseline; }
+sub { bottom: -0.25em; }
+sup { top: -0.5em; }
+:where(abbr[title]) { text-decoration: underline dotted; text-underline-offset: 0.12em; cursor: help; }
+q { quotes: auto; }
+ruby { ruby-position: over; }
+rt { font-size: 0.6em; text-align: center; }
+rp { display: none; }
+bdi { unicode-bidi: isolate; }
+bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
+bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
+:where(time, data, wbr) { font-family: inherit; }
+
+/* Lists and horizontal separators */
+menu {
+  margin: 0.5em 0 0.9em;
+  padding-inline-start: 1.8em;
+  list-style: disc;
+}
+
+hr { margin-block: 1.5em; border: 0; border-top: 1px solid #d1d5db; }
+figure { margin: 1.25em auto; }
+figcaption { margin-block-start: 0.5em; color: #374151; font-size: 0.95em; }
+:where(audio, canvas, embed, iframe, object, video, svg) { max-inline-size: 100%; }
+/*
+ * Sources, tracks, datalists, and column groups retain native behavior.
+ */
+picture, :where(audio, embed, iframe, object, video) { display: block; }
+video { block-size: auto; }
+
+/* Table elements */
+table {
+  inline-size: 100%;
+  margin-block: 1em;
+  border-collapse: collapse;
+}
+
+caption {
+  margin-block-end: 0.5em;
+  color: #111827;
+  font-weight: 600;
+  text-align: start;
+}
+
+:where(thead, tbody, tfoot) { vertical-align: middle; }
+:where(th, td) { padding: 0.55em 0.7em; border: 1px solid #d1d5db; }
+
+/* Form controls */
+fieldset {
+  min-inline-size: 0;
+  margin: 0 0 1em;
+  padding: 1em;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+legend { padding-inline: 0.4em; font-weight: 600; }
+label { color: inherit; }
+:where(input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  max-inline-size: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #fff;
+  color: #111827;
+}
+:where(input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]), select, textarea):required {
+  border-inline-start: 2px solid #2563eb;
+}
+:where(input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]), select, textarea):optional {
+  border-inline-start-width: 1px;
+  border-inline-start-color: #d1d5db;
+}
+:where(input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]), select, textarea):valid {
+  border-color: #9ca3af;
+}
+:where(input[type="range"], input[type="color"]) { padding: 0; border: 0; background: transparent; }
+textarea { inline-size: min(100%, 60ch); min-block-size: 8em; resize: vertical; }
+:where(button, input[type="button"], input[type="reset"], input[type="submit"]) {
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #f8fafc;
+  color: #111827;
+  cursor: pointer;
+}
+:where(button, input[type="button"], input[type="reset"], input[type="submit"]):enabled:hover {
+  background: #e5e7eb;
+}
+:where(button, input[type="button"], input[type="reset"], input[type="submit"]):active { background: #d1d5db; }
+:where(input[type="checkbox"], input[type="radio"], progress, meter) { accent-color: #2563eb; }
+:where(progress, meter):indeterminate { accent-color: #1d4ed8; }
+:where(input[type="checkbox"], input[type="radio"]):checked { accent-color: #1d4ed8; }
+:where(progress, meter) { inline-size: min(100%, 24em); vertical-align: middle; }
+output { font-weight: 600; }
+:where(option, optgroup) { background: #fff; color: #111827; }
+/* Control states and keyboard focus */
+:where(input, select, textarea, button, summary):focus,
+:where(input, select, textarea, button, summary):focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+:where(input, select, textarea, button):disabled { opacity: 0.65; cursor: not-allowed; }
+:where(input, select, textarea, button):enabled { color: #111827; }
+:where(input, select, textarea):invalid:focus { border-color: #b91c1c; }
+:where(input, textarea):read-only { background: #f8fafc; }
+:where(input, textarea):read-write { color: #111827; }
+:where(input, textarea):placeholder-shown { text-overflow: ellipsis; }
+::placeholder { color: #4b5563; opacity: 1; }
+::selection { background: #bfdbfe; color: #111827; }
+::marker { color: #374151; }
+
+/* Disclosure and dialog elements */
+details {
+  margin-block: 1em;
+  padding: 0.65em 0.85em;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+summary { font-weight: 600; cursor: pointer; }
+dialog {
+  max-inline-size: min(42em, calc(100% - 2em));
+  padding: 1.25em;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: #111827;
+}
+dialog::backdrop { background: #0009; }
+a:visited { color: #2563eb; }
+a:visited:hover { color: #1d4ed8; }
+a:active { color: #1d4ed8; }
+
 @media print, (forced-colors: active) {
+  /* Remove screen-only styling while retaining a legible panel boundary. */
   body {
     display: block;
     min-height: auto;
