@@ -9,6 +9,10 @@ Contributions should improve the accuracy, usability, accessibility, or maintain
 - Keep pull requests focused and explain the reason for the change, affected language versions, and checks performed.
 - Do not include secrets, private data, generated archive artifacts, large unrelated formatting changes, or files copied from local editor and build environments.
 
+## AI-assisted contributions
+
+The use of artificial intelligence (AI) tools is explicitly permitted. Contributors are not required to disclose AI assistance. Contributors remain responsible for reviewing AI-assisted changes, verifying factual claims and sources, and ensuring that contributions follow the project's standards and license.
+
 ## HTML, language, and content
 
 - Follow the existing semantic HTML, metadata, heading hierarchy, and relative-link conventions. Avoid root-absolute internal links because the site is mirrored under different paths.
