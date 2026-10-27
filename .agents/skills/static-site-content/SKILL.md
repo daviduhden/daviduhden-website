@@ -75,6 +75,10 @@ Rules that the repository already follows:
   `<time datetime>`, and meaningful image `alt` text.
 - Keep assets local. Do not add CDN scripts, remote fonts, trackers, or
   third-party embeds.
+- Keep maintainer Markdown, agent instructions, tests, and development settings
+  at repository scope rather than linking them as site content. Archive and
+  Debian sync filters omit known internal paths but leave documentation tracked
+  in GitHub; do not hide these files with `.gitignore` rules.
 - Keep images fluid. Rely on the existing `max-width: 100%`, `height: auto`, and
   `.home-portrait` `clamp()` rules. Do not add fixed `width`/`height` attributes
   or fixed pixel widths; the image must scale with the viewport.
@@ -214,3 +218,19 @@ description, date, filename, or language, regenerate and re-run
 - `t/integrity.t`, `t/reproducible.t`
 - `scripts/validate-website.pl`
 - `dprint.json`, `.stylelintrc.json`, `.htmltest.yml`
+
+## Maintenance & Continuous Learning
+
+Whenever this skill is used to change the repository, review this skill after
+the implementation. Correct procedures that proved wrong, update commands,
+paths, configuration and examples, incorporate reusable findings, and remove
+outdated assumptions. Review the applicable root and nested `AGENTS.md` files,
+specialized agents and related skills; update only the knowledge affected by
+the work. Validate local references and run
+`python3 scripts/validate-agent-knowledge.py --scope worktree` plus the
+applicable project checks. For pull request comparisons, use the documented
+`--scope range --base BASE_REF --head HEAD_REF` command. The canonical validator
+is read-only and is required even when a task restricts execution of project
+scripts; this does not authorize running installers or changing the host.
+Report checks actually performed. A structural pass does not prove semantic
+relevance, and a task is incomplete until synchronization is validated.

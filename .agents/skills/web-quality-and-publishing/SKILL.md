@@ -135,8 +135,10 @@ The only workflow is `.github/workflows/archive.yml`.
 - It checks out with full history and LFS, installs `clang`, `libbsd-dev`, and
   `git-filter-repo`, and builds or installs `signify`.
 - It stops when the last commit is already an `Archive website...` bot commit.
-- It creates a pax/gzip tar excluding `.git`, `.github`, `.gitattributes`,
-  `archive/`, `files/*.img`, and `tmp_archive/`.
+- It creates a pax/gzip tar excluding GitHub and maintainer documentation, VCS
+  metadata, agent instructions, development configuration, tests and caches,
+  archive output, and known editor backups. It retains the established
+  `files/*.img` archive omission.
 - It signs the `.sha256` checksum, not the tar. The private key is written to a
   temporary file with mode `0600` and removed with `shred -u`.
 - It tracks `archive/*.tar.gz` with Git LFS, runs
@@ -147,7 +149,10 @@ The only workflow is `.github/workflows/archive.yml`.
 Do not run, dispatch, or edit this workflow as part of content work. Do not
 reproduce its force-push or history rewrite locally. If asked to change it,
 preserve SHA pinning, least privilege, secret isolation, and the no-PR-trigger
-property.
+property. If archive membership is explicitly requested, preserve all triggers
+and signing/history steps, keep repository documentation versioned in GitHub,
+and align internal-path exclusions with the Debian sync filter. Do not exclude
+all Markdown or hidden files, because site resources may use those names.
 
 `archive/` is workflow-owned. Read-only verification is safe when the tools are
 available:
@@ -210,3 +215,19 @@ absent, or the browser check was not performed.
 - `archive/`, `.gitattributes`
 - `robots.txt`, `sitemap.xml`
 - `index.html`, `index-es.html`, `ddgnoai/index.html`
+
+## Maintenance & Continuous Learning
+
+Whenever this skill is used to change the repository, review this skill after
+the implementation. Correct procedures that proved wrong, update commands,
+paths, configuration and examples, incorporate reusable findings, and remove
+outdated assumptions. Review the applicable root and nested `AGENTS.md` files,
+specialized agents and related skills; update only the knowledge affected by
+the work. Validate local references and run
+`python3 scripts/validate-agent-knowledge.py --scope worktree` plus the
+applicable project checks. For pull request comparisons, use the documented
+`--scope range --base BASE_REF --head HEAD_REF` command. The canonical validator
+is read-only and is required even when a task restricts execution of project
+scripts; this does not authorize running installers or changing the host.
+Report checks actually performed. A structural pass does not prove semantic
+relevance, and a task is incomplete until synchronization is validated.

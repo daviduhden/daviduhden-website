@@ -188,6 +188,7 @@ Keep those markers intact when editing an article.
   item link and GUID.
 
 ## References
+- `docs/ARCHITECTURE.md` — source, generated-output, dependency, and workflow map.
 
 - `AGENTS.md`
 - `scripts/rebuild-feeds.pl`, `scripts/rebuild-sitemap.pl`
@@ -197,3 +198,19 @@ Keep those markers intact when editing an article.
 - `t/integrity.t`, `t/reproducible.t`
 - `t/rebuild-feeds.t`, `t/rebuild-sitemap.t`
 - `data/articles.json`
+
+## Maintenance & Continuous Learning
+
+Whenever this skill is used to change the repository, review this skill after
+the implementation. Correct procedures that proved wrong, update commands,
+paths, configuration and examples, incorporate reusable findings, and remove
+outdated assumptions. Review the applicable root and nested `AGENTS.md` files,
+specialized agents and related skills; update only the knowledge affected by
+the work. Validate local references and run
+`python3 scripts/validate-agent-knowledge.py --scope worktree` plus the
+applicable project checks. For pull request comparisons, use the documented
+`--scope range --base BASE_REF --head HEAD_REF` command. The canonical validator
+is read-only and is required even when a task restricts execution of project
+scripts; this does not authorize running installers or changing the host.
+Report checks actually performed. A structural pass does not prove semantic
+relevance, and a task is incomplete until synchronization is validated.
