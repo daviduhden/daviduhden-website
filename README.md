@@ -1,6 +1,6 @@
 # David Uhden Collado Website
 
-This repository contains the hand-authored static website for David Uhden Collado, including English and Spanish pages, articles, service information, and a DuckDuckGo OpenSearch shortcut that avoids AI summaries. The site is served as files and has no package manifest, framework, or local compilation step.
+This repository contains the hand-authored static website of David Uhden Collado, including English and Spanish pages, articles, service information, and a DuckDuckGo OpenSearch shortcut that avoids AI summaries. The site is served as files and has no package manifest, framework, or local compilation step.
 
 ## Repository layout
 
