@@ -82,7 +82,7 @@ my $spelling_personal_list =
   join( ' or ', map { ".hunspell/$_" } sort values %spelling_dictionary );
 
 sub usage {
-    print STDERR <<"USAGE";
+    print {*STDERR} <<"USAGE";
 Usage:
   $0 [--root DIR] [--apply|--check] [--check-links]
      [--check-links-external] [--check-all]
@@ -174,11 +174,11 @@ if ( defined $abs_root && length $abs_root ) {
 sub logi { print "[INFO] $_[0]\n"; }
 
 sub logw {
-    print STDERR "[WARN] $_[0]\n";
+    print {*STDERR} "[WARN] $_[0]\n";
 }
 
 sub loge {
-    print STDERR "[ERROR] $_[0]\n";
+    print {*STDERR} "[ERROR] $_[0]\n";
 }
 
 my ($os_name) = uname();
@@ -711,7 +711,7 @@ sub dprint_config_update {
     if ( $rc != 0 ) {
         logw(   "dprint config update failed;"
               . " continuing with existing config." );
-        print STDERR $err if $verbose;
+        print {*STDERR} $err if $verbose;
     }
 }
 
@@ -1002,7 +1002,7 @@ sub hunspell_dictionary_available {
     return 1 if $rc == 0;
 
     loge("Hunspell dictionary '$dictionary' is not available.");
-    print STDERR $err if defined($err) && $err ne "";
+    print {*STDERR} $err if defined($err) && $err ne "";
     return 0;
 }
 
@@ -1049,7 +1049,7 @@ sub run_spelling_checks {
         my ( $rc, $out, $err ) = run_capture(@cmd);
         if ( $rc != 0 ) {
             loge("Hunspell failed (exit $rc): $file");
-            print STDERR $err if defined($err) && $err ne "";
+            print {*STDERR} $err if defined($err) && $err ne "";
             mark_validate_failed($file);
             push @report_rows, "$file | $dictionary | ERROR: hunspell failed";
             next;
@@ -1249,7 +1249,7 @@ sub dprint_validate_and_check_or_apply {
             logw(   "dprint plugin download/resolution"
                   . " failed; skipping dprint"
                   . " check in this run." );
-            print STDERR $err if $verbose;
+            print {*STDERR} $err if $verbose;
             return;
         }
 
@@ -1281,7 +1281,7 @@ sub dprint_validate_and_check_or_apply {
                   . " checking (see stderr with"
                   . " --verbose)." );
             mark_validate_failed($_) for @{$chunk};
-            print STDERR $err if $verbose;
+            print {*STDERR} $err if $verbose;
         }
     }
 }
@@ -1366,7 +1366,7 @@ sub run_validations {
             if ( $rc != 0 ) {
                 loge( "jq validation/parse failed" . " (exit $rc): $f" );
                 mark_validate_failed($f);
-                print STDERR $err if $verbose;
+                print {*STDERR} $err if $verbose;
                 next;
             }
 
@@ -1399,7 +1399,7 @@ sub summarize_and_exit {
               . " file(s) would change." );
         for my $i ( 0 .. $#fmt ) {
             last if $i > 199;
-            print STDERR "  - $fmt[$i]\n";
+            print {*STDERR} "  - $fmt[$i]\n";
         }
     }
 
@@ -1407,7 +1407,7 @@ sub summarize_and_exit {
         loge( "Validation failed: " . scalar(@bad) . " file(s)." );
         for my $i ( 0 .. $#bad ) {
             last if $i > 199;
-            print STDERR "  - $bad[$i]\n";
+            print {*STDERR} "  - $bad[$i]\n";
         }
     }
 

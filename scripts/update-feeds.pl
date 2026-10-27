@@ -62,7 +62,7 @@ my $articles_dir = File::Spec->catdir( $root_dir, 'articles' );
 sub logi { print "[INFO] $_[0]\n"; }
 
 sub logw {
-    print STDERR "[WARN] $_[0]\n";
+    print {*STDERR} "[WARN] $_[0]\n";
 }
 sub die_tool { die "[ERROR] $_[0]\n"; }
 
