@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright (c) 2025-2026 David Uhden Collado
+# Copyright (c) 2025-2026, David Uhden Collado
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -42,6 +42,8 @@ convert_one_svg() {
 	svg=$1
 	png=$(printf '%s\n' "$svg" | sed 's/\.svg$/.png/')
 
+	# Existing output is left untouched, so rerunning this helper does not
+	# replace an existing PNG.
 	if [ -e "$png" ]; then
 		printf '[SKIP] Skipping (already exists): %s\n' "$png"
 		return 0

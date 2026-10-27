@@ -25,6 +25,7 @@
   "use strict";
 
   function preferredLang() {
+    // Honor the browser's ordered language list without persisting a choice.
     const langs = (navigator.languages && navigator.languages.length)
       ? navigator.languages
       : [navigator.language || "en"];
@@ -55,6 +56,7 @@
   if (document.referrer) {
     try {
       const ref = new URL(document.referrer);
+      // A same-origin referrer signals an in-site navigation the user chose.
       if (ref.origin === url.origin) return;
     } catch {
       // ignore invalid referrer

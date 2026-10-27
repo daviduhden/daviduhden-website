@@ -1,6 +1,6 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
-# Copyright (c) 2025-2026 David Uhden Collado
+# Copyright (c) 2025-2026, David Uhden Collado
 #
 # Permission to use, copy, modify, and distribute this software
 # for any purpose with or without fee is hereby granted, provided
@@ -90,6 +90,8 @@ sub sitemap_url {
     my $relative = File::Spec->abs2rel( $path, $root_dir );
     $relative =~ s{\\}{/}g;
 
+    # Directory index pages use clean directory URLs; ordinary pages retain
+    # their filename so generated locations match the site's public paths.
     return "$site_url/" if $relative eq 'index.html';
     if ( $relative =~ m{^(.*)/index\.html$} ) {
         return "$site_url/$1/";
@@ -104,6 +106,7 @@ find(
         wanted   => sub {
             my $path = $File::Find::name;
             return unless -f $path && $path =~ /\.html$/i;
+            # Manual templates and archived copies are not public pages.
             return if $path =~ m{/(?:archive|templates)/};
             push @pages, sitemap_url($path);
         },
