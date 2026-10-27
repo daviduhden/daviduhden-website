@@ -106,6 +106,7 @@ find(
         wanted   => sub {
             my $path = $File::Find::name;
             return unless -f $path && $path =~ /\.html$/i;
+
             # Manual templates and archived copies are not public pages.
             return if $path =~ m{/(?:archive|templates)/};
             push @pages, sitemap_url($path);

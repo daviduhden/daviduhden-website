@@ -251,8 +251,9 @@ sub detect_feeds {
 }
 
 sub extract_metadata {
-    my ($path)           = @_;
-    my $html             = read_file($path);
+    my ($path) = @_;
+    my $html = read_file($path);
+
     # Prefer the authored article header, but allow older pages without the
     # wrapper to remain feedable by falling back to the whole document.
     my ($article_header) = $html =~ m{<header[^>]*\bid\s*=\s*["']
@@ -307,6 +308,7 @@ sub extract_metadata {
     $iso //= ( $html =~ /<time[^>]*\sdatetime\s*=\s*'([^']+)'/i )[0];
     my $mtime = ( stat($path) )[9] || time;
     my $epoch = iso_to_epoch($iso);
+
     # The mtime fallback keeps legacy pages publishable but can vary by
     # checkout.
     $epoch = $mtime unless defined $epoch;
@@ -407,8 +409,7 @@ sub rebuild_feed_file {
     else {
         # Keep an empty feed deterministic: retain the existing
         # lastBuildDate instead of stamping it with the current time.
-        my ($existing) =
-          $xml =~ m{<lastBuildDate>\s*(.*?)\s*</lastBuildDate>}s;
+        my ($existing) = $xml =~ m{<lastBuildDate>\s*(.*?)\s*</lastBuildDate>}s;
         $last_build =
           defined $existing && length $existing
           ? $existing

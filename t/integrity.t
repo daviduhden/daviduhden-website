@@ -125,7 +125,8 @@ for my $fn (@html) {
     my $blocks = 0;
     for my $page (@pages) {
         my $html = slurp($page);
-        while ( $html =~ m{<pre\b[^>]*>\s*<code\b[^>]*>(.*?)</code>\s*</pre>}gs )
+        while (
+            $html =~ m{<pre\b[^>]*>\s*<code\b[^>]*>(.*?)</code>\s*</pre>}gs )
         {
             my $code = $1;
             $blocks++;
@@ -134,18 +135,12 @@ for my $fn (@html) {
     }
 
     ok( $blocks, 'found pre/code blocks' );
-    is_deeply(
-        \@bad,
-        [],
-        'pre/code blocks start with code, not a newline or indentation'
-    );
+    is_deeply( \@bad, [],
+        'pre/code blocks start with code, not a newline or indentation' );
 }
 
 # --- blog listing mirrors article dates and feed order --------------
-for my $pair (
-    [ 'blog.html',    'blog.xml' ],
-    [ 'blog-es.html', 'blog-es.xml' ],
-  )
+for my $pair ( [ 'blog.html', 'blog.xml' ], [ 'blog-es.html', 'blog-es.xml' ], )
 {
     my ( $blog, $feed ) = @{$pair};
     my $html = slurp( file($blog) );
@@ -165,17 +160,14 @@ for my $pair (
 
     my @feed_links =
       slurp( file("feeds/$feed") ) =~ m{<link>/articles/([^<]+)</link>}g;
-    is_deeply(
-        [ map { $_->[0] } @entries ],
-        \@feed_links,
-        "$blog order matches $feed"
-    );
+    is_deeply( [ map { $_->[0] } @entries ],
+        \@feed_links, "$blog order matches $feed" );
 
     for my $entry (@entries) {
         my ( $filename, $date ) = @{$entry};
         my ($article_date) =
-          slurp( file("articles/$filename") )
-          =~ /<time[^>]*\bdatetime\s*=\s*"([^"]+)"/i;
+          slurp( file("articles/$filename") ) =~
+          /<time[^>]*\bdatetime\s*=\s*"([^"]+)"/i;
         is( $date, $article_date, "$blog date matches articles/$filename" );
     }
 }

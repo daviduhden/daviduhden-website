@@ -156,12 +156,12 @@ HTML
 </html>
 HTML
     my $dir = fixture(
-        'feeds/blog.xml'            => feed(),
-        'articles/apostrophe.html'  => article(
+        'feeds/blog.xml'           => feed(),
+        'articles/apostrophe.html' => article(
             desc => "GNU's FSDG and the FSF's RYF"
         ),
-        'articles/reversed.html'    => $reversed,
-        'articles/single.html'      => $single,
+        'articles/reversed.html' => $reversed,
+        'articles/single.html'   => $single,
     );
     my ( $r, $d ) = run_rebuild($dir);
     is( $r->{status}, 0, 'rebuild succeeds with mixed meta attributes' );
@@ -260,10 +260,8 @@ HTML
         qr{<lastBuildDate>Thu, 01 Jan 2026 00:00:00 GMT</lastBuildDate>},
         'empty feed keeps its existing lastBuildDate'
     );
-    TestSite::run(
-        $^X,
-        File::Spec->catfile( $d, 'scripts', 'rebuild-feeds.pl' )
-    );
+    TestSite::run( $^X,
+        File::Spec->catfile( $d, 'scripts', 'rebuild-feeds.pl' ) );
     is( slurp($file), $first, 'empty feed output is deterministic' );
 }
 
