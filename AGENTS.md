@@ -86,6 +86,10 @@ contain the reproducible procedures.
 - Images use fluid sizing: keep `max-width: 100%`, `height: auto`, and the
   `.home-portrait` `clamp()` rule. Never add fixed `width`/`height` attributes or
   fixed pixel widths to images.
+- Style semantic captions in `styles.css`: table `caption` elements are bold,
+  centered headings above their tables; `figcaption` elements are centered,
+  italic subheadings below their images. Keep these styles on the elements
+  rather than adding presentational markup to page HTML.
 - Preserve copyright and license notices. Site pages use
   `© 2024-2026 David Uhden Collado` in footers and license pages; scripts,
   styles, and `redirect.js` carry ISC-like notices with `Copyright (c)`. Do not
