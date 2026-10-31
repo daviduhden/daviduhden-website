@@ -416,8 +416,9 @@ table {
 
 caption {
   caption-side: top;
-  text-align: left;
-  font-weight: 600;
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: 700;
   color: var(--heading);
   margin-bottom: 0.5em;
 }
@@ -892,6 +893,8 @@ figcaption {
   margin-block-start: 0.5em;
   color: var(--muted);
   font-size: 0.95em;
+  font-style: italic;
+  text-align: center;
 }
 
 /* Media and table elements */
