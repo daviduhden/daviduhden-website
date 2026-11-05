@@ -31,7 +31,7 @@ hand-authored page HTML ──loads──> styles.css
 ddgnoai/index.html ──loads──> ddgnoai/styles.css
        └── OpenSearch description ──> ddgnoai/opensearch.xml
 
-scripts/validate-agent-knowledge.py ──read-only policy and instruction gate
+scripts/validate-agent-knowledge.pl ──read-only policy and instruction gate
 scripts/*.pl and scripts/*.sh ──manual maintenance; archive.yml runs in GitHub Actions
 ```
 
