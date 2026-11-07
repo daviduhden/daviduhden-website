@@ -128,12 +128,33 @@ silence the warning.
 
 ## CI, archive, and publication
 
-The only workflow is `.github/workflows/archive.yml`.
+The repository has two workflows: `.github/workflows/archive.yml` performs
+the archive/sign/push cycle, while
+`.github/workflows/agent-knowledge-validation.yml` is the pull-request
+instruction/skill gate. Both pin `actions/checkout` to v7.0.1
+(`3d3c42e5aac5ba805825da76410c181273ba90b1`) by full commit SHA; never
+replace it with a moving `@v4` or `@v7` tag.
 
-- It runs daily at midnight UTC and on manual dispatch. It does not run on
-  `push` or `pull_request`.
+- The archive workflow runs daily at midnight UTC and on manual dispatch. It
+  does not run on `push` or `pull_request`.
 - It checks out with full history and LFS, installs `clang`, `libbsd-dev`, and
-  `git-filter-repo`, and builds or installs `signify`.
+  the pinned `git-filter-repo==2.47.0`, and builds `signify` from the pinned
+  `v33` tag (`133c411404447c761b167be4118fc0dad01d30d4`). `clone_signify`
+  verifies the checkout's `HEAD` against that commit and fails the attempt on a
+  mismatch, then the workflow tries the clearnet clone, the Tor SOCKS proxy, and
+  finally the `signify-openbsd` package.
+- Both pins are there for supply-chain integrity; do not restore unversioned
+  installs or "latest tag" discovery. A dependency-pin update is a reviewed
+  change: resolve the release tag and peeled commit from upstream with
+  `git ls-remote --tags https://codeberg.org/aperezdc/signify.git` and the
+  `refs/tags/vNN^{}` ref pattern, change the values and their comment together,
+  and keep triggers, permissions, environment, secret handling, and the
+  signing/archive/push logic intact.
+- `zizmor` 1.32.0 must report zero findings in regular, pedantic and auditor
+  modes. `archive.yml` keeps `permissions: {}` at workflow level and grants
+  `contents: write` only to the archive job with a comment. Its `concurrency`
+  group uses `cancel-in-progress: true` so a stale archive run cannot overlap
+  the next one. Do not hoist the write permission back to the workflow level.
 - It stops when the last commit is already an `Archive website...` bot commit.
 - It creates a pax/gzip tar excluding GitHub and maintainer documentation, VCS
   metadata, agent instructions, development configuration, tests and caches,
