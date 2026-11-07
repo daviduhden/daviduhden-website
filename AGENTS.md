@@ -29,13 +29,14 @@ contain the reproducible procedures.
   checks links, and can run the test suite and optional linters.
 - **`t/` is a plain TAP suite.** Run it with `prove t` from the repository root.
   Write tests use temporary fixtures and do not modify tracked site files.
-- **CI has two roles: archival and the PR knowledge gate.**
+- **CI has two roles: archival and the manual knowledge gate.**
   `.github/workflows/archive.yml` creates a signed source snapshot, stores it
   with Git LFS, rewrites history to drop the previous tar, and force-pushes
   `main`; it does not lint, test, build, or deploy.
   `.github/workflows/agent-knowledge-validation.yml` runs the shared validator
-  contract and PR range check. Both workflows pin `actions/checkout` v7.0.1 by
-  commit SHA. The archive tar excludes repository documentation, VCS metadata,
+  contract and worktree check on manual dispatch. Both workflows are
+  manual-only and pin `actions/checkout` v7.0.1 by commit SHA. The archive tar
+  excludes repository documentation, VCS metadata,
   agent guidance, development settings, tests, caches, and the large disk
   image. Keep these files tracked in GitHub and out of public page content.
 - **Publishing is not defined in this repository.** Do not assume GitHub Pages,
@@ -57,7 +58,7 @@ contain the reproducible procedures.
 | `scripts/*.pl`, `scripts/*.sh` | Perl generators/validator and shell helpers |
 | `t/*.t`, `t/lib/TestSite.pm` | TAP tests and fixture helpers |
 | `.github/workflows/archive.yml` | Daily archive and signing workflow |
-| `.github/workflows/agent-knowledge-validation.yml` | Pull-request agent/skills gate |
+| `.github/workflows/agent-knowledge-validation.yml` | Manual agent/skills gate |
 | `archive/`, `files/*.img` | Git LFS objects; do not edit by hand |
 | `dprint.json`, `.perlcriticrc`, `.stylelintrc.json`, `.htmltest.yml` | Tool configuration |
 | `README.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `docs/` | GitHub and maintainer documentation; excluded from archives and server sync |
@@ -199,7 +200,7 @@ After each change:
    edits to satisfy synchronization. For a project change, at least one
    relevant knowledge artifact must receive a substantive update.
 4. Run `perl scripts/validate-agent-knowledge.pl --scope worktree` and the
-   applicable project checks. For a pull request, CI compares the base and head
+   applicable project checks. For a branch review, compare the base and head
    revisions with `--scope range --base BASE_SHA --head HEAD_SHA`.
 5. Review the validator output and final diff, then report the synchronization
    result. Warnings require human review; a structural pass does not establish

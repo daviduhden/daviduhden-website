@@ -130,12 +130,12 @@ silence the warning.
 
 The repository has two workflows: `.github/workflows/archive.yml` performs
 the archive/sign/push cycle, while
-`.github/workflows/agent-knowledge-validation.yml` is the pull-request
-instruction/skill gate. Both pin `actions/checkout` to v7.0.1
+`.github/workflows/agent-knowledge-validation.yml` is the manual
+instruction/skill gate; start it with `workflow_dispatch`. Both pin `actions/checkout` to v7.0.1
 (`3d3c42e5aac5ba805825da76410c181273ba90b1`) by full commit SHA; never
 replace it with a moving `@v4` or `@v7` tag.
 
-- The archive workflow runs daily at midnight UTC and on manual dispatch. It
+- The archive workflow runs only on manual dispatch. It
   does not run on `push` or `pull_request`.
 - It checks out with full history and LFS, installs `clang`, `libbsd-dev`, and
   the pinned `git-filter-repo==2.47.0`, and builds `signify` from the pinned
@@ -246,7 +246,7 @@ outdated assumptions. Review the applicable root and nested `AGENTS.md` files,
 specialized agents and related skills; update only the knowledge affected by
 the work. Validate local references and run
 `perl scripts/validate-agent-knowledge.pl --scope worktree` plus the
-applicable project checks. For pull request comparisons, use the documented
+applicable project checks. For committed comparisons, use the documented
 `--scope range --base BASE_REF --head HEAD_REF` command. The canonical validator
 is read-only and is required even when a task restricts execution of project
 scripts; this does not authorize running installers or changing the host.

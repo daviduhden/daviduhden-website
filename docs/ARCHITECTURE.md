@@ -95,8 +95,8 @@ cannot be inferred from these sources.
 | `data/articles.json` | Associates article keys with paired filenames and localized titles; it is validated against pages but is not a generator input. |
 | `scripts/openbsd-tools.txt` | Informational mapping from validator/conversion tools to OpenBSD ports; scripts do not parse it. |
 | `ddgnoai/opensearch.xml` | Declares the search and suggestions endpoints used by browser search integration. |
-| `.github/workflows/agent-knowledge-validation.yml` | Read-only pull request tests and agent-knowledge range gate; see `docs/agent-knowledge-validation.md`. |
-| `.github/workflows/archive.yml` | Runs daily or by manual dispatch. It creates and signs a source archive, removes older tarball history, and force-pushes the archival update. It is not a site test, build, or publishing workflow. Its triggers and write permissions are operationally significant. |
+| `.github/workflows/agent-knowledge-validation.yml` | Read-only manual agent-knowledge worktree gate; see `docs/agent-knowledge-validation.md`. |
+| `.github/workflows/archive.yml` | Runs only on manual dispatch. It creates and signs a source archive, removes older tarball history, and force-pushes the archival update. It is not a site test, build, or publishing workflow. Its triggers and write permissions are operationally significant. |
 
 The workflow installs tools and accesses `SIGNIFY_KEY` only in its GitHub
 Actions environment. It attempts source retrieval through clearnet, then Tor,
