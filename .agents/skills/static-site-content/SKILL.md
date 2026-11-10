@@ -86,6 +86,21 @@ Rules that the repository already follows:
 Title separators and RSS link titles vary by page type in the existing site.
 Follow the nearest page instead of normalizing the whole site.
 
+## Mirror endpoints
+
+The two home pages, `index.html` and `index-es.html`, are the only pages that
+list the external mirrors for The Cypherpunk Handbook: the clearnet site plus
+the Tor onion and I2P hosts. The onion host in these link lists is the handbook
+mirror, not one of the service onion addresses documented in
+`services.html` / `servicios.html`; do not change those when updating the
+handbook mirror.
+
+When a handbook endpoint changes, update both home pages in the same change so
+the bilingual pair stays factually identical, then coordinate with the handbook
+repository, which publishes the same onion host in its `index.html` and
+`contribute.html`. No generator rewrites these links, and `t/integrity.t` does
+not detect a stale host.
+
 ## Article structure
 
 An article uses the same outer page skeleton plus this inner structure:
